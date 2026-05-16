@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NTEQ POLYMER - Next-Gen Eco Platform</title>
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700&family=Sarabun:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==========================================
+           MODERN PREMIUM ENTERPRISE THEME (UI/UX)
+           ========================================== */
+        :root {
+            --gradient-primary: linear-gradient(135deg, #00A859 0%, #005A2B 100%);
+            --gradient-accent: linear-gradient(135deg, #85C441 0%, #00A859 100%);
+            --glass-bg: rgba(255, 255, 255, 0.75);
+            --glass-border: rgba(255, 255, 255, 0.5);
+            --bg-blur: saturate(180%) blur(20px);
+            --text-dark: #0F172A;
+            --text-muted: #475569;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+            --shadow-md: 0 12px 30px rgba(0, 168, 89, 0.08);
+            --shadow-lg: 0 20px 40px rgba(15, 23, 42, 0.06);
+            --border-radius: 24px;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', 'Sarabun', sans-serif;
+            color: var(--text-dark);
+            margin: 0;
+            padding: 0;
+            background-color: #F8FAFC;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(133, 196, 65, 0.08) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(0, 168, 89, 0.05) 0px, transparent 50%);
+            background-attachment: fixed;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* 1. แถบหัวเว็บกระจกฝ้าลอยตัว (Glassmorphism Navbar) */
+        .navbar {
+            background: var(--glass-bg);
+            backdrop-filter: var(--bg-blur);
+            -webkit-backdrop-filter: var(--bg-blur);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 20px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .navbar .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: #005A2B;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+        }
+
+        .navbar .logo span {
+            color: #85C441;
+        }
+
+        .navbar .nav-links {
+            display: flex;
+            gap: 12px;
+        }
+
+        .nav-links div {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 10px 20px;
+            border-radius: 12px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .nav-links div:hover {
+            color: #00A859;
+            background: rgba(0, 168, 89, 0.06);
+        }
+
+        .nav-links div.active {
+            color: white;
+            background: var(--gradient-primary);
+            box-shadow: 0 4px 12px rgba(0, 90, 43, 0.2);
+        }
+
+        /* โซนเนื้อหาหลัก */
+        .main-container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 40px auto;
+            padding: 0 24px;
+            box-sizing: border-box;
+            flex: 1;
+        }
+
+        .page-view {
+            display: none;
+            animation: viewEnter 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .page-view.active { display: block; }
+
+        @keyframes viewEnter {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* 2. บิ๊กแบนเนอร์มิติสูง (3D-Effect Hero Banner) */
+        .hero-section {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(0, 90, 43, 0.9) 100%), url('https://unsplash.com');
+            background-size: cover;
+            background-position: center;
+            padding: 100px 40px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+            text-align: center;
+            margin-bottom: 48px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .hero-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            display: inline-block;
+            padding: 32px 50px;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            transform: perspective(1px) translateZ(0);
+            transition: transform 0.3s ease;
+        }
+        .hero-card:hover { transform: scale(1.02); }
+        .hero-card h1 { margin: 0; font-size: 46px; font-weight: 700; letter-spacing: 2px; color: #FFFFFF; text-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+        .hero-card p { margin: 8px 0 0 0; font-size: 16px; color: #85C441; font-weight: 600; letter-spacing: 1px; }
+
+        /* 3. โซนต้อนรับ (Introduction Banner) */
+        .intro-container {
+            text-align: center;
+            margin-bottom: 50px;
+            background: white;
+            padding: 40px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+        }
+        .intro-container h2 { color: #005A2B; font-size: 24px; font-weight: 700; margin: 0 0 6px 0; }
+        .intro-container .sub-title { color: #85C441; font-size: 14px; font-weight: 700; text-transform: uppercase; margin-bottom: 20px; letter-spacing: 1px; }
+        .intro-container p { font-size: 15px; color: var(--text-muted); line-height: 1.8; max-width: 850px; margin: 0 auto; }
+
+        /* 4. กล่องการ์ดโชว์ภาพแบบมีมิติเรืองแสง (Interactive Modern Grid) */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-bottom: 56px;
+        }
+
+        .grid-item {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            cursor: pointer;
+            height: 260px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* เปลี่ยนกล่องภาพเสียให้เป็นแบคกราวนด์ไล่เฉดสีสุดล้ำ */
+        .grid-item .card-graphic {
+            flex: 1;
+            background: linear-gradient(45deg, #005A2B, #85C441);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 40px;
+            color: white;
+            transition: all 0.4s ease;
+        }
+        .item-1 .card-graphic { background: linear-gradient(45deg, #1E3A8A, #3B82F6); }
+        .item-2 .card-graphic { background: linear-gradient(45deg, #065F46, #10B981); }
+        .item-3 .card-graphic { background: linear-gradient(45deg, #0F172A, #64748B); }
+        .item-4 .card-graphic { background: linear-gradient(45deg, #78350F, #F59E0B); }
+
+        .grid-item .card-desc {
+            padding: 16px;
+            font-weight: 700;
+            font-size: 15px;
+            text-align: center;
+            background: white;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .grid-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 30px rgba(0, 168, 89, 0.15);
+            border-color: #00A859;
+        }
+        .grid-item:hover .card-graphic {
+            transform: scale(1.05);
+        }
+
+        /* 5. แถบวิดีโอดีไซน์โค้งมนพรีเมียม (Premium Video Section) */
+        .vdo-section {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 48px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 48px;
+            margin-bottom: 56px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .vdo-box {
+            width: 280px;
+            height: 160px;
+            background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.4)), url('https://unsplash.com');
+            background-size: cover;
+            border-radius: 16px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+        .vdo-box:hover { transform: scale(1.04); }
+        .vdo-box::before { content: '▶'; font-size: 32px; color: white; background: rgba(0,168,89,0.9); width: 60px; height: 60px; display:flex; justify-content:center; align-items:center; border-radius:50%; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+
+        .vdo-text { flex: 1; }
+        .vdo-text h3 { margin: 0 0 10px 0; font-size: 24px; font-weight: 700; letter-spacing: -0.5px; }
+        .vdo-text p { margin: 0 0 24px 0; font-size: 15px; color: #E2E8F0; line-height: 1.6; }
+        .vdo-btn {
+            background: #FFFFFF;
+            color: #005A2B;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: all 0.2s;
+        }
+        .vdo-btn:hover { background: #F8FAFC; transform: translateY(-1px); }
+
+        /* 6. ปุ่มเมนูทางลัดวงกลมแบบมีเงาสะท้อน (Floating Circle Menu) */
+        .circle-menu-section {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
+            max-width: 900px;
+            margin: 0 auto 40px auto;
+        }
+
+        .circle-item {
+            background: white;
+            padding: 32px 24px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-color);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .circle-item:hover { transform: translateY(-6px); box-shadow: var(--shadow-md); border-color: #85C441; }
+
+        .circle-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--gradient-accent);
+            border-radius: 50%;
+            margin: 0 auto 20px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 32px;
+            box-shadow: 0 10px 20px rgba(133, 196, 65, 0.3);
+            cursor: pointer;
+        }
+
+        .circle-item p { font-size: 16px; font-weight: 700; margin: 0 0 14px 0; }
+        .circle-btn { background: #F1F5F9; color: var(--text-dark); border: none; padding: 8px 20px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+        .circle-item:hover .circle-btn { background: #00A859; color: white; }
+
+        /* 7. กล่องระบบคำนวณแดชบอร์ด */
+        .calc-card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 40px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border-color);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .input-group label { display: block; margin-bottom: 10px; font-weight: 700; font-size: 14px; }
+        .input-group input { width: 100%; padding: 14px; border: 1px solid var(--border-color); border-radius: 12px; font-size: 15px; box-sizing: border-box; background: #F8FAFC; }
+        .input-group input:focus { outline: none; border-color: #00A859; background: white; box-shadow: 0 0 0 4px rgba(0,168,89,0.1); }
+        .action-btn { width: 100%; background: var(--gradient-primary); color: white; border: none; padding: 14px; border-radius: 12px; font-weight: 700; font-size: 15px; cursor: pointer; margin-top: 16px; box-shadow: 0 4px 12px rgba(0,90,43,0.15); }
+        .result-panel { margin-top: 32px; padding: 24px; background: #F8FAFC; border-radius: 16px; border-left: 5px solid #00A859; }
+
+        /* 8. แถบฟุตเตอร์ด้านล่างสุดหรู (Corporate Footer) */
+        .footer {
+            background: #0F172A;
+            color: #94A3B8;
+            padding: 40px 6%;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #1E293B;
+            margin-top: auto;
+        }
+        .footer-left h4 { color: white; margin: 0 0 6px 0; font-size: 18px; font-weight: 700; }
+        .footer-right { text-align: right; }
+        .footer-badge { background: rgba(0, 168, 89, 0.2); color: #10B981; padding: 6px 14px; border-radius: 8px; font-size: 12px; font-weight: 700; border: 1px solid rgba(16, 185, 129, 0.2); }
+    </style>
+</head>
+<body>
+
+    <!-- 🌐 แถบเมนูกระจกฝ้าลอยตัว (Navbar) -->
+    <div class="navbar">
+        <div class="logo" onclick="changeView('home')">NTEQ <span>POLYMER</span></div>
+        <div class="nav-links">
+            <div id="m-home" class="active" onclick="changeView('home')">หน้าหลัก</div>
+            <div id="m-calc" onclick="changeView('calc')">ระบบคำนวณเคมี</div>
+            <div id="m-about" onclick="changeView('about')">เกี่ยวกับเรา</div>
+            <div id="m-contact" onclick="changeView('contact')">ติดต่อเรา</div>
+        </div>
+    </div>
+
+    <!-- 📦 โซนแสดงเนื้อหาหลัก -->
+    <div class="main-container">
+        
+        <!-- [หน้าแรก] หน้าหลัก (Home View) -->
+        <div id="view-home" class="page-view active">
+            <!-- แบนเนอร์สไตล์กระจก 3D -->
+            <div class="hero-section">
+                <div class="hero-card">
+                    <h1>GREEN RUBBER</h1>
+                    <p>NTEQ POLYMER COMPANY LIMITED</p>
+                </div>
+            </div>
+
+            <!-- กล่องข้อความต้อนรับ -->
+            <div class="intro-container">
+                <h2>NTEQ POLYMER INTRODUCTION</h2>
+                <div class="sub-title">"Sustainable Eco-Quality Rubber"</div>
+                <p>เราคือผู้นำนวัตกรรมการผลิตยางพาราและการแปรรูปพอลิเมอร์ที่เป็นมิตรต่อสิ่งแวดล้อม มุ่งเน้นมาตรฐานความยั่งยืนสูงสุดในกระบวนการอุตสาหกรรม โดยใช้ชุดเทคโนโลยีการควบคุมด้วยซอฟต์แวร์อัจฉริยะและการวิเคราะห์แล็บที่แม่นยำ</p>
+            </div>
+
+            <!-- กล่องกราฟิกการ์ด 4 ช่อง (แก้ไขรูปภาพเสียให้ว้าวขึ้น) -->
+            <div class="photo-grid">
+                <div class="grid-item item-1" onclick="changeView('about')">
+                    <div class="card-graphic">🌳</div>
+                    <div class="card-desc">สวนยางยั่งยืน</div>
+                </div>
+                <div class="grid-item item-2" onclick="changeView('about')">
+                    <div class="card-graphic">🏭</div>
+                    <div class="card-desc">โรงงานอัจฉริยะ</div>
+                </div>
+                <div class="grid-item item-3" onclick="changeView('calc')">
+                    <div class="card-graphic">🔬</div>
+                    <div class="card-desc">ห้องแล็บเคมี</div>
+                </div>
+                <div class="grid-item item-4" onclick="changeView('about')">
+                    <div class="card-graphic">🌱</div>
+                    <div class="card-desc">สัมผัสธรรมชาติ</div>
+                </div>
+            </div>
+
+            <!-- แถบวิดีโอดีไซน์หรู -->
+            <div class="vdo-section">
+                <div class="vdo-box" onclick="alert('กำลังดึงข้อมูลสตรีมมิ่ง VDO Presentation...')"></div>
+                <div class="vdo-text">
+                    <h3>VDO PRESENTATION</h3>
+                    <p>รับชมวิดีทัศน์แนะนำองค์กร กระบวนการผลิตยางธรรมชาติที่เป็นมิตรต่อระบบนิเวศ และมาตรฐานแล็บวิจัยเทคโนโลยีขั้นสูงของเรา</p>
+                    <button class="vdo-btn" onclick="alert('กำลังเปิดเอกสารแนบเพิ่มเติม...')">ดาวน์โหลดข้อมูลบริษัท</button>
+                </div>
+            </div>
+
+            <!-- ปุ่มวงกลมเมนูทางลัดลอยตัว -->
+            <div class="circle-menu-section">
+                <div class="circle-item">
+                    <div class="circle-icon" onclick="changeView('calc')">🧪</div>
+                    <p>ระบบคำนวณสูตร</p>
+                    <button class="circle-btn">เรียกใช้งาน</button>
+                </div>
+                <div class="circle-item">
+                    <div class="circle-icon" onclick="changeView('about')">🍃</div>
+                    <p>ความยั่งยืน</p>
+                    <button class="circle-btn">อ่านรายงาน</button>
+                </div>
+                <div class="circle-item">
+                    <div class="circle-icon" onclick="changeView('contact')">📞</div>
+                    <p>ฝ่ายบริการลูกค้า</p>
+                    <button class="circle-btn">เปิดข้อมูล</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- [หน้าสอง] หน้าแดชบอร์ดระบบคำนวณ (Calc View) -->
+        <div id="view-calc" class="page-view">
+            <div class="calc-card">
+                <h2 style="color: #005A2B; font-weight:700; margin-top:0;">แผงคำนวณไมโครเซอร์วิสพอลิเมอร์</h2>
+                <p style="color: var(--text-muted); font-size:14px; margin-bottom:30px;">ป้อนมวลสารสารเคมีเพื่อส่งเข้าสูตรคำนวณสถิติประมวลผลหลังบ้านของ Python</p>
+                
+                <div class="input-group">
+                    <label>ค่ามวลสารเคมีนำเข้า (Input Value)</label>
+                    <input type="number" id="numberInput" value="42">
+                </div>
+                <button id="runBtn" class="action-btn">ส่งค่าไปคำนวณหลังบ้าน</button>
+
+                <div class="result-panel">
+                    <strong style="color:#005A2B; font-size:14px; text-transform:uppercase;">แผงมอนิเตอร์ผลลัพธ์:</strong>
+                    <div id="resultContent" style="margin-top: 12px; font-size:14px; line-height:1.6;">
+                        รอรับสัญญาณการประมวลผลข้อมูลจากคลาวด์...
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- [หน้าสาม] เกี่ยวกับเรา (About View) -->
+        <div id="view-about" class="page-view" style="max-width: 800px; margin: 40px auto; background:white; padding:40px; border-radius:var(--border-radius); box-shadow:var(--shadow-sm);">
+            <h2 style="color: #005A2B; font-weight:700;">เกี่ยวกับ NTEQ POLYMER</h2>
+            <p style="line-height: 1.8; color: var(--text-muted);">บริษัท เอ็นเท็ค พอลิเมอร์ จำกัด มุ่งมั่นในการเป็นผู้นำผลิตและจัดจำหน่ายยางธรรมชาติคุณภาพสูงที่ผ่านการรับรองมาตรฐานสากล เราใส่ใจทุกขั้นตอนตั้งแต่ต้นน้ำในสวนยางพาราจนถึงการแปรรูปในโรงงานอุตสาหกรรมสีเขียวเพื่อส่งมอบสิ่งที่ดีที่สุดให้แก่คู่ค้าทั่วโลก</p>
+        </div>
+
+        <!-- [หน้าสี่] ติดต่อเรา (Contact View) -->
+        <div id="view-contact" class="page-view" style="max-width: 800px; margin: 40px auto; background:white; padding:40px; border-radius:var(--border-radius); box-shadow:var(--shadow-sm);">
+            <h2 style="color: #005A2B; font-weight:700;">ติดต่อส่วนงานสารสนเทศและลูกค้าสัมพันธ์</h2>
+            <p style="font-size:15px;"><strong>ที่อยู่หน่วยงาน:</strong> ฝ่ายสนับสนุนเทคโนโลยีระบบคลาวด์และอุตสาหกรรมความยั่งยืนประจำภูมิภาค</p>
+            <p style="font-size:15px; margin-top:20px;">📞 <strong>CUSTOMER CARE:</strong> +66(0)24-289-9439</p>
+            <p style="font-size:15px;">📧 <strong>E-mail:</strong> contact@nteq-polymer.co.th</p>
+        </div>
+
+    </div>
+
+    <!-- 🖤 ส่วนท้ายหน้าเว็บสุดพรีเมียม (Footer) -->
+    <div class="footer">
+        <div class="footer-left">
+            <h4>NTEQ POLYMER</h4>
+            <p style="margin:0; color:#64748B; font-size:13px;">© 2026 Nteq Polymer Company Limited. All rights reserved.</p>
+        </div>
+        <div class="footer-right">
+            <span class="footer-badge">🔒 NTEQ INTRANET STAFF ONLY</span>
+        </div>
+    </div>
+
+    <!-- 🛠️ JAVASCRIPT: ระบบสลับหน้าและยิงหลังบ้าน -->
+    <script>
+        function changeView(viewName) {
+            document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('.nav-links div').forEach(l => l.classList.remove('active'));
+
+            document.getElementById(`view-${viewName}`).classList.add('active');
+            const menuBtn = document.getElementById(`m-${viewName}`);
+            if(menuBtn) menuBtn.classList.add('active');
+            
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        document.getElementById('runBtn').addEventListener('click', async () => {
+            const resultContent = document.getElementById('resultContent');
+            const numberInput = document.getElementById('numberInput').value;
+
+            if(!numberInput) {
+                alert('กรุณากรอกข้อมูลตัวเลขครับ');
+                return;
+            }
+
+            resultContent.innerHTML = `<span style="color:#2563EB;">⏳ กำลังเชื่อมต่อ API เกตเวย์เพื่อประมวลผลอัลกอริทึม...</span>`;
+
+            try {
+                const response = await fetch(`http://localhost:3000/api/process?num=${numberInput}`);
+                const data = await response.json();
+                
+                resultContent.innerHTML = `
+                    <span style="color: #00A859; font-weight: bold;">🟢 Connected (200 OK)</span><br><br>
+                    <strong>ระบบตอบกลับจากหลังบ้าน (Node.js):</strong> ${data.message}<br>
+                    <strong>ผลคำนวณแล็บเคมี (Python Script):</strong> <span style="color: #2563EB; font-weight:600;">${data.python_data}</span>
+                `;
+            } catch (error) {
+                resultContent.innerHTML = `<span style="color: #EF4444; font-weight:600;">❌ ไม่สามารถติดต่อ API หลังบ้านได้ (กรุณาเปิด CMD พิมพ์ node server.js เพื่อรันเซิร์ฟเวอร์ก่อนครับ)</span>`;
+            }
+        });
+    </script>
+</body>
+</html>
