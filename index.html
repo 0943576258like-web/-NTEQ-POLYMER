@@ -3,420 +3,1202 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NTEQ POLYMER - Green Rubber Innovation</title>
+    <title>NTEQ POLYMER - Next-Gen Eco Enterprise</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600;700&family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2/tsparticles.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+
     <style>
-        /* ตั้งค่าพื้นฐาน */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Sarabun', sans-serif;
+            font-family: 'IBM Plex Sans Thai', 'Inter', sans-serif;
+        }
+
+        html {
             scroll-behavior: smooth;
         }
 
         body {
-            background: #0b130e;
+            background-color: #040705;
             color: #ffffff;
+            overflow-x: hidden;
             min-height: 100vh;
-            /* ภาพพื้นหลังป่าไม้แบบตรึงอยู่กับที่ */
-            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6)), url('https://images.unsplash.com/photo-1448375240586-882707db888b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
-            background-attachment: fixed;
-            background-size: cover;
-            background-position: center;
+            position: relative;
         }
 
-        /* แถบเมนูด้านบน (Navbar) */
+        /* BACKGROUND GLOWS */
+        .bg-glow-1 {
+            position: fixed;
+            top: -10%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(46, 204, 113, 0.08), transparent 70%);
+            z-index: -2;
+            pointer-events: none;
+            animation: pulseGlow 8s infinite alternate ease-in-out;
+        }
+
+        .bg-glow-2 {
+            position: fixed;
+            bottom: 10%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(39, 174, 96, 0.06), transparent 70%);
+            z-index: -2;
+            pointer-events: none;
+            animation: pulseGlow 12s infinite alternate-reverse ease-in-out;
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(1) translate(0, 0); opacity: 0.7; }
+            100% { transform: scale(1.2) translate(30px, -20px); opacity: 1; }
+        }
+
+        #particles-js {
+            position: fixed;
+            inset: 0;
+            z-index: -3;
+            pointer-events: none;
+        }
+
+        .cursor-glow {
+            position: fixed;
+            width: 350px;
+            height: 350px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(46, 204, 113, 0.06), transparent 65%);
+            pointer-events: none;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+        }
+
+        /* SYSTEM PRELOADER */
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: #040705;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            gap: 20px;
+            z-index: 99999;
+            transition: opacity 0.5s ease;
+        }
+
+        .loader-bar {
+            width: 150px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+            border-radius: 4px;
+        }
+
+        .loader-progress {
+            position: absolute;
+            height: 100%;
+            width: 50%;
+            background: linear-gradient(90deg, #2ecc71, #a3e9be);
+            animation: loadingMove 1s infinite ease-in-out;
+        }
+
+        @keyframes loadingMove {
+            0% { left: -50%; }
+            100% { left: 100%; }
+        }
+
+        /* ==================== ✨ PREMIUM ULTRA-MODERN NAVBAR ==================== */
         header {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 94%;
+            max-width: 1340px;
+            height: 68px;
+            padding: 0 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 8%;
-            background: rgba(11, 19, 14, 0.85);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
             z-index: 1000;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .logo {
-            font-size: 24px;
-            font-weight: 700;
-            color: #2ecc71;
-            text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            flex-shrink: 0;
         }
 
-        .logo:hover {
-            color: #27ae60;
-            text-shadow: 0 0 10px rgba(46, 204, 113, 0.5);
+        .logo-text {
+            font-size: 20px;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-text span {
+            color: #2ecc71;
+            font-weight: 400;
+        }
+
+        nav {
+            height: 100%;
         }
 
         nav ul {
             display: flex;
+            align-items: center;
             list-style: none;
-            gap: 30px;
+            height: 100%;
+            gap: 2px;
         }
 
-        nav ul li a {
-            color: #e0e0e0;
-            text-decoration: none;
-            font-size: 16px;
-            font-weight: 400;
-            transition: 0.3s ease;
+        nav ul li {
             position: relative;
-            padding: 5px 0;
-        }
-
-        nav ul li a:hover {
-            color: #2ecc71;
-        }
-
-        /* เอฟเฟกต์เส้นใต้เมนูเมื่อขยับเมาส์ชี้ */
-        nav ul li a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: 0;
-            left: 0;
-            background-color: #2ecc71;
-            transition: 0.3s ease;
-        }
-
-        nav ul li a:hover::after {
-            width: 100%;
-        }
-
-        /* จัดโครงสร้างแต่ละเซกชัน */
-        section {
-            padding: 100px 8% 60px 8%;
-            min-height: 100vh;
+            height: 100%;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
             align-items: center;
         }
 
-        /* กล่องสไตล์ Glassmorphism */
-        .glass-card {
+        nav ul li a, nav ul li button.nav-link {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 13.5px;
+            font-weight: 500;
+            padding: 10px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            transition: all 0.25s ease;
+            white-space: nowrap;
+        }
+
+        nav ul li a:hover, nav ul li button.nav-link:hover {
+            color: #ffffff;
             background: rgba(255, 255, 255, 0.06);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            padding: 40px;
+        }
+
+        /* Active Menu Indicator */
+        nav ul li.active-tab button.nav-link, 
+        nav ul li.active-tab > a {
+            color: #2ecc71 !important;
+            font-weight: 600;
+            background: rgba(46, 204, 113, 0.05);
+        }
+
+        nav ul li.active-tab::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 14px;
+            right: 14px;
+            height: 2px;
+            background: #2ecc71;
+            box-shadow: 0 0 10px #2ecc71;
+            border-radius: 2px;
+        }
+
+        /* PREMIUM GLASS DROP-DOWN MENU */
+        .dropdown-menu {
+            position: absolute;
+            top: 68px;
+            left: 50%;
+            transform: translateX(-50%) translateY(12px);
+            background: rgba(16, 22, 18, 0.96);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            min-width: 230px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: 8px;
+            list-style: none;
+        }
+
+        nav ul li:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .dropdown-menu li {
             width: 100%;
-            max-width: 1000px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            height: auto;
+        }
+
+        .dropdown-menu li button {
+            width: 100%;
+            padding: 11px 16px;
+            background: none;
+            border: none;
+            border-radius: 8px;
+            text-align: left;
+            font-weight: 500;
+            font-size: 13.5px;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .dropdown-menu li button:hover {
+            background: rgba(46, 204, 113, 0.12);
+            color: #2ecc71;
+            padding-left: 20px;
+        }
+
+        /* PREMIUM LANGUAGE SWITCHER BUTTON */
+        .right-section {
+            flex-shrink: 0;
+        }
+
+        .lang-switch {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            padding: 8px 16px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 12.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .lang-switch:hover {
+            background: #2ecc71;
+            border-color: #2ecc71;
+            box-shadow: 0 0 15px rgba(46, 204, 113, 0.4);
+            transform: translateY(-1px);
+        }
+
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #ffffff;
+            font-size: 22px;
+            cursor: pointer;
+        }
+
+        /* CONTAINER LAYOUT */
+        .container {
+            max-width: 1240px;
+            margin: auto;
+            padding: 160px 24px 40px;
+        }
+
+        /* ==================== HERO SECTIONS ==================== */
+        .hero-center {
             text-align: center;
+            margin-bottom: 30px;
         }
 
-        /* ส่วนหน้าแรก (Hero Section) */
-        #home {
-            padding-top: 140px;
-        }
-
-        #home .glass-card {
-            padding: 60px 40px;
+        .hero-tag {
+            background: rgba(46, 204, 113, 0.06);
+            border: 1px solid rgba(46, 204, 113, 0.15);
+            color: #2ecc71;
+            padding: 6px 18px;
+            border-radius: 50px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 20px;
         }
 
         .hero-title {
-            font-size: 48px;
+            font-size: 64px;
             font-weight: 700;
-            letter-spacing: 2px;
-            margin-bottom: 15px;
-            text-transform: uppercase;
+            line-height: 1.15;
+            margin-bottom: 20px;
+            letter-spacing: -1.5px;
+        }
+
+        .hero-title span {
+            background: linear-gradient(135deg, #2ecc71 0%, #7febb1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .hero-subtitle {
-            font-size: 18px;
-            color: #dddddd;
-            margin-bottom: 35px;
+            font-size: 17px;
+            color: #8fa095;
+            max-width: 650px;
+            margin: 0 auto 35px;
             font-weight: 300;
+            line-height: 1.6;
         }
 
-        /* ปุ่มหลักที่กดได้ */
-        .btn-primary {
-            display: inline-block;
-            background: #2ecc71;
-            color: #ffffff;
-            padding: 14px 35px;
-            border-radius: 50px;
-            text-decoration: none;
-            font-size: 16px;
-            font-weight: 600;
-            transition: all 0.3s ease;
+        .btn-gradient {
+            background: linear-gradient(90deg, #2ecc71, #27ae60);
             border: none;
+            color: white;
+            padding: 14px 36px;
+            border-radius: 50px;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
-        }
-
-        .btn-primary:hover {
-            background: #27ae60;
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.5);
-        }
-
-        .btn-primary:active {
-            transform: translateY(1px);
-        }
-
-        /* หัวข้อเซกชันย่อย */
-        .section-title {
-            font-size: 28px;
-            font-weight: 600;
-            margin-bottom: 30px;
-            align-self: flex-start;
-            max-width: 1000px;
-            width: 100%;
-            margin-left: auto;
-            margin-right: auto;
-            border-left: 4px solid #2ecc71;
-            padding-left: 15px;
-        }
-
-        /* การจัดบล็อกกริด (Grid) ของเกี่ยวกับและบริการ */
-        .grid-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-            width: 100%;
-            max-width: 1000px;
-            margin-bottom: 40px;
-        }
-
-        .grid-item {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
-            padding: 30px 20px;
-            text-align: center;
+            font-weight: 500;
+            font-size: 14.5px;
             transition: all 0.3s ease;
-            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(46, 204, 113, 0.2);
         }
 
-        .grid-item:hover {
-            background: rgba(46, 204, 113, 0.1);
-            border-color: rgba(46, 204, 113, 0.3);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        .btn-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(46, 204, 113, 0.35);
         }
 
-        .grid-item i {
-            font-size: 32px;
+        /* HERO MAIN GRID LAYOUT */
+        .hero-main-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr 280px;
+            gap: 24px;
+            align-items: center;
+            margin: 40px 0;
+        }
+
+        .side-cards-col {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .modern-glass-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 24px;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .modern-glass-card:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(46, 204, 113, 0.25);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            transform: translateY(-3px);
+        }
+
+        .modern-glass-card .icon-circle {
+            width: 40px;
+            height: 40px;
+            background: rgba(46, 204, 113, 0.08);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             color: #2ecc71;
-            margin-bottom: 15px;
+            font-size: 14px;
+            margin-bottom: 16px;
         }
 
-        .grid-item p {
-            font-size: 16px;
-            font-weight: 400;
+        .modern-glass-card h4 {
+            font-size: 15.5px;
+            font-weight: 600;
+            margin-bottom: 8px;
         }
 
-        /* เซกชันวิดีโอ */
-        .video-container {
+        .modern-glass-card p {
+            font-size: 12.5px;
+            color: #8da094;
+            line-height: 1.6;
+        }
+
+        .hero-video-box {
             width: 100%;
-            max-width: 700px;
-            margin: 20px auto;
-            border-radius: 12px;
+            border-radius: 24px;
             overflow: hidden;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
-            aspect-ratio: 16/9;
-            background: #000;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            aspect-ratio: 16/10;
         }
 
-        .video-container iframe {
+        .hero-video-box iframe {
             width: 100%;
             height: 100%;
             border: none;
+            display: block;
         }
 
-        .video-placeholder {
-            padding: 40px 20px;
-        }
-
-        .video-placeholder p {
-            margin-bottom: 20px;
-            color: #ccc;
-        }
-
-        /* เซกชันติดต่อเรา */
-        .contact-info {
+        /* COUNTERS STATS BAR */
+        .stats-bar {
             display: flex;
             justify-content: center;
-            gap: 40px;
-            flex-wrap: wrap;
-            margin-top: 20px;
-        }
-
-        .contact-item {
-            display: flex;
             align-items: center;
+            gap: 120px;
+            margin: 60px 0;
+            padding: 30px 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .stat-node {
+            text-align: center;
+        }
+
+        .stat-node h2 {
+            font-size: 42px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 6px;
+        }
+
+        .stat-node p {
+            font-size: 12.5px;
+            color: #7d8f84;
+            letter-spacing: 0.5px;
+        }
+
+        /* INTERACTIVE FEATURE SLIDER */
+        .showcase-section {
+            margin: 80px 0 20px;
+        }
+
+        .showcase-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .showcase-header h2 {
+            font-size: 32px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .slider-tabs-wrapper {
+            display: flex;
+            justify-content: center;
             gap: 12px;
-            font-size: 16px;
+            margin-bottom: 30px;
         }
 
-        .contact-item i {
+        .slider-tab-btn {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            color: #8da094;
+            padding: 12px 24px;
+            border-radius: 100px;
+            font-size: 13.5px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .slider-tab-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: #ffffff;
+        }
+
+        .slider-tab-btn.active {
+            background: #2ecc71;
+            border-color: #2ecc71;
+            color: #ffffff;
+            box-shadow: 0 8px 20px rgba(46, 204, 113, 0.25);
+        }
+
+        .slider-display-card {
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 28px;
+            padding: 40px;
+            display: grid;
+            grid-template-columns: 1fr 1.1fr;
+            gap: 50px;
+            align-items: center;
+            min-height: 420px;
+        }
+
+        .slider-img-holder {
+            width: 100%;
+            height: 340px;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        .slider-img-holder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transform: scale(1.05);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .slider-img-holder img.active-img {
+            opacity: 1;
+            transform: scale(1);
+            z-index: 1;
+        }
+
+        .slider-text-content {
+            display: none;
+        }
+
+        .slider-text-content.active-text {
+            display: block;
+            animation: textReveal 0.4s ease forwards;
+        }
+
+        @keyframes textReveal {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slider-text-content h3 {
+            font-size: 26px;
+            font-weight: 600;
             color: #2ecc71;
-            font-size: 20px;
+            margin-bottom: 18px;
         }
 
-        .contact-item a {
-            color: #fff;
-            text-decoration: none;
-            transition: 0.3s;
+        .slider-text-content p {
+            color: #a1b2a7;
+            font-size: 14.5px;
+            line-height: 1.75;
         }
 
-        .contact-item a:hover {
+        /* SPA SUBPAGES CORES */
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+            animation: sectionFade 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes sectionFade {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .panel-box {
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 28px;
+            padding: 48px;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 35px;
+            letter-spacing: -0.5px;
+        }
+
+        .grid-flex-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .info-card {
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            padding: 32px;
+        }
+
+        .info-card i {
+            font-size: 32px;
             color: #2ecc71;
+            margin-bottom: 18px;
+            display: block;
         }
 
+        .info-card h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .info-card p {
+            color: #8da094;
+            font-size: 13.5px;
+            line-height: 1.6;
+        }
+
+        /* FORM FIELD DESIGN */
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            max-width: 550px;
+        }
+        .input-group input, .input-group textarea {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 14px 18px;
+            border-radius: 12px;
+            color: white;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+        .input-group input:focus, .input-group textarea:focus {
+            outline: none;
+            border-color: #2ecc71;
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        /* FOOTER */
         footer {
             text-align: center;
-            padding: 30px;
-            background: rgba(11, 19, 14, 0.95);
-            font-size: 14px;
-            color: #777;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 50px 20px;
+            color: #4f5a52;
+            font-size: 12.5px;
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            margin-top: 80px;
         }
 
-        /* ปรับแต่งหน้าจอสำหรับมือถือ */
-        @media (max-width: 768px) {
-            header {
-                padding: 15px 5%;
-                flex-direction: column;
-                gap: 10px;
+        /* RESPONSIVE LAYOUT MOBILE DETECTORS */
+        @media(max-width: 1250px) {
+            nav ul li a, nav ul li button.nav-link { padding: 10px 10px; font-size: 12.5px; }
+        }
+
+        @media(max-width: 1150px) {
+            .hero-main-layout { grid-template-columns: 1fr; gap: 35px; }
+            .side-cards-col { flex-direction: row; flex-wrap: wrap; justify-content: center; }
+            .modern-glass-card { width: 48%; }
+            .slider-display-card { grid-template-columns: 1fr; gap: 30px; padding: 25px; }
+            .slider-img-holder { height: 260px; }
+        }
+
+        @media(max-width: 1080px) {
+            header { width: 92%; padding: 0 16px; }
+            .mobile-toggle { display: block; }
+            
+            /* Mobile Navigation Drawer Custom Glass */
+            nav {
+                position: fixed;
+                top: 100px;
+                right: -100%;
+                width: 290px;
+                height: auto;
+                background: rgba(15, 22, 18, 0.98);
+                backdrop-filter: blur(20px);
+                border: 1px solid rgba(255,255,255,0.1);
+                border-radius: 16px;
+                transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+                box-shadow: -10px 10px 30px rgba(0,0,0,0.5);
+                padding: 20px 10px;
             }
-            nav ul {
-                gap: 15px;
+            nav.active { right: 4%; }
+            nav ul { flex-direction: column; height: auto; gap: 10px; }
+            nav ul li { width: 100%; height: auto; flex-direction: column; align-items: flex-start; }
+            nav ul li.active-tab::after { display: none; }
+            nav ul li a, nav ul li button.nav-link { width: 100%; padding: 12px 16px; text-align: left; height: auto; font-size: 14px; }
+            
+            .dropdown-menu { 
+                position: static; 
+                opacity: 1; 
+                visibility: visible; 
+                transform: none; 
+                box-shadow: none; 
+                border: none; 
+                display: none; 
+                background: rgba(255,255,255,0.04); 
+                width: 100%; 
+                margin-top: 6px; 
             }
-            nav ul li a {
-                font-size: 14px;
-            }
-            .hero-title {
-                font-size: 32px;
-            }
-            .hero-subtitle {
-                font-size: 15px;
-            }
-            section {
-                padding: 120px 5% 40px 5%;
-            }
-            .contact-info {
-                flex-direction: column;
-                align-items: center;
-                gap: 15px;
-            }
+            nav ul li:hover .dropdown-menu { display: block; }
+            .stats-bar { flex-direction: column; gap: 30px; }
+            .hero-title { font-size: 42px; }
+            .modern-glass-card { width: 100%; }
         }
     </style>
 </head>
+
 <body>
 
+    <div id="particles-js"></div>
+    <div class="cursor-glow"></div>
+    <div class="bg-glow-1"></div>
+    <div class="bg-glow-2"></div>
+
+    <div id="loader">
+        <h2 style="color: white; font-weight: 500; letter-spacing: 2px; font-size: 14px;">NTEQ POLYMER</h2>
+        <div class="loader-bar"><div class="loader-progress"></div></div>
+    </div>
+
     <header>
-        <a href="#home" class="logo">NTEQ POLYMER</a>
+        <div class="logo" onclick="switchSection('home', this)">
+            <i class="fa-solid fa-leaf" style="color: #2ecc71; font-size: 22px;"></i>
+            <div class="logo-text">NTEQ <span>Polymer</span></div>
+        </div>
+
+        <button class="mobile-toggle" onclick="toggleMenu()">
+            <i class="fa-solid fa-bars-staggered"></i>
+        </button>
+
         <nav>
             <ul>
-                <li><a href="#home">หน้าหลัก</a></li>
-                <li><a href="#about">เกี่ยวกับเรา</a></li>
-                <li><a href="#services">บริการ</a></li>
-                <li><a href="#video">วิดีโอ</a></li>
-                <li><a href="#contact">ติดต่อเรา</a></li>
+                <li class="active-tab"><button class="nav-link" id="nav-home" onclick="switchSection('home', this)">Home</button></li>
+                
+                <li>
+                    <a href="#" id="nav-company">Our Company <i class="fa-solid fa-angle-down" style="font-size: 10px; opacity:0.6;"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><button id="drop-profile" onclick="switchSection('about-page', this)">Company Profile</button></li>
+                        <li><button id="drop-vision" onclick="switchSection('about-page', this)">Vision & Mission</button></li>
+                        <li><button id="drop-org" onclick="switchSection('about-page', this)">Organization Chart</button></li>
+                        <li><button id="drop-board" onclick="switchSection('about-page', this)">Board of Directors</button></li>
+                        <li><button id="drop-awards" onclick="switchSection('about-page', this)">Awards & Certifications</button></li>
+                    </ul>
+                </li>
+
+                <li><button class="nav-link" id="nav-product" onclick="switchSection('products-page', this)">Our Product</button></li>
+                <li><button class="nav-link" id="nav-policy" onclick="switchSection('policy-page', this)">Policy</button></li>
+
+                <li>
+                    <a href="#" id="nav-media">News & Media <i class="fa-solid fa-angle-down" style="font-size: 10px; opacity:0.6;"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><button id="drop-news" onclick="switchSection('media-page', this)">News</button></li>
+                        <li><button id="drop-csr" onclick="switchSection('media-page', this)">CSR</button></li>
+                        <li><button id="drop-gallery" onclick="switchSection('media-page', this)">Media</button></li>
+                        <li><button id="drop-knowledge" onclick="switchSection('media-page', this)">Knowledge</button></li>
+                    </ul>
+                </li>
+
+                <li><button class="nav-link" id="nav-job" onclick="switchSection('job-page', this)">Job Opportunity</button></li>
+                <li><button class="nav-link" id="nav-contact" onclick="switchSection('contact-page', this)">Contact Us</button></li>
             </ul>
         </nav>
+
+        <div class="right-section">
+            <button class="lang-switch" onclick="toggleLanguage()">
+                <i class="fa-solid fa-globe"></i> <span id="lang-text">TH</span>
+            </button>
+        </div>
     </header>
 
-    <section id="home">
-        <div class="glass-card">
-            <h1 class="hero-title">Green Rubber Innovation</h1>
-            <p class="hero-subtitle">นวัตกรรมยางพาราเพื่อสิ่งแวดล้อม และการพัฒนาอย่างยั่งยืน</p>
-            <a href="#about" class="btn-primary">เริ่มต้นใช้งาน</a>
-        </div>
-    </section>
+    <div class="container">
 
-    <section id="about">
-        <h2 class="section-title">เกี่ยวกับบริษัท</h2>
-        <div class="grid-container">
-            <div class="grid-item">
-                <i class="fa-solid fa-leaf"></i>
-                <p>รักษ์โลก</p>
+        <section id="home" class="content-section active">
+            <div class="hero-center">
+                <div class="hero-tag">Eco-Friendly • Innovative • Sustainable</div>
+                <h1 class="hero-title" id="hero-title-main">Green Rubber <br><span>Eco Evolution</span></h1>
+                <p class="hero-subtitle" id="hero-sub-main">Next-gen polymer materials built to empower the sustainable global industries ecosystem.</p>
+                
+                <button class="btn-gradient" id="btn-explore" onclick="switchSection('about-page', document.getElementById('nav-company'))">
+                    Explore Innovation <i class="fa-solid fa-arrow-right" style="margin-left:5px; font-size: 13px;"></i>
+                </button>
             </div>
-            <div class="grid-item">
-                <i class="fa-solid fa-industry"></i>
-                <p>โรงงานทันสมัย</p>
-            </div>
-            <div class="grid-item">
-                <i class="fa-solid fa-flask"></i>
-                <p>นวัตกรรมใหม่</p>
-            </div>
-            <div class="grid-item">
-                <i class="fa-solid fa-seedling"></i>
-                <p>พัฒนาอย่างยั่งยืน</p>
-            </div>
-        </div>
-    </section>
 
-    <section id="services">
-        <h2 class="section-title">บริการของเรา</h2>
-        <div class="grid-container" style="max-width: 800px;">
-            <div class="grid-item">
-                <i class="fa-solid fa-box-open"></i>
-                <p>จัดจำหน่ายสินค้า</p>
-            </div>
-            <div class="grid-item">
-                <i class="fa-solid fa-truck-fast"></i>
-                <p>ขนส่งรวดเร็ว</p>
-            </div>
-            <div class="grid-item">
-                <i class="fa-solid fa-headset"></i>
-                <p>บริการลูกค้า</p>
-            </div>
-        </div>
-    </section>
+            <div class="hero-main-layout">
+                <div class="side-cards-col">
+                    <div class="modern-glass-card">
+                        <div class="icon-circle"><i class="fa-solid fa-seedling"></i></div>
+                        <h4 id="ct-1">Eco-Friendly Innovation</h4>
+                        <p id="cd-1">Sustainable green rubber technology designed to minimize global carbon footprints.</p>
+                    </div>
+                    <div class="modern-glass-card">
+                        <div class="icon-circle"><i class="fa-solid fa-arrows-spin"></i></div>
+                        <h4 id="ct-2">Circular Economy</h4>
+                        <p id="cd-2">Comprehensive material lifecycle operations aimed at zero-waste industrial models.</p>
+                    </div>
+                </div>
 
-    <section id="video">
-        <h2 class="section-title">VDO Presentation</h2>
-        <div class="glass-card">
-            <div class="video-placeholder">
-                <p>สามารถใส่วิดีโอ YouTube ได้ตรงนี้</p>
-                <div class="video-container">
-                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <div class="hero-video-box">
+                    <iframe src="https://www.youtube.com/embed/hy_XTohufck" allowfullscreen></iframe>
+                </div>
+
+                <div class="side-cards-col">
+                    <div class="modern-glass-card">
+                        <div class="icon-circle"><i class="fa-solid fa-microchip"></i></div>
+                        <h4 id="ct-3">Advanced Material Tech</h4>
+                        <p id="cd-3">Intelligent formulation engineering targeted for precision-heavy manufacturing.</p>
+                    </div>
+                    <div class="modern-glass-card">
+                        <div class="icon-circle"><i class="fa-solid fa-globe"></i></div>
+                        <h4 id="ct-4">Global Supply Networks</h4>
+                        <p id="cd-4">Elevating Thai manufacturing standards straight into premium worldwide trade sectors.</p>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <section id="contact">
-        <h2 class="section-title">ติดต่อเรา</h2>
-        <div class="glass-card">
-            <div class="contact-info">
-                <div class="contact-item">
-                    <i class="fa-solid fa-envelope"></i>
-                    <span>Email: <a href="mailto:info@nteqpolymer.com">info@nteqpolymer.com</a></span>
+            <div class="stats-bar">
+                <div class="stat-node">
+                    <h2 class="counter" data-target="25">0</h2>
+                    <p id="st-1">Years of Experience</p>
                 </div>
-                <div class="contact-item">
-                    <i class="fa-solid fa-phone"></i>
-                    <span>Tel: <a href="tel:0999999999">099-999-9999</a></span>
+                <div class="stat-node">
+                    <h2 class="counter" data-target="500">0</h2>
+                    <p id="st-2">Completed Projects</p>
+                </div>
+                <div class="stat-node">
+                    <h2 class="counter" data-target="100">0</h2>
+                    <p id="st-3">Global Network Partners</p>
                 </div>
             </div>
-        </div>
-    </section>
+
+            <div class="showcase-section">
+                <div class="showcase-header">
+                    <h2 id="sch-title">Deep Dive Into Our Capability</h2>
+                </div>
+
+                <div class="slider-tabs-wrapper">
+                    <button class="slider-tab-btn active" onclick="changeSlide(0)" id="sb-1">Automated Production</button>
+                    <button class="slider-tab-btn" onclick="changeSlide(1)" id="sb-2">Material Research (R&D)</button>
+                    <button class="slider-tab-btn" onclick="changeSlide(2)" id="sb-3">Green Ecosystem</button>
+                </div>
+
+                <div class="slider-display-card">
+                    <div class="slider-img-holder">
+                        <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=800" class="active-img" alt="Automation Lab">
+                        <img src="https://images.unsplash.com/photo-1532187863486-abf9d39d6618?q=80&w=800" alt="R&D Lab">
+                        <img src="https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?q=80&w=800" alt="Eco Sustainable Factory">
+                    </div>
+                    
+                    <div class="slider-text-panel">
+                        <div class="slider-text-content active-text">
+                            <h3 id="slt-1">Precision Manufacturing Standards</h3>
+                            <p id="sld-1">We combine automated machinery lines with real-time IoT status monitoring. Every raw batch processed conforms to premium global structural parameters demanded by massive manufacturing operations globally.</p>
+                        </div>
+                        <div class="slider-text-content">
+                            <h3 id="slt-2">Smart Compound Formulations</h3>
+                            <p id="sld-2">Our in-house polymer formulation laboratory engineers pioneer cutting-edge resilient materials. We work hand-in-hand with market-leading corporate bodies to perfect tensile strength, elasticity thresholds, and chemical stability.</p>
+                        </div>
+                        <div class="slider-text-content">
+                            <h3 id="slt-3">Zero Waste Strategic Roadmap</h3>
+                            <p id="sld-3">Following circular system principles, our production sites implement high-efficiency internal recycling. Thermal outputs are constantly channeled backwards, while modern waste processing guarantees secure environmental standard metrics.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="about-page" class="content-section">
+            <div class="panel-box">
+                <h2 class="page-title" id="pt-about">About Our Enterprise</h2>
+                <div class="grid-flex-cards">
+                    <div class="info-card">
+                        <i class="fa-solid fa-briefcase"></i>
+                        <h3 id="abs-1">Corporate Structure</h3>
+                        <p id="abd-1">NTEQ POLYMER acts as a core developer and supplier of industrial eco polymer formulations, dispatching materials onto high-tech global automotive fields.</p>
+                    </div>
+                    <div class="info-card">
+                        <i class="fa-solid fa-lightbulb"></i>
+                        <h3 id="abs-2">Driven Future Vision</h3>
+                        <p id="abd-2">To stand out as the leading green compound supplier inside ASEAN by 2030 through zero-net impact product advancements.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="products-page" class="content-section">
+            <div class="panel-box">
+                <h2 class="page-title" id="pt-prod">Innovative Product Portfolios</h2>
+                <div class="grid-flex-cards">
+                    <div class="info-card">
+                        <i class="fa-solid fa-dna"></i>
+                        <h3>Premium Eco-Rubber Compound</h3>
+                        <p>High-end engineering rubber compounds. Exceptional resistance to compressive stress, extreme weather, and complex chemical reactive components.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="policy-page" class="content-section">
+            <div class="panel-box">
+                <h2 class="page-title" id="pt-pol">Sustainability Roadmap</h2>
+                <p>We firmly respect ESG standard pillars (Environmental, Social, Governance) to sustain shared microeconomic values alongside global localized communities securely.</p>
+            </div>
+        </section>
+
+        <section id="media-page" class="content-section">
+            <div class="panel-box">
+                <h2 class="page-title" id="pt-med">Corporate Hub & Media</h2>
+                <p>Latest announcements, CSR activity schedules, and research updates distributed by NTEQ POLYMER networks.</p>
+            </div>
+        </section>
+
+        <section id="job-page" class="content-section">
+            <div class="panel-box">
+                <h2 class="page-title" id="pt-job">Careers & Opportunities</h2>
+                <p style="color: #8da094;">Join our team of material scientists, mechanical design experts, and global operations managers to accelerate next-gen eco transitions.</p>
+            </div>
+        </section>
+
+        <section id="contact-page" class="content-section">
+            <div class="panel-box">
+                <h2 class="page-title" id="pt-con">Connect with Experts</h2>
+                <div class="input-group">
+                    <input type="text" placeholder="Full Name / Organization Name" required>
+                    <input type="email" placeholder="Corporate Email Address" required>
+                    <textarea rows="4" placeholder="Detail your raw specification criteria or production schedule requirements here..." required></textarea>
+                    <button type="button" class="btn-gradient" style="align-self: flex-start;">Send Message</button>
+                </div>
+            </div>
+        </section>
+
+    </div>
 
     <footer>
-        <p>&copy; 2026 NTEQ POLYMER. All Rights Reserved.</p>
+        © 2026 NTEQ POLYMER CO., LTD. All Rights Reserved. Engineered for Next-Gen Sustainable Enterprise.
     </footer>
 
+    <script>
+        /* SPA ROUTER ENGINE */
+        function switchSection(sectionId, element) {
+            document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active'));
+            
+            const target = document.getElementById(sectionId);
+            if(target) target.classList.add('active');
+
+            // Manage Active States
+            document.querySelectorAll('nav ul li').forEach(li => li.classList.remove('active-tab'));
+            if(element) {
+                const parentLi = element.closest('nav > ul > li');
+                if(parentLi) parentLi.classList.add('active-tab');
+            }
+
+            document.querySelector('nav').classList.remove('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleMenu() {
+            document.querySelector('nav').classList.toggle('active');
+        }
+
+        /* INTERACTIVE SLIDER LOGIC */
+        function changeSlide(slideIndex) {
+            const tabButtons = document.querySelectorAll('.slider-tab-btn');
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            tabButtons[slideIndex].classList.add('active');
+
+            const images = document.querySelectorAll('.slider-img-holder img');
+            images.forEach(img => img.classList.remove('active-img'));
+            images[slideIndex].classList.add('active-img');
+
+            const texts = document.querySelectorAll('.slider-text-content');
+            texts.forEach(txt => txt.classList.remove('active-text'));
+            texts[slideIndex].classList.add('active-text');
+        }
+
+        /* CURSOR GLOW COORDINATION */
+        const glow = document.querySelector('.cursor-glow');
+        document.addEventListener('mousemove', (e) => {
+            glow.style.left = e.clientX + 'px';
+            glow.style.top = e.clientY + 'px';
+        });
+
+        /* PRELOADER CONTROLLER */
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('loader');
+            setTimeout(() => {
+                loader.style.opacity = '0';
+                setTimeout(() => loader.style.display = 'none', 500);
+            }, 600);
+        });
+
+        /* RUNNING NUMBER STATS COUNTER */
+        const counters = document.querySelectorAll('.counter');
+        counters.forEach(counter => {
+            const updateCounter = () => {
+                const target = +counter.getAttribute('data-target');
+                const c = +counter.innerText;
+                const increment = target / 50;
+                if (c < target) {
+                    counter.innerText = `${Math.ceil(c + increment)}`;
+                    setTimeout(updateCounter, 25);
+                } else {
+                    counter.innerText = target + "+";
+                }
+            };
+            updateCounter();
+        });
+
+        /* PARTICLE SYSTEM METRICS */
+        tsParticles.load("particles-js", {
+            particles: {
+                number: { value: 35 },
+                color: { value: "#2ecc71" },
+                links: { enable: false },
+                move: { enable: true, speed: 0.5, direction: "top" },
+                size: { value: 2, random: true },
+                opacity: { value: 0.25, random: true }
+            }
+        });
+
+        /* GSAP ENTRANCE ACTIONS */
+        gsap.from('#hero-title-main', { y: 25, opacity: 0, duration: 0.8, ease: "power3.out" });
+        gsap.from('#hero-sub-main', { y: 15, opacity: 0, duration: 0.8, delay: 0.15, ease: "power3.out" });
+        gsap.from('#btn-explore', { y: 10, opacity: 0, duration: 0.6, delay: 0.3, ease: "power3.out" });
+
+        /* DICTIONARY MATRIX MATRIX BASED ON SOURCE CAPTURES */
+        const localePack = {
+            en: {
+                lang: "TH",
+                mHome: "Home", 
+                mCompany: 'Our Company <i class="fa-solid fa-angle-down" style="font-size: 10px; opacity:0.6;"></i>',
+                mProd: "Our Product", 
+                mPol: "Policy", 
+                mMedia: 'News & Media <i class="fa-solid fa-angle-down" style="font-size: 10px; opacity:0.6;"></i>', 
+                mJob: "Job Opportunity",
+                mCon: "Contact Us",
+                dProf: "Company Profile", 
+                dVis: "Vision & Mission", 
+                dOrg: "Organization Chart", 
+                dBoard: "Board of Directors",
+                dAwards: "Awards & Certifications",
+                dNews: "News",
+                dCsr: "CSR",
+                dGallery: "Media",
+                dKnowledge: "Knowledge",
+                hTitle: "Green Rubber <br><span>Eco Evolution</span>", 
+                hSub: "Next-gen polymer materials built to empower the sustainable global industries ecosystem.",
+                bExp: 'Explore Innovation <i class="fa-solid fa-arrow-right" style="margin-left:5px; font-size:13px;"></i>',
+                ct1: "Eco-Friendly Innovation", cd1: "Sustainable green rubber technology designed to minimize global carbon footprints.",
+                ct2: "Circular Economy", cd2: "Comprehensive material lifecycle operations aimed at zero-waste industrial models.",
+                ct3: "Advanced Material Tech", cd3: "Intelligent formulation engineering targeted for precision-heavy manufacturing.",
+                ct4: "Global Supply Networks", cd4: "Elevating Thai manufacturing standards straight into premium worldwide trade sectors.",
+                st1: "Years of Experience", st2: "Completed Projects", st3: "Global Network Partners",
+                schTitle: "Deep Dive Into Our Capability",
+                sb1: "Automated Production", sb2: "Material Research (R&D)", sb3: "Green Ecosystem",
+                slt1: "Precision Manufacturing Standards", scd1: "We combine automated machinery lines with real-time IoT status monitoring. Every raw batch processed conforms to premium global structural parameters demanded by massive manufacturing operations globally.",
+                slt2: "Smart Compound Formulations", scd2: "Our in-house polymer formulation laboratory engineers pioneer cutting-edge resilient materials. We work hand-in-hand with market-leading corporate bodies to perfect tensile strength, elasticity thresholds, and chemical stability.",
+                slt3: "Zero Waste Strategic Roadmap", scd3: "Following circular system principles, our production sites implement high-efficiency internal recycling. Thermal outputs are constantly channeled backwards, while modern waste processing guarantees secure environmental standard metrics.",
+                ptAbout: "About Our Enterprise", abs1: "Corporate Structure", abd1: "NTEQ POLYMER acts as a core developer and supplier of industrial eco polymer formulations, dispatching materials onto high-tech global automotive fields.",
+                abs2: "Driven Future Vision", abd2: "To stand out as the leading green compound supplier inside ASEAN by 2030 through zero-net impact product advancements.",
+                ptProd: "Innovative Product Portfolios", ptPol: "Sustainability Roadmap", ptMed: "Corporate Hub & Media", ptJob: "Careers & Opportunities", ptCon: "Connect with Experts"
+            },
+            th: {
+                lang: "EN",
+                mHome: "หน้าแรก", 
+                mCompany: 'บริษัทของเรา <i class="fa-solid fa-angle-down" style="font-size: 10px; opacity:0.6;"></i>',
+                mProd: "ผลิตภัณฑ์ของเรา", 
+                mPol: "นโยบาย", 
+                mMedia: 'ข่าวสารและสื่อ <i class="fa-solid fa-angle-down" style="font-size: 10px; opacity:0.6;"></i>', 
+                mJob: "ร่วมงานกับเรา",
+                mCon: "ติดต่อเรา",
+                dProf: "ข้อมูลบริษัท", 
+                dVis: "วิสัยทัศน์และพันธกิจ", 
+                dOrg: "แผนผังองค์กร", 
+                dBoard: "คณะกรรมการบริหาร",
+                dAwards: "รางวัลและการรับรอง",
+                dNews: "ข่าวสารองค์กร",
+                dCsr: "กิจกรรมเพื่อสังคม (CSR)",
+                dGallery: "คลังสื่อวิดีโอ",
+                dKnowledge: "องค์ความรู้ / บล็อก",
+                hTitle: "นวัตกรรมยางสีเขียว <br><span>เพื่อความยั่งยืน</span>", 
+                hSub: "เทคโนโลยีโพลิเมอร์ยุคใหม่เพื่อขับเคลื่อนระบบนิเวศอุตสาหกรรมแห่งอนาคต",
+                bExp: 'ร่วมสำรวจนวัตกรรม <i class="fa-solid fa-arrow-right" style="margin-left:5px; font-size:13px;"></i>',
+                ct1: "นวัตกรรมที่เป็นมิตรต่อสิ่งแวดล้อม", cd1: "เทคโนโลยีคอมปาวด์ยางและโพลิเมอร์สูตรยั่งยืน ลดการปล่อยคาร์บอนสู่ชั้นบรรยากาศ",
+                ct2: "เศรษฐกิจหมุนเวียน", cd2: "การบริหารจัดการทรัพยากรหมุนเวียนเต็มรูปแบบ มุ่งสู่เป้าหมายขยะเป็นศูนย์ (Zero Waste)",
+                ct3: "เทคโนโลยีวัสดุขั้นสูง", cd3: "คิดค้นสูตรทางเคมีด้วยโพลิเมอร์อัจฉริยะ รองรับงานวิศวกรรมความแม่นยำสูง",
+                ct4: "ขับเคลื่อนห่วงโซ่โลก", cd4: "ยกระดับมาตรฐานโรงงานและผลิตภัณฑ์ยางคอมปาวด์ไทยให้ก้าวสู่เวทีการค้าระดับโลก",
+                st1: "ปีแห่งประสบการณ์", st2: "โครงการที่เสร็จสิ้น", st3: "พันธมิตรคู่ค้าทั่วโลก",
+                schTitle: "เจาะลึกศักยภาพแห่งนวัตกรรม",
+                sb1: "ฐานการผลิตอัตโนมัติ", sb2: "ศูนย์วิจัยวัสดุศาสตร์ (R&D)", sb3: "ระบบนิเวศสีเขียว",
+                slt1: "มาตรฐานการผลิตความแม่นยำสูง", scd1: "เราผสานเครื่องจักรระบบอัตโนมัติ (Automation) และเทคโนโลยี IoT ควบคุมอุณหภูมิและความดันแบบ Real-time เข้ากับกระบวนการตรวจสอบคุณภาพที่เข้มงวด ทำให้ยางคอมปาวด์ทุกล็อตมีโครงสร้างทางเคมีที่สม่ำเสมอ ตอบโจทย์โรงงานอุตสาหกรรมขนาดใหญ่ระดับโลกได้อย่างแม่นยำ",
+                slt2: "การคิดค้นและพัฒนาสูตรวัสดุอัจฉริยะ", scd2: "ทีมผู้เชี่ยวชาญระดับด็อกเตอร์และนักวิทยาศาสตร์เคมีโพลิเมอร์ของเราไม่เคยหยุดนิ่งในการคิดค้นสูตรใหม่ๆ เราทำงานร่วมกับแบรนด์ชั้นนำเพื่อปรับแต่งคุณสมบัติความเหนียว ความทนร้อน และสัดส่วนส่วนผสมเคมีพิเศษ เพื่อสร้างผลิตภัณฑ์เฉพาะทางที่โดดเด่นเหนือตลาด",
+                slt3: "พันธมิตรขยะเป็นศูนย์ (Zero Waste Target)", scd3: "ภายใต้แนวคิดเศรษฐกิจหมุนเวียน (Circular Economy) โรงงานของเราลดการสิ้นเปลืองทรัพยากรด้วยการนำพลังงานความร้อนกลับมาหมุนเวียนใช้ใหม่ พร้อมทั้งมีการบำบัดมลพิษขั้นสูง เพื่อรับประกันความสะอาดและปลอดภัยต่อชุมชนโดยรอบตามมาตรฐานสากลระดับสูงสุด",
+                ptAbout: "เกี่ยวกับบริษัทของเรา", abs1: "ข้อมูลองค์กร", abd1: "NTEQ POLYMER ดำเนินธุรกิจเป็นฟันเฟืองสำคัญในการสรรสร้างและจัดจำหน่ายนวัตกรรมโพลิเมอร์ระดับพรีเมียม เพื่อส่งต่อวัตถุดิบคุณภาพสูงให้กลุ่มยานยนต์และอิเล็กทรอนิกส์",
+                abs2: "วิสัยทัศน์ขับเคลื่อน", abd2: "ก้าวเป็นผู้นำด้านวัสดุสีเขียวหมุนเวียนในเอเชียตะวันออกเฉียงใต้ ภายในปี 2030 ด้วยการขับเคลื่อนนวัตกรรมที่ลดผลกระทบต่อสิ่งแวดล้อมสุทธิเป็นศูนย์",
+                ptProd: "กลุ่มผลิตภัณฑ์นวัตกรรม", ptPol: "นโยบายความยั่งยืน", ptMed: "ข่าวสารและประกาศจากองค์กร", ptJob: "ตำแหน่งงานที่เปิดรับ", ptCon: "ติดต่อทีมผู้เชี่ยวชาญ"
+            }
+        };
+
+        let activeLang = 'en'; // Default to English structure as requested
+
+        function toggleLanguage() {
+            activeLang = (activeLang === 'th') ? 'en' : 'th';
+            const pack = localePack[activeLang];
+
+            document.getElementById('lang-text').innerText = pack.lang;
+            document.getElementById('nav-home').innerText = pack.mHome;
+            document.getElementById('nav-company').innerHTML = pack.mCompany;
+            document.getElementById('nav-product').innerText = pack.mProd;
+            document.getElementById('nav-policy').innerText = pack.mPol;
+            document.getElementById('nav-media').innerHTML = pack.mMedia;
+            document.getElementById('nav-job').innerText = pack.mJob;
+            document.getElementById('nav-contact').innerText = pack.mCon;
+
+            document.getElementById('drop-profile').innerText = pack.dProf;
+            document.getElementById('drop-vision').innerText = pack.dVis;
+            document.getElementById('drop-org').innerText = pack.dOrg;
+            document.getElementById('drop-board').innerText = pack.dBoard;
+            document.getElementById('drop-awards').innerText = pack.dAwards;
+
+            document.getElementById('drop-news').innerText = pack.dNews;
+            document.getElementById('drop-csr').innerText = pack.dCsr;
+            document.getElementById('drop-gallery').innerText = pack.dGallery;
+            document.getElementById('drop-knowledge').innerText = pack.dKnowledge;
+
+            document.getElementById('hero-title-main').innerHTML = pack.hTitle;
+            document.getElementById('hero-sub-main').innerText = pack.hSub;
+            document.getElementById('btn-explore').innerHTML = pack.bExp;
+
+            document.getElementById('ct-1').innerText = pack.ct1;
+            document.getElementById('cd-1').innerText = pack.cd1;
+            document.getElementById('ct-2').innerText = pack.ct2;
+            document.getElementById('cd-2').innerText = pack.cd2;
+            document.getElementById('ct-3').innerText = pack.ct3;
+            document.getElementById('cd-3').innerText = pack.cd3;
+            document.getElementById('ct-4').innerText = pack.ct4;
+            document.getElementById('cd-4').innerText = pack.cd4;
+
+            document.getElementById('st-1').innerText = pack.st1;
+            document.getElementById('st-2').innerText = pack.st2;
+            document.getElementById('st-3').innerText = pack.st3;
+
+            document.getElementById('sch-title').innerText = pack.schTitle;
+            document.getElementById('sb-1').innerText = pack.sb1;
+            document.getElementById('sb-2').innerText = pack.sb2;
+            document.getElementById('sb-3').innerText = pack.sb3;
+            document.getElementById('slt-1').innerText = pack.slt1;
+            document.getElementById('sld-1').innerText = pack.scd1;
+            document.getElementById('slt-2').innerText = pack.slt2;
+            document.getElementById('sld-2').innerText = pack.scd2;
+            document.getElementById('slt-3').innerText = pack.slt3;
+            document.getElementById('sld-3').innerText = pack.scd3;
+
+            document.getElementById('pt-about').innerText = pack.ptAbout;
+            document.getElementById('abs-1').innerText = pack.abs1;
+            document.getElementById('abd-1').innerText = pack.abd1;
+            document.getElementById('abs-2').innerText = pack.abs2;
+            document.getElementById('abd-2').innerText = pack.abd2;
+
+            document.getElementById('pt-prod').innerText = pack.ptProd;
+            document.getElementById('pt-pol').innerText = pack.ptPol;
+            document.getElementById('pt-med').innerText = pack.ptMed;
+            document.getElementById('pt-job').innerText = pack.ptJob;
+            document.getElementById('pt-con').innerText = pack.ptCon;
+        }
+    </script>
 </body>
 </html>
