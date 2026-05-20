@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NTEQ POLYMER - Content Management System</title>
+    <title>NTEQ POLYMER - Full Content Management System</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap');
 
         :root {
-            --nteq-green: #2e7d32;     /* สีเขียวธรรมชาติของยางพารา */
-            --nteq-light-green: #e8f5e9; /* สีพื้นหลังเขียวอ่อนสบายตา */
-            --nteq-dark: #1b5e20;       /* เขียวเข้มจัดระเบียบข้อความ */
+            --nteq-green: #2e7d32;
+            --nteq-light-green: #e8f5e9;
+            --nteq-dark: #1b5e20;
             --text-main: #2c3e50;
             --gradient-btn: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
         }
@@ -20,13 +20,12 @@
             font-family: 'Poppins', 'Noto Sans Thai', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #fafdfa; /* พื้นหลังขาวนวลอมเขียวนิดๆ */
+            background-color: #fafdfa;
             color: var(--text-main);
             display: flex;
             min-height: 100vh;
         }
 
-        /* --- Sidebar ดีไซน์ธรรมชาติแมตช์กับเว็บยางพารา --- */
         .sidebar {
             width: 280px;
             background: linear-gradient(180deg, #1e4620 0%, #0f2b11 100%);
@@ -49,9 +48,7 @@
             gap: 12px;
         }
 
-        .sidebar-brand span {
-            color: #81c784; /* สีเขียวสะท้อนแสงนิดๆ ให้ดูไฮเทค */
-        }
+        .sidebar-brand span { color: #81c784; }
 
         .sidebar-menu {
             list-style: none;
@@ -68,7 +65,6 @@
             color: #b0bec5;
             text-decoration: none;
             font-size: 15px;
-            font-weight: 400;
             transition: all 0.3s ease;
         }
 
@@ -76,10 +72,8 @@
             color: #ffffff;
             background: rgba(255, 255, 255, 0.06);
             border-left: 5px solid #81c784;
-            font-weight: 500;
         }
 
-        /* --- พื้นที่คอนเทนต์ขวา --- */
         .main-content {
             margin-left: 280px;
             flex: 1;
@@ -110,55 +104,58 @@
             border-radius: 30px;
             font-weight: 600;
             font-size: 14px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
         }
 
-        /* --- การ์ดกรอกข้อมูล สไตล์โค้งมนแบบโมเดิร์น --- */
         .config-card {
             background: #ffffff;
             border-radius: 20px;
             padding: 40px;
             box-shadow: 0 10px 30px rgba(46, 125, 50, 0.03);
             border: 1px solid #e8f5e9;
-            max-width: 750px;
+            max-width: 800px;
+            margin-bottom: 30px;
         }
 
         .card-title {
             font-size: 18px;
             font-weight: 600;
             margin-top: 0;
-            margin-bottom: 30px;
-            color: #37474f;
+            margin-bottom: 25px;
+            color: var(--nteq-dark);
             display: flex;
             align-items: center;
             gap: 10px;
+            border-bottom: 1px solid #f0f0f0;
+            padding-bottom: 10px;
         }
 
         .form-group {
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             font-weight: 600;
-            color: var(--nteq-dark);
+            color: #455a64;
             font-size: 14px;
         }
 
-        /* กล่องอินพุตสไตล์มินิมอลแบบเว็บหลักของคุณ */
+        .row-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
         input[type="text"], textarea {
             width: 100%;
-            padding: 14px 20px;
+            padding: 12px 18px;
             border: 1px solid #c8e6c9;
-            border-radius: 12px;
+            border-radius: 10px;
             box-sizing: border-box;
             font-family: inherit;
-            font-size: 15px;
+            font-size: 14px;
             background-color: #fafdfa;
-            color: #2c3e50;
             transition: all 0.3s ease;
         }
 
@@ -166,16 +163,15 @@
             outline: none;
             border-color: var(--nteq-green);
             background-color: #ffffff;
-            box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.12);
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
         }
 
-        /* ปุ่มบันทึกไล่เฉดสไตล์ปุ่มเว็บนวัตกรรม */
         .btn-submit {
             background: var(--gradient-btn);
             color: white;
-            padding: 15px 32px;
+            padding: 15px 35px;
             border: none;
-            border-radius: 12px;
+            border-radius: 10px;
             cursor: pointer;
             font-size: 16px;
             font-weight: 600;
@@ -190,10 +186,6 @@
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(46, 125, 50, 0.3);
         }
-
-        .btn-submit:active {
-            transform: translateY(0);
-        }
     </style>
 </head>
 <body>
@@ -204,80 +196,108 @@
             <div>NTEQ <span>POLYMER</span></div>
         </div>
         <ul class="sidebar-menu">
-            <li class="active">
-                <a href="#"><i class="fa-solid fa-sliders"></i> ระบบจัดการหน้าแรก</a>
-            </li>
-            <li>
-                <a href="#" onclick="alert('ฟีเจอร์นี้สำหรับระบบคลังสินค้าในอนาคต')"><i class="fa-solid fa-cubes"></i> ผลิตภัณฑ์ยางพารา</a>
-            </li>
-            <li>
-                <a href="https://nteq-polymer-1.onrender.com/" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> ไปที่หน้าเว็บจริง</a>
-            </li>
+            <li class="active"><a href="#"><i class="fa-solid fa-sliders"></i> จัดการหน้าแรกทั้งหมด</a></li>
+            <li><a href="https://nteq-polymer-1.onrender.com/" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> เปิดหน้าเว็บจริง</a></li>
         </ul>
     </div>
 
     <div class="main-content">
         <div class="top-header">
-            <h1>CMS Dashboard</h1>
-            <div class="user-tag">
-                <i class="fa-solid fa-user-shield"></i> ผู้ดูแลระบบฝ่ายนวัตกรรม
-            </div>
+            <h1>ระบบจัดการเนื้อหา (Full CMS)</h1>
+            <div class="user-tag"><i class="fa-solid fa-user-shield"></i> Master Admin</div>
         </div>
 
-        <div class="config-card">
-            <div class="card-title">
-                <i class="fa-solid fa-pen-to-square" style="color: var(--nteq-green)"></i> 
-                แก้ไขส่วนต้อนรับ (Hero Section) ของหน้าแรก
+        <form id="full-admin-form">
+            <div class="config-card">
+                <div class="card-title"><i class="fa-solid fa-display"></i> 1. ส่วนต้อนรับด้านบน (Hero Section)</div>
+                <div class="form-group">
+                    <label>หัวข้อหลัก (Web Title)</label>
+                    <input type="text" id="title" required>
+                </div>
+                <div class="form-group">
+                    <label>ข้อความอธิบายย่อย (Sub-headline)</label>
+                    <textarea id="announcement" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>ข้อความบนปุ่มกด (Button Text)</label>
+                    <input type="text" id="btnExploreText">
+                </div>
             </div>
-            
-            <form id="admin-form">
-                <div class="form-group">
-                    <label><i class="fa-solid fa-heading"></i> หัวข้อหลักบนหน้าเว็บ (Web Title)</label>
-                    <input type="text" id="title" placeholder="พิมพ์ข้อความหัวข้อใหม่..." required>
+
+            <div class="config-card">
+                <div class="card-title"><i class="fa-solid fa-chart-bar"></i> 2. ส่วนข้อมูลตัวเลขสถิติ</div>
+                <div class="row-grid">
+                    <div class="form-group">
+                        <label>สถิติที่ 1 (เช่น 15+)</label>
+                        <input type="text" id="stat1_num">
+                        <label style="margin-top:5px; font-weight:normal;">คำอธิบาย</label>
+                        <input type="text" id="stat1_text">
+                    </div>
+                    <div class="form-group">
+                        <label>สถิติที่ 2 (เช่น 500)</label>
+                        <input type="text" id="stat2_num">
+                        <label style="margin-top:5px; font-weight:normal;">คำอธิบาย</label>
+                        <input type="text" id="stat2_text">
+                    </div>
+                    <div class="form-group">
+                        <label>สถิติที่ 3 (เช่น 100+)</label>
+                        <input type="text" id="stat3_num">
+                        <label style="margin-top:5px; font-weight:normal;">คำอธิบาย</label>
+                        <input type="text" id="stat3_text">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label><i class="fa-solid fa-align-left"></i> ข้อความประกาศย่อย (Announcement / Subtitle)</label>
-                    <textarea id="announcement" rows="5" placeholder="พิมพ์คำอธิบายรายละเอียด..." required></textarea>
-                </div>
+            </div>
+
+            <div style="margin-bottom: 50px;">
                 <button type="submit" class="btn-submit">
-                    <i class="fa-solid fa-cloud-arrow-up"></i> บันทึกและอัปเดตหน้าเว็บ
+                    <i class="fa-solid fa-floppy-disk"></i> บันทึกข้อมูลทุกส่วนลงหน้าเว็บ
                 </button>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
 
 <script>
-    // ดึงค่าเก่าจากไฟล์ data.json มาโชว์ในช่องกรอกตอนโหลดหน้า
+    // โหลดข้อมูลทั้งหมดมาเติมในฟอร์ม
     fetch('/data.json')
         .then(res => res.json())
         .then(data => {
             document.getElementById('title').value = data.title || '';
             document.getElementById('announcement').value = data.announcement || '';
-        })
-        .catch(err => console.log('กำลังสร้างไฟล์ฐานข้อมูลใหม่...'));
+            document.getElementById('btnExploreText').value = data.btnExploreText || 'สำรวจนวัตกรรม';
+            
+            document.getElementById('stat1_num').value = data.stat1_num || '15+';
+            document.getElementById('stat1_text').value = data.stat1_text || 'ปีแห่งประสบการณ์';
+            document.getElementById('stat2_num').value = data.stat2_num || '500';
+            document.getElementById('stat2_text').value = data.stat2_text || 'โครงการที่สำเร็จ';
+            document.getElementById('stat3_num').value = data.stat3_num || '100+';
+            document.getElementById('stat3_text').value = data.stat3_text || 'พันธมิตรทั่วโลก';
+        });
 
-    // ทำหน้าที่ส่งคำที่พิมพ์ ไปเซฟลง Server เมื่อกดปุ่มบันทึก
-    document.getElementById('admin-form').addEventListener('submit', function(e) {
+    // ส่งข้อมูลทั้งหมดไปบันทึก
+    document.getElementById('full-admin-form').addEventListener('submit', function(e) {
         e.preventDefault();
         
-        const updatedData = {
+        const allData = {
             title: document.getElementById('title').value,
-            announcement: document.getElementById('announcement').value
+            announcement: document.getElementById('announcement').value,
+            btnExploreText: document.getElementById('btnExploreText').value,
+            stat1_num: document.getElementById('stat1_num').value,
+            stat1_text: document.getElementById('stat1_text').value,
+            stat2_num: document.getElementById('stat2_num').value,
+            stat2_text: document.getElementById('stat2_text').value,
+            stat3_num: document.getElementById('stat3_num').value,
+            stat3_text: document.getElementById('stat3_text').value
         };
 
         fetch('/save-data', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(updatedData)
+            body: JSON.stringify(allData)
         })
         .then(res => {
-            if (res.ok) {
-                alert('🎉 อัปเดตข้อมูลไปยังหน้าเว็บ NTEQ POLYMER สำเร็จแล้ว!');
-            } else {
-                alert('❌ บันทึกไม่สำเร็จ');
-            }
-        })
-        .catch(err => alert('❌ เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์'));
+            if (res.ok) alert('🎉 บันทึกและอัปเดตข้อมูลทุกส่วนเรียบร้อยแล้ว!');
+            else alert('❌ เกิดข้อผิดพลาด');
+        });
     });
 </script>
 </body>
