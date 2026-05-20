@@ -230,7 +230,7 @@
             font-size: 54px; font-weight: 700; line-height: 1.25; letter-spacing: -1px; margin-bottom: 24px;
         }
         .hero-left-editorial h1 span {
-            background: linear-gradient(to right, var(--color-accent-green), #2e900a);-webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            background: linear-gradient(to right, var(--color-accent-green), #2e900a);-webkit-background-clip: text; -webkit-text-fill-color: transparent;background-clip: text;
         }
         .hero-left-editorial p {
             color: var(--color-text-muted); font-size: 16px; line-height: 1.65; max-width: 540px; margin-bottom: 35px;
@@ -473,7 +473,7 @@
         .exec-card-premium:hover::before { opacity: 1; }
 
         .exec-avatar-shell {
-            width: 84px; height: 84px; border-radius: 18px; mx-auto;
+            width: 84px; height: 84px; border-radius: 18px; margin: 0 auto;
             background: linear-gradient(135deg, rgba(46,204,113,0.15) 0%, rgba(255,255,255,0.02) 100%);
             border: 1px solid rgba(46, 204, 113, 0.25); display: flex; align-items: center; justify-content: center;
             margin: 0 auto 24px auto; transition: transform 0.4s ease;
@@ -648,8 +648,9 @@
         <section id="home-page" class="content-section active">
             <div class="hero-layout-grid">
                 <div class="hero-left-editorial">
-                    <h1 id="hero-title-main">นวัตกรรมยางพาราเขียว <br><span>วิวัฒนาการเพื่อสิ่งแวดล้อม</span></h1>
-                    <p id="hero-sub-main">วัสดุพอลิเมอร์ยุคใหม่ที่ออกแบบมาเพื่อขับเคลื่อนระบบนิเวศอุตสาหกรรมระดับโลกอย่างยั่งยืน มุ่งเน้นการประมวลผลเชิงเทคโนโลยีวิศวกรรมขั้นสูง</p>
+                   <h1 id="title"></h1>
+<p id="desc"></p>
+<img id="hero-img">
                     <button class="btn-gradient" id="btn-explore" onclick="switchSection('products-page')">
                         สำรวจนวัตกรรม <i class="fa-solid fa-arrow-right" style="font-size: 13px;"></i>
                     </button>
@@ -1383,5 +1384,18 @@
             });
         }
     </script>
+  <script>
+
+fetch("/content/home.json")
+.then(res => res.json())
+.then(data => {
+
+    document.getElementById("web-title").innerText = data.title;
+
+    document.getElementById("hero-sub-main").innerText = data.description;
+
+});
+
+</script>
 </body>
 </html>
