@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NTEQ POLYMER - Content Management System</title>
+    <title>NTEQ POLYMER - Complete Website CMS</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap');
@@ -91,17 +91,51 @@
     <div class="sidebar">
         <div class="sidebar-brand"><i class="fa-solid fa-leaf"></i><div>NTEQ <span>POLYMER</span></div></div>
         <ul class="sidebar-menu">
-            <li class="active"><a href="#"><i class="fa-solid fa-sliders"></i> จัดการหน้าแรกและเมนู</a></li>
-            <li><a href="/" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> เปิดหน้าเว็บจริง</a></li>
+            <li class="active"><a href="#"><i class="fa-solid fa-sliders"></i> จัดการระบบเว็บทั้งหมด</a></li>
+            <li><a href="/" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> ดูหน้าเว็บจริง</a></li>
         </ul>
     </div>
 
     <div class="main-content">
-        <div class="top-header"><h1>ระบบจัดการเนื้อหาเว็บไซต์ <span>(CMS Dashboard)</span></h1></div>
+        <div class="top-header"><h1>ระบบควบคุมและจัดการเนื้อหาเว็บไซต์ <span>(Full Website CMS)</span></h1></div>
         
         <form id="full-admin-form">
             <div class="config-card">
-                <div class="card-title"><i class="fa-solid fa-display"></i> 1. ข้อความต้อนรับหลัก (Hero Section)</div>
+                <div class="card-title"><i class="fa-solid fa-bars"></i> 1. จัดการชื่อแถบเมนูด้านบน (Navigation Menus)</div>
+                
+                <label style="font-weight: 600; color: var(--nteq-green); display:block; margin-bottom:5px;">เมนูที่ 1: หน้าแรก (Home)</label>
+                <div class="menu-grid">
+                    <div class="form-group"><label>ภาษาไทย</label><input type="text" id="nav_home_th"></div>
+                    <div class="form-group"><label>English</label><input type="text" id="nav_home_en"></div>
+                </div>
+
+                <label style="font-weight: 600; color: var(--nteq-green); display:block; margin-bottom:5px;">เมนูที่ 2: เกี่ยวกับเรา (About Us)</label>
+                <div class="menu-grid">
+                    <div class="form-group"><label>ภาษาไทย</label><input type="text" id="nav_about_th"></div>
+                    <div class="form-group"><label>English</label><input type="text" id="nav_about_en"></div>
+                </div>
+
+                <label style="font-weight: 600; color: var(--nteq-green); display:block; margin-bottom:5px;">เมนูที่ 3: นวัตกรรม (Innovations)</label>
+                <div class="menu-grid">
+                    <div class="form-group"><label>ภาษาไทย</label><input type="text" id="nav_innov_th"></div>
+                    <div class="form-group"><label>English</label><input type="text" id="nav_innov_en"></div>
+                </div>
+
+                <label style="font-weight: 600; color: var(--nteq-green); display:block; margin-bottom:5px;">เมนูที่ 4: ผลิตภัณฑ์ (Products)</label>
+                <div class="menu-grid">
+                    <div class="form-group"><label>ภาษาไทย</label><input type="text" id="nav_prod_th"></div>
+                    <div class="form-group"><label>English</label><input type="text" id="nav_prod_en"></div>
+                </div>
+
+                <label style="font-weight: 600; color: var(--nteq-green); display:block; margin-bottom:5px;">เมนูที่ 5: ติดต่อเรา (Contact)</label>
+                <div class="menu-grid">
+                    <div class="form-group"><label>ภาษาไทย</label><input type="text" id="nav_cont_th"></div>
+                    <div class="form-group"><label>English</label><input type="text" id="nav_cont_en"></div>
+                </div>
+            </div>
+
+            <div class="config-card">
+                <div class="card-title"><i class="fa-solid fa-display"></i> 2. ข้อความต้อนรับสไลด์หลัก (Hero Section)</div>
                 <div class="form-group"><label>หัวข้อหลักภาษาอังกฤษ (Main Title EN)</label><textarea id="title_en" rows="2" required></textarea></div>
                 <div class="form-group"><label>หัวข้อหลักภาษาไทย (Main Title TH)</label><textarea id="title_th" rows="2" required></textarea></div>
                 <div class="form-group"><label>คำบรรยายภาษาอังกฤษ (Subtitle EN)</label><textarea id="desc_en" rows="3" required></textarea></div>
@@ -109,41 +143,7 @@
             </div>
 
             <div class="config-card">
-                <div class="card-title"><i class="fa-solid fa-bars"></i> 2. การจัดการชื่อแถบเมนู (Navigation Menu)</div>
-                
-                <label style="font-weight: 600; color: var(--nteq-green); display:block; margin-bottom:10px;">เมนู 1: หน้าแรก (Home)</label>
-                <div class="menu-grid">
-                    <div class="form-group"><label>ชื่อภาษาไทย</label><input type="text" id="nav_home_th"></div>
-                    <div class="form-group"><label>ชื่อภาษาอังกฤษ</label><input type="text" id="nav_home_en"></div>
-                </div>
-
-                <label style="font-weight: 600; color: var(--nteq-green); display:block; margin-bottom:10px;">เมนู 2: เกี่ยวกับเรา (About Us)</label>
-                <div class="menu-grid">
-                    <div class="form-group"><label>ชื่อภาษาไทย</label><input type="text" id="nav_about_th"></div>
-                    <div class="form-group"><label>ชื่อภาษาอังกฤษ</label><input type="text" id="nav_about_en"></div>
-                </div>
-
-                <label style="font-weight: 600; color: var(--nteq-green); display:block; margin-bottom:10px;">เมนู 3: นวัตกรรม (Innovations)</label>
-                <div class="menu-grid">
-                    <div class="form-group"><label>ชื่อภาษาไทย</label><input type="text" id="nav_innov_th"></div>
-                    <div class="form-group"><label>ชื่อภาษาอังกฤษ</label><input type="text" id="nav_innov_en"></div>
-                </div>
-
-                <label style="font-weight: 600; color: var(--nteq-green); display:block; margin-bottom:10px;">เมนู 4: ผลิตภัณฑ์ (Products)</label>
-                <div class="menu-grid">
-                    <div class="form-group"><label>ชื่อภาษาไทย</label><input type="text" id="nav_prod_th"></div>
-                    <div class="form-group"><label>ชื่อภาษาอังกฤษ</label><input type="text" id="nav_prod_en"></div>
-                </div>
-
-                <label style="font-weight: 600; color: var(--nteq-green); display:block; margin-bottom:10px;">เมนู 5: ติดต่อเรา (Contact)</label>
-                <div class="menu-grid">
-                    <div class="form-group"><label>ชื่อภาษาไทย</label><input type="text" id="nav_cont_th"></div>
-                    <div class="form-group"><label>ชื่อภาษาอังกฤษ</label><input type="text" id="nav_cont_en"></div>
-                </div>
-            </div>
-
-            <div class="config-card">
-                <div class="card-title"><i class="fa-solid fa-chart-bar"></i> 3. ส่วนข้อมูลตัวเลขสถิติ (Statistics)</div>
+                <div class="card-title"><i class="fa-solid fa-chart-bar"></i> 3. ส่วนข้อมูลตัวเลขสถิติ (Statistics Strip)</div>
                 <div class="row-grid">
                     <div class="stat-box">
                         <div class="form-group"><label>สถิติ 1 (ตัวเลข)</label><input type="text" id="stat1_num"></div>
@@ -163,19 +163,18 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn-submit"><i class="fa-solid fa-floppy-disk"></i> บันทึกและอัปเดตระบบทั้งหมด</button>
+            <button type="submit" class="btn-submit"><i class="fa-solid fa-floppy-disk"></i> บันทึกโครงสร้างเว็บไซต์ทั้งหมด</button>
         </form>
     </div>
 
 <script>
-    // ดึงข้อมูลเดิมมาป้อนลงฟอร์ม
+    // ดึงค่าข้อมูลเก่ามาป้อนให้เมื่อโหลดหน้าจอ
     fetch('/data.json').then(res => res.json()).then(data => {
-        document.getElementById('title_en').value = data.title_en || "PREMIUM GREEN\nINNOVATION";
-        document.getElementById('title_th').value = data.title_th || "นวัตกรรมยางพาราเขียว\nระดับพรีเมียม";
-        document.getElementById('desc_en').value = data.desc_en || "Next-generation polymer materials designed for global industrial transformation and ecological sustainability.";
-        document.getElementById('desc_th').value = data.desc_th || "วัสดุพอลิเมอร์ยุคใหม่ ออกแบบมาเพื่อการเปลี่ยนแปลงของอุตสาหกรรมระดับโลกและความยั่งยืนทางนิเวศวิทยา";
+        document.getElementById('title_en').value = data.title_en || "";
+        document.getElementById('title_th').value = data.title_th || "";
+        document.getElementById('desc_en').value = data.desc_en || "";
+        document.getElementById('desc_th').value = data.desc_th || "";
         
-        // ผูกข้อมูลเมนู
         document.getElementById('nav_home_th').value = data.nav_home_th || "หน้าแรก";
         document.getElementById('nav_home_en').value = data.nav_home_en || "Home";
         document.getElementById('nav_about_th').value = data.nav_about_th || "เกี่ยวกับเรา";
@@ -196,9 +195,9 @@
         document.getElementById('stat3_num').value = data.stat3_num || '100+';
         document.getElementById('stat3_th').value = data.stat3_text_th || 'พันธมิตรทั่วโลก';
         document.getElementById('stat3_en').value = data.stat3_text_en || 'Global Partners';
-    }).catch(e => console.log("ระบบพร้อมอัปเดตไฟล์"));
+    }).catch(e => console.log("CMS Initialized"));
 
-    // ส่งชุดข้อมูลเซฟลงไฟล์คลังกลาง
+    // ส่งชุดข้อมูลไปเซฟที่เซิร์ฟเวอร์
     document.getElementById('full-admin-form').addEventListener('submit', function(e) {
         e.preventDefault();
         const allData = {
@@ -234,8 +233,8 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(allData)
         }).then(res => {
-            if (res.ok) alert('🎉 บันทึกเนื้อหาหน้าเว็บและชื่อเมนูเรียบร้อย!');
-            else alert('❌ เกิดข้อผิดพลาดในระบบ');
+            if (res.ok) alert('🎉 อัปเดตเมนูและเนื้อหาเว็บไซต์ทุกส่วนสำเร็จเรียบร้อยแล้วครับน้า!');
+            else alert('❌ มีข้อผิดพลาดในระบบเซิร์ฟเวอร์');
         });
     });
 </script>
