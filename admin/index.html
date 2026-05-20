@@ -3,158 +3,196 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NTEQ Polymer - Admin Dashboard</title>
+    <title>NTEQ POLYMER - Content Management System</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap');
+
         :root {
-            --sidebar-width: 260px;
-            --primary-color: #1e293b;
-            --accent-color: #0ea5e9;
-            --bg-light: #f8fafc;
+            --nteq-green: #2e7d32;     /* สีเขียวธรรมชาติของยางพารา */
+            --nteq-light-green: #e8f5e9; /* สีพื้นหลังเขียวอ่อนสบายตา */
+            --nteq-dark: #1b5e20;       /* เขียวเข้มจัดระเบียบข้อความ */
+            --text-main: #2c3e50;
+            --gradient-btn: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
         }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', 'Noto Sans Thai', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: var(--bg-light);
+            background-color: #fafdfa; /* พื้นหลังขาวนวลอมเขียวนิดๆ */
+            color: var(--text-main);
             display: flex;
+            min-height: 100vh;
         }
+
+        /* --- Sidebar ดีไซน์ธรรมชาติแมตช์กับเว็บยางพารา --- */
         .sidebar {
-            width: var(--sidebar-width);
-            background-color: var(--primary-color);
-            height: 100vh;
+            width: 280px;
+            background: linear-gradient(180deg, #1e4620 0%, #0f2b11 100%);
+            color: #ffffff;
             position: fixed;
-            color: #fff;
+            height: 100vh;
             display: flex;
             flex-direction: column;
-            box-shadow: 4px 0 10px rgba(0,0,0,0.1);
+            box-shadow: 4px 0 15px rgba(0,0,0,0.05);
         }
+
         .sidebar-brand {
-            padding: 24px;
-            font-size: 20px;
-            font-weight: bold;
-            background: #0f172a;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-bottom: 1px solid #334155;
-        }
-        .sidebar-menu {
-            list-style: none;
-            padding: 0;
-            margin: 20px 0;
-            flex: 1;
-        }
-        .sidebar-menu li a {
+            padding: 30px 24px;
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 14px 24px;
-            color: #94a3b8;
-            text-decoration: none;
-            font-size: 15px;
-            transition: all 0.3s;
         }
-        .sidebar-menu li a:hover, .sidebar-menu li.active a {
-            color: #fff;
-            background-color: #334155;
-            border-left: 4px solid var(--accent-color);
+
+        .sidebar-brand span {
+            color: #81c784; /* สีเขียวสะท้อนแสงนิดๆ ให้ดูไฮเทค */
         }
-        .main-content {
-            margin-left: var(--sidebar-width);
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 30px 0;
             flex: 1;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
         }
-        .top-navbar {
-            background: white;
-            height: 70px;
+
+        .sidebar-menu li a {
             display: flex;
             align-items: center;
-            justify-content: space-between;
-            padding: 0 30px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            gap: 15px;
+            padding: 16px 28px;
+            color: #b0bec5;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 400;
+            transition: all 0.3s ease;
         }
-        .user-profile {
+
+        .sidebar-menu li.active a, .sidebar-menu li a:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.06);
+            border-left: 5px solid #81c784;
+            font-weight: 500;
+        }
+
+        /* --- พื้นที่คอนเทนต์ขวา --- */
+        .main-content {
+            margin-left: 280px;
+            flex: 1;
+            padding: 40px;
+            box-sizing: border-box;
+        }
+
+        .top-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid #e8f5e9;
+            padding-bottom: 20px;
+        }
+
+        .top-header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--nteq-dark);
+            margin: 0;
+        }
+
+        .user-tag {
+            background-color: var(--nteq-light-green);
+            color: var(--nteq-green);
+            padding: 8px 16px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* --- การ์ดกรอกข้อมูล สไตล์โค้งมนแบบโมเดิร์น --- */
+        .config-card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(46, 125, 50, 0.03);
+            border: 1px solid #e8f5e9;
+            max-width: 750px;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-top: 0;
+            margin-bottom: 30px;
+            color: #37474f;
             display: flex;
             align-items: center;
             gap: 10px;
-            font-weight: 500;
-            color: #334155;
         }
-        .user-profile i {
-            font-size: 20px;
-            color: #64748b;
-        }
-        .content-body {
-            padding: 30px;
-            flex: 1;
-        }
-        .page-title {
-            margin: 0;
-            margin-bottom: 25px;
-            color: #1e293b;
-            font-size: 24px;
-        }
-        .dashboard-card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
-            border: 1px solid #e2e8f0;
-            padding: 30px;
-            max-width: 800px;
-        }
-        .card-header-title {
-            font-size: 18px;
-            font-weight: 600;
-            color: #334155;
-            margin-top: 0;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
-        label {
+
+        .form-group label {
             display: block;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             font-weight: 600;
-            color: #475569;
+            color: var(--nteq-dark);
             font-size: 14px;
         }
+
+        /* กล่องอินพุตสไตล์มินิมอลแบบเว็บหลักของคุณ */
         input[type="text"], textarea {
             width: 100%;
-            padding: 12px 16px;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
+            padding: 14px 20px;
+            border: 1px solid #c8e6c9;
+            border-radius: 12px;
             box-sizing: border-box;
+            font-family: inherit;
             font-size: 15px;
-            background-color: #f8fafc;
-            transition: all 0.3s;
+            background-color: #fafdfa;
+            color: #2c3e50;
+            transition: all 0.3s ease;
         }
+
         input[type="text"]:focus, textarea:focus {
-            border-color: var(--accent-color);
-            background-color: #fff;
             outline: none;
+            border-color: var(--nteq-green);
+            background-color: #ffffff;
+            box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.12);
         }
+
+        /* ปุ่มบันทึกไล่เฉดสไตล์ปุ่มเว็บนวัตกรรม */
         .btn-submit {
-            background: var(--accent-color);
+            background: var(--gradient-btn);
             color: white;
-            padding: 14px 24px;
+            padding: 15px 32px;
             border: none;
-            border-radius: 8px;
+            border-radius: 12px;
             cursor: pointer;
             font-size: 16px;
-            font-weight: bold;
+            font-weight: 600;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            box-shadow: 0 4px 12px rgba(46, 125, 50, 0.2);
+            transition: all 0.3s ease;
         }
+
         .btn-submit:hover {
-            background: #0284c7;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(46, 125, 50, 0.3);
+        }
+
+        .btn-submit:active {
+            transform: translateY(0);
         }
     </style>
 </head>
@@ -162,63 +200,63 @@
 
     <div class="sidebar">
         <div class="sidebar-brand">
-            <i class="fa-solid fa-layer-group"></i>
-            <span>NTEQ Admin</span>
+            <i class="fa-solid fa-leaf"></i>
+            <div>NTEQ <span>POLYMER</span></div>
         </div>
         <ul class="sidebar-menu">
             <li class="active">
-                <a href="#"><i class="fa-solid fa-gauge"></i> แผงควบคุม (Dashboard)</a>
+                <a href="#"><i class="fa-solid fa-sliders"></i> ระบบจัดการหน้าแรก</a>
             </li>
             <li>
-                <a href="#" onclick="alert('ระบบจัดการส่วนอื่นกำลังพัฒนา')"><i class="fa-solid fa-file-pen"></i> จัดการหน้าแรก</a>
+                <a href="#" onclick="alert('ฟีเจอร์นี้สำหรับระบบคลังสินค้าในอนาคต')"><i class="fa-solid fa-cubes"></i> ผลิตภัณฑ์ยางพารา</a>
             </li>
             <li>
-                <a href="#" onclick="alert('ระบบสินค้ากำลังพัฒนา')"><i class="fa-solid fa-boxes-stacked"></i> ข้อมูลผลิตภัณฑ์</a>
+                <a href="https://nteq-polymer-1.onrender.com/" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> ไปที่หน้าเว็บจริง</a>
             </li>
         </ul>
     </div>
 
     <div class="main-content">
-        <div class="top-navbar">
-            <div style="color: #64748b;"><i class="fa-solid fa-bars"></i></div>
-            <div class="user-profile">
-                <i class="fa-solid fa-circle-user"></i>
-                <span>ผู้ดูแลระบบ (Admin)</span>
+        <div class="top-header">
+            <h1>CMS Dashboard</h1>
+            <div class="user-tag">
+                <i class="fa-solid fa-user-shield"></i> ผู้ดูแลระบบฝ่ายนวัตกรรม
             </div>
         </div>
 
-        <div class="content-body">
-            <h1 class="page-title">⚙️ จัดการเนื้อหาเว็บไซต์</h1>
-            
-            <div class="dashboard-card">
-                <h3 class="card-header-title"><i class="fa-solid fa-pen-to-square" style="color: var(--accent-color)"></i> แก้ไขส่วนเนื้อหาหน้าแรก</h3>
-                
-                <form id="admin-form">
-                    <div class="form-group">
-                        <label>หัวข้อหลักบนหน้าเว็บ (Web Title)</label>
-                        <input type="text" id="title" placeholder="กรอกหัวข้อหลัก..." required>
-                    </div>
-                    <div class="form-group">
-                        <label>ข้อความประกาศย่อย (Announcement / Description)</label>
-                        <textarea id="announcement" rows="5" placeholder="กรอกรายละเอียดคำประกาศ..." required></textarea>
-                    </div>
-                    <button type="submit" class="btn-submit">
-                        <i class="fa-solid fa-floppy-disk"></i> บันทึกและอัปเดตหน้าเว็บ
-                    </button>
-                </form>
+        <div class="config-card">
+            <div class="card-title">
+                <i class="fa-solid fa-pen-to-square" style="color: var(--nteq-green)"></i> 
+                แก้ไขส่วนต้อนรับ (Hero Section) ของหน้าแรก
             </div>
+            
+            <form id="admin-form">
+                <div class="form-group">
+                    <label><i class="fa-solid fa-heading"></i> หัวข้อหลักบนหน้าเว็บ (Web Title)</label>
+                    <input type="text" id="title" placeholder="พิมพ์ข้อความหัวข้อใหม่..." required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fa-solid fa-align-left"></i> ข้อความประกาศย่อย (Announcement / Subtitle)</label>
+                    <textarea id="announcement" rows="5" placeholder="พิมพ์คำอธิบายรายละเอียด..." required></textarea>
+                </div>
+                <button type="submit" class="btn-submit">
+                    <i class="fa-solid fa-cloud-arrow-up"></i> บันทึกและอัปเดตหน้าเว็บ
+                </button>
+            </form>
         </div>
     </div>
 
 <script>
+    // ดึงค่าเก่าจากไฟล์ data.json มาโชว์ในช่องกรอกตอนโหลดหน้า
     fetch('/data.json')
         .then(res => res.json())
         .then(data => {
             document.getElementById('title').value = data.title || '';
             document.getElementById('announcement').value = data.announcement || '';
         })
-        .catch(err => console.log('ยังไม่มีข้อมูลเริ่มต้น'));
+        .catch(err => console.log('กำลังสร้างไฟล์ฐานข้อมูลใหม่...'));
 
+    // ทำหน้าที่ส่งคำที่พิมพ์ ไปเซฟลง Server เมื่อกดปุ่มบันทึก
     document.getElementById('admin-form').addEventListener('submit', function(e) {
         e.preventDefault();
         
@@ -234,12 +272,12 @@
         })
         .then(res => {
             if (res.ok) {
-                alert('🎉 อัปเดตข้อมูลไปยังหน้าแรกสำเร็จแล้ว!');
+                alert('🎉 อัปเดตข้อมูลไปยังหน้าเว็บ NTEQ POLYMER สำเร็จแล้ว!');
             } else {
                 alert('❌ บันทึกไม่สำเร็จ');
             }
         })
-        .catch(err => alert('❌ เชื่อมต่อระบบไม่ได้'));
+        .catch(err => alert('❌ เกิดข้อผิดพลาดในการเชื่อมต่อเซิร์ฟเวอร์'));
     });
 </script>
 </body>
