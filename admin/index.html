@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NTEQ Polymer - Admin Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --sidebar-width: 260px;
+            --primary-color: #1e293b;
+            --accent-color: #0ea5e9;
+            --bg-light: #f8fafc;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-light);
+            display: flex;
+        }
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: var(--primary-color);
+            height: 100vh;
+            position: fixed;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 4px 0 10px rgba(0,0,0,0.1);
+        }
+        .sidebar-brand {
+            padding: 24px;
+            font-size: 20px;
+            font-weight: bold;
+            background: #0f172a;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-bottom: 1px solid #334155;
+        }
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+            flex: 1;
+        }
+        .sidebar-menu li a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 24px;
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+        .sidebar-menu li a:hover, .sidebar-menu li.active a {
+            color: #fff;
+            background-color: #334155;
+            border-left: 4px solid var(--accent-color);
+        }
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .top-navbar {
+            background: white;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+            color: #334155;
+        }
+        .user-profile i {
+            font-size: 20px;
+            color: #64748b;
+        }
+        .content-body {
+            padding: 30px;
+            flex: 1;
+        }
+        .page-title {
+            margin: 0;
+            margin-bottom: 25px;
+            color: #1e293b;
+            font-size: 24px;
+        }
+        .dashboard-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+            padding: 30px;
+            max-width: 800px;
+        }
+        .card-header-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #334155;
+            margin-top: 0;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #475569;
+            font-size: 14px;
+        }
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 15px;
+            background-color: #f8fafc;
+            transition: all 0.3s;
+        }
+        input[type="text"]:focus, textarea:focus {
+            border-color: var(--accent-color);
+            background-color: #fff;
+            outline: none;
+        }
+        .btn-submit {
+            background: var(--accent-color);
+            color: white;
+            padding: 14px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-submit:hover {
+            background: #0284c7;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="sidebar-brand">
+            <i class="fa-solid fa-layer-group"></i>
+            <span>NTEQ Admin</span>
+        </div>
+        <ul class="sidebar-menu">
+            <li class="active">
+                <a href="#"><i class="fa-solid fa-gauge"></i> แผงควบคุม (Dashboard)</a>
+            </li>
+            <li>
+                <a href="#" onclick="alert('ระบบจัดการส่วนอื่นกำลังพัฒนา')"><i class="fa-solid fa-file-pen"></i> จัดการหน้าแรก</a>
+            </li>
+            <li>
+                <a href="#" onclick="alert('ระบบสินค้ากำลังพัฒนา')"><i class="fa-solid fa-boxes-stacked"></i> ข้อมูลผลิตภัณฑ์</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <div class="top-navbar">
+            <div style="color: #64748b;"><i class="fa-solid fa-bars"></i></div>
+            <div class="user-profile">
+                <i class="fa-solid fa-circle-user"></i>
+                <span>ผู้ดูแลระบบ (Admin)</span>
+            </div>
+        </div>
+
+        <div class="content-body">
+            <h1 class="page-title">⚙️ จัดการเนื้อหาเว็บไซต์</h1>
+            
+            <div class="dashboard-card">
+                <h3 class="card-header-title"><i class="fa-solid fa-pen-to-square" style="color: var(--accent-color)"></i> แก้ไขส่วนเนื้อหาหน้าแรก</h3>
+                
+                <form id="admin-form">
+                    <div class="form-group">
+                        <label>หัวข้อหลักบนหน้าเว็บ (Web Title)</label>
+                        <input type="text" id="title" placeholder="กรอกหัวข้อหลัก..." required>
+                    </div>
+                    <div class="form-group">
+                        <label>ข้อความประกาศย่อย (Announcement / Description)</label>
+                        <textarea id="announcement" rows="5" placeholder="กรอกรายละเอียดคำประกาศ..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">
+                        <i class="fa-solid fa-floppy-disk"></i> บันทึกและอัปเดตหน้าเว็บ
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+<script>
+    fetch('/data.json')
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById('title').value = data.title || '';
+            document.getElementById('announcement').value = data.announcement || '';
+        })
+        .catch(err => console.log('ยังไม่มีข้อมูลเริ่มต้น'));
+
+    document.getElementById('admin-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const updatedData = {
+            title: document.getElementById('title').value,
+            announcement: document.getElementById('announcement').value
+        };
+
+        fetch('/save-data', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(updatedData)
+        })
+        .then(res => {
+            if (res.ok) {
+                alert('🎉 อัปเดตข้อมูลไปยังหน้าแรกสำเร็จแล้ว!');
+            } else {
+                alert('❌ บันทึกไม่สำเร็จ');
+            }
+        })
+        .catch(err => alert('❌ เชื่อมต่อระบบไม่ได้'));
+    });
+</script>
+</body>
+</html>
