@@ -3,300 +3,199 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NTEQ POLYMER - Full Content Management System</title>
+    <title>NTEQ POLYMER - Content Management System</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600&display=swap');
-
+        
         :root {
-            --nteq-green: #2e7d32;
-            --nteq-light-green: #e8f5e9;
-            --nteq-dark: #1b5e20;
-            --text-main: #2c3e50;
-            --gradient-btn: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+            --nteq-green: #2ecc71;
+            --nteq-dark-bg: #030805;
+            --nteq-card-bg: #09120c;
+            --nteq-border: rgba(46, 204, 113, 0.2);
+            --text-main: #e0e6e3;
         }
 
         body {
             font-family: 'Poppins', 'Noto Sans Thai', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #fafdfa;
+            margin: 0; padding: 0;
+            background-color: var(--nteq-dark-bg);
             color: var(--text-main);
-            display: flex;
-            min-height: 100vh;
+            display: flex; min-height: 100vh;
         }
 
+        /* --- Sidebar ดีไซน์ Cyber Dark Green --- */
         .sidebar {
             width: 280px;
-            background: linear-gradient(180deg, #1e4620 0%, #0f2b11 100%);
-            color: #ffffff;
-            position: fixed;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 4px 0 15px rgba(0,0,0,0.05);
+            background: #010402;
+            color: #ffffff; position: fixed; height: 100vh;
+            display: flex; flex-direction: column; 
+            border-right: 1px solid var(--nteq-border);
         }
 
         .sidebar-brand {
-            padding: 30px 24px;
-            font-size: 22px;
-            font-weight: 700;
+            padding: 30px 24px; font-size: 20px; font-weight: 700;
+            border-bottom: 1px solid var(--nteq-border);
+            display: flex; align-items: center; gap: 12px;
             letter-spacing: 1px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            display: flex;
-            align-items: center;
-            gap: 12px;
         }
 
-        .sidebar-brand span { color: #81c784; }
+        .sidebar-brand span { color: var(--nteq-green); }
 
-        .sidebar-menu {
-            list-style: none;
-            padding: 0;
-            margin: 30px 0;
-            flex: 1;
-        }
+        .sidebar-menu { list-style: none; padding: 0; margin: 30px 0; flex: 1; }
 
         .sidebar-menu li a {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 16px 28px;
-            color: #b0bec5;
-            text-decoration: none;
-            font-size: 15px;
-            transition: all 0.3s ease;
+            display: flex; align-items: center; gap: 15px; padding: 16px 28px;
+            color: #8a958f; text-decoration: none; font-size: 15px; transition: all 0.3s;
         }
 
         .sidebar-menu li.active a, .sidebar-menu li a:hover {
-            color: #ffffff;
-            background: rgba(255, 255, 255, 0.06);
-            border-left: 5px solid #81c784;
+            color: #ffffff; background: rgba(46, 204, 113, 0.05); border-left: 5px solid var(--nteq-green);
         }
 
-        .main-content {
-            margin-left: 280px;
-            flex: 1;
-            padding: 40px;
-            box-sizing: border-box;
-        }
+        /* --- พื้นที่เนื้อหาด้านขวา --- */
+        .main-content { margin-left: 280px; flex: 1; padding: 40px; box-sizing: border-box; }
 
         .top-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 40px;
-            border-bottom: 2px solid #e8f5e9;
-            padding-bottom: 20px;
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 40px; border-bottom: 1px solid var(--nteq-border); padding-bottom: 20px;
         }
 
-        .top-header h1 {
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--nteq-dark);
-            margin: 0;
-        }
+        .top-header h1 { font-size: 26px; font-weight: 700; color: #ffffff; margin: 0; }
 
-        .user-tag {
-            background-color: var(--nteq-light-green);
-            color: var(--nteq-green);
-            padding: 8px 16px;
-            border-radius: 30px;
-            font-weight: 600;
-            font-size: 14px;
-        }
+        .top-header h1 span { color: var(--nteq-green); }
 
+        /* --- กล่องการ์ดอินพุตสไตล์กระจกหรู --- */
         .config-card {
-            background: #ffffff;
-            border-radius: 20px;
-            padding: 40px;
-            box-shadow: 0 10px 30px rgba(46, 125, 50, 0.03);
-            border: 1px solid #e8f5e9;
-            max-width: 800px;
-            margin-bottom: 30px;
+            background: var(--nteq-card-bg); border-radius: 16px; padding: 35px;
+            border: 1px solid var(--nteq-border); max-width: 850px; margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         .card-title {
-            font-size: 18px;
-            font-weight: 600;
-            margin-top: 0;
-            margin-bottom: 25px;
-            color: var(--nteq-dark);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-bottom: 1px solid #f0f0f0;
-            padding-bottom: 10px;
+            font-size: 18px; font-weight: 600; margin-bottom: 25px; color: var(--nteq-green);
+            display: flex; align-items: center; gap: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 12px;
         }
 
-        .form-group {
-            margin-bottom: 20px;
-        }
+        .form-group { margin-bottom: 20px; }
 
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #455a64;
-            font-size: 14px;
-        }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 500; color: #a2b5aa; font-size: 14px; }
 
-        .row-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
+        .row-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+        .stat-box {
+            background: rgba(255,255,255,0.02); padding: 15px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.05);
         }
 
         input[type="text"], textarea {
-            width: 100%;
-            padding: 12px 18px;
-            border: 1px solid #c8e6c9;
-            border-radius: 10px;
-            box-sizing: border-box;
-            font-family: inherit;
-            font-size: 14px;
-            background-color: #fafdfa;
-            transition: all 0.3s ease;
+            width: 100%; padding: 12px 18px; border: 1px solid rgba(46, 204, 113, 0.3); border-radius: 8px;
+            box-sizing: border-box; font-family: inherit; font-size: 14px; background-color: rgba(0,0,0,0.3); color: #fff;
+            transition: all 0.3s;
         }
 
-        input[type="text"]:focus, textarea:focus {
-            outline: none;
-            border-color: var(--nteq-green);
-            background-color: #ffffff;
-            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
-        }
+        input[type="text"]:focus, textarea:focus { outline: none; border-color: var(--nteq-green); box-shadow: 0 0 10px rgba(46, 204, 113, 0.2); }
 
         .btn-submit {
-            background: var(--gradient-btn);
-            color: white;
-            padding: 15px 35px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            box-shadow: 0 4px 12px rgba(46, 125, 50, 0.2);
-            transition: all 0.3s ease;
+            background: var(--gradient-btn); color: white; padding: 15px 35px; border: none;
+            border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600;
+            display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+            transition: all 0.3s;
         }
 
-        .btn-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(46, 125, 50, 0.3);
-        }
+        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(46, 204, 113, 0.5); }
     </style>
 </head>
 <body>
 
     <div class="sidebar">
-        <div class="sidebar-brand">
-            <i class="fa-solid fa-leaf"></i>
-            <div>NTEQ <span>POLYMER</span></div>
-        </div>
+        <div class="sidebar-brand"><i class="fa-solid fa-leaf"></i><div>NTEQ <span>POLYMER</span></div></div>
         <ul class="sidebar-menu">
             <li class="active"><a href="#"><i class="fa-solid fa-sliders"></i> จัดการหน้าแรกทั้งหมด</a></li>
-            <li><a href="https://nteq-polymer-1.onrender.com/" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> เปิดหน้าเว็บจริง</a></li>
+            <li><a href="/" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> เปิดหน้าเว็บจริง</a></li>
         </ul>
     </div>
 
     <div class="main-content">
-        <div class="top-header">
-            <h1>ระบบจัดการเนื้อหา (Full CMS)</h1>
-            <div class="user-tag"><i class="fa-solid fa-user-shield"></i> Master Admin</div>
-        </div>
-
+        <div class="top-header"><h1>ระบบจัดการเนื้อหาหน้าแรก <span>(Full CMS Dashboard)</span></h1></div>
+        
         <form id="full-admin-form">
             <div class="config-card">
-                <div class="card-title"><i class="fa-solid fa-display"></i> 1. ส่วนต้อนรับด้านบน (Hero Section)</div>
-                <div class="form-group">
-                    <label>หัวข้อหลัก (Web Title)</label>
-                    <input type="text" id="title" required>
-                </div>
-                <div class="form-group">
-                    <label>ข้อความอธิบายย่อย (Sub-headline)</label>
-                    <textarea id="announcement" rows="3" required></textarea>
-                </div>
-                <div class="form-group">
-                    <label>ข้อความบนปุ่มกด (Button Text)</label>
-                    <input type="text" id="btnExploreText">
-                </div>
+                <div class="card-title"><i class="fa-solid fa-display"></i> 1. ส่วนต้อนรับด้านบนสุด (Hero Section)</div>
+                <div class="form-group"><label>หัวข้อหลักภาษาอังกฤษ (Main Title EN)</label><input type="text" id="title_en" required></div>
+                <div class="form-group"><label>หัวข้อหลักภาษาไทย (Main Title TH)</label><input type="text" id="title_th" required></div>
+                <div class="form-group"><label>คำบรรยายภาษาอังกฤษ (Subtitle EN)</label><textarea id="desc_en" rows="2" required></textarea></div>
+                <div class="form-group"><label>คำบรรยายภาษาไทย (Subtitle TH)</label><textarea id="desc_th" rows="2" required></textarea></div>
             </div>
 
             <div class="config-card">
-                <div class="card-title"><i class="fa-solid fa-chart-bar"></i> 2. ส่วนข้อมูลตัวเลขสถิติ</div>
+                <div class="card-title"><i class="fa-solid fa-chart-bar"></i> 2. ส่วนข้อมูลตัวเลขสถิติ (Statistics)</div>
                 <div class="row-grid">
-                    <div class="form-group">
-                        <label>สถิติที่ 1 (เช่น 15+)</label>
-                        <input type="text" id="stat1_num">
-                        <label style="margin-top:5px; font-weight:normal;">คำอธิบาย</label>
-                        <input type="text" id="stat1_text">
+                    <div class="stat-box">
+                        <div class="form-group"><label>สถิติ 1 (ตัวเลข เช่น 15+)</label><input type="text" id="stat1_num"></div>
+                        <div class="form-group"><label>คำอธิบาย (ภาษาไทย)</label><input type="text" id="stat1_th"></div>
+                        <div class="form-group"><label>คำอธิบาย (English)</label><input type="text" id="stat1_en"></div>
                     </div>
-                    <div class="form-group">
-                        <label>สถิติที่ 2 (เช่น 500)</label>
-                        <input type="text" id="stat2_num">
-                        <label style="margin-top:5px; font-weight:normal;">คำอธิบาย</label>
-                        <input type="text" id="stat2_text">
+                    <div class="stat-box">
+                        <div class="form-group"><label>สถิติ 2 (ตัวเลข เช่น 500)</label><input type="text" id="stat2_num"></div>
+                        <div class="form-group"><label>คำอธิบาย (ภาษาไทย)</label><input type="text" id="stat2_th"></div>
+                        <div class="form-group"><label>คำอธิบาย (English)</label><input type="text" id="stat2_en"></div>
                     </div>
-                    <div class="form-group">
-                        <label>สถิติที่ 3 (เช่น 100+)</label>
-                        <input type="text" id="stat3_num">
-                        <label style="margin-top:5px; font-weight:normal;">คำอธิบาย</label>
-                        <input type="text" id="stat3_text">
+                    <div class="stat-box">
+                        <div class="form-group"><label>สถิติ 3 (ตัวเลข เช่น 100+)</label><input type="text" id="stat3_num"></div>
+                        <div class="form-group"><label>คำอธิบาย (ภาษาไทย)</label><input type="text" id="stat3_th"></div>
+                        <div class="form-group"><label>คำอธิบาย (English)</label><input type="text" id="stat3_en"></div>
                     </div>
                 </div>
             </div>
 
-            <div style="margin-bottom: 50px;">
-                <button type="submit" class="btn-submit">
-                    <i class="fa-solid fa-floppy-disk"></i> บันทึกข้อมูลทุกส่วนลงหน้าเว็บ
-                </button>
-            </div>
+            <button type="submit" class="btn-submit"><i class="fa-solid fa-floppy-disk"></i> บันทึกข้อมูลและอัปเดตหน้าเว็บ</button>
         </form>
     </div>
 
 <script>
-    // โหลดข้อมูลทั้งหมดมาเติมในฟอร์ม
-    fetch('/data.json')
-        .then(res => res.json())
-        .then(data => {
-            document.getElementById('title').value = data.title || '';
-            document.getElementById('announcement').value = data.announcement || '';
-            document.getElementById('btnExploreText').value = data.btnExploreText || 'สำรวจนวัตกรรม';
-            
-            document.getElementById('stat1_num').value = data.stat1_num || '15+';
-            document.getElementById('stat1_text').value = data.stat1_text || 'ปีแห่งประสบการณ์';
-            document.getElementById('stat2_num').value = data.stat2_num || '500';
-            document.getElementById('stat2_text').value = data.stat2_text || 'โครงการที่สำเร็จ';
-            document.getElementById('stat3_num').value = data.stat3_num || '100+';
-            document.getElementById('stat3_text').value = data.stat3_text || 'พันธมิตรทั่วโลก';
-        });
+    // โหลดข้อมูลเดิมมาใส่ในฟอร์มเมื่อเปิดหน้าเว็บ
+    fetch('/data.json').then(res => res.json()).then(data => {
+        document.getElementById('title_en').value = data.title_en || '';
+        document.getElementById('title_th').value = data.title_th || '';
+        document.getElementById('desc_en').value = data.desc_en || '';
+        document.getElementById('desc_th').value = data.desc_th || '';
+        document.getElementById('stat1_num').value = data.stat1_num || '15+';
+        document.getElementById('stat1_th').value = data.stat1_text_th || 'ปีแห่งประสบการณ์';
+        document.getElementById('stat1_en').value = data.stat1_text_en || 'Years Experience';
+        document.getElementById('stat2_num').value = data.stat2_num || '500';
+        document.getElementById('stat2_th').value = data.stat2_text_th || 'โครงการที่สำเร็จ';
+        document.getElementById('stat2_en').value = data.stat2_text_en || 'Successful Projects';
+        document.getElementById('stat3_num').value = data.stat3_num || '100+';
+        document.getElementById('stat3_th').value = data.stat3_text_th || 'พันธมิตรทั่วโลก';
+        document.getElementById('stat3_en').value = data.stat3_text_en || 'Global Partners';
+    }).catch(e => console.log("เริ่มสร้างฐานข้อมูลใหม่"));
 
-    // ส่งข้อมูลทั้งหมดไปบันทึก
+    // ส่งค่าไปบันทึกที่เซิร์ฟเวอร์
     document.getElementById('full-admin-form').addEventListener('submit', function(e) {
         e.preventDefault();
-        
         const allData = {
-            title: document.getElementById('title').value,
-            announcement: document.getElementById('announcement').value,
-            btnExploreText: document.getElementById('btnExploreText').value,
+            title_en: document.getElementById('title_en').value,
+            title_th: document.getElementById('title_th').value,
+            desc_en: document.getElementById('desc_en').value,
+            desc_th: document.getElementById('desc_th').value,
             stat1_num: document.getElementById('stat1_num').value,
-            stat1_text: document.getElementById('stat1_text').value,
+            stat1_text_th: document.getElementById('stat1_th').value,
+            stat1_text_en: document.getElementById('stat1_en').value,
             stat2_num: document.getElementById('stat2_num').value,
-            stat2_text: document.getElementById('stat2_text').value,
+            stat2_text_th: document.getElementById('stat2_th').value,
+            stat2_text_en: document.getElementById('stat2_en').value,
             stat3_num: document.getElementById('stat3_num').value,
-            stat3_text: document.getElementById('stat3_text').value
+            stat3_text_th: document.getElementById('stat3_th').value,
+            stat3_text_en: document.getElementById('stat3_en').value
         };
 
         fetch('/save-data', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(allData)
-        })
-        .then(res => {
-            if (res.ok) alert('🎉 บันทึกและอัปเดตข้อมูลทุกส่วนเรียบร้อยแล้ว!');
-            else alert('❌ เกิดข้อผิดพลาด');
+        }).then(res => {
+            if (res.ok) alert('🎉 บันทึกและอัปเดตข้อมูลทุกส่วนไปยังหน้าแรกสำเร็จ!');
+            else alert('❌ เกิดข้อผิดพลาดในการบันทึกข้อมูล');
         });
     });
 </script>
