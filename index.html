@@ -859,19 +859,18 @@
             </div>
 
             <div class="analytics-strip">
-    <div class="stat-glass-node">
-        <h2 id="live-stat1-num">15+</h2>
-        <p data-lang="stat1_text">ปีแห่งประสบการณ์</p>
-    </div>
-    <div class="stat-glass-node">
-        <h2 id="live-stat2-num">500</h2>
-        <p data-lang="stat2_text">โครงการที่สำเร็จ</p>
-    </div>
-    <div class="stat-glass-node">
-        <h2 id="live-stat3-num">100+</h2>
-        <p data-lang="stat3_text">พันธมิตรทั่วโลก</p>
-    </div>
-</div>
+                <div class="stat-glass-node">
+                    <h2 class="counter" data-target="15">0</h2>
+                    <p id="st-1">ปีแห่งประสบการณ์</p>
+                </div>
+                <div class="stat-glass-node">
+                    <h2 class="counter" data-target="500">0</h2>
+                    <p id="st-2">โครงการที่เสร็จสิ้น</p>
+                </div>
+                <div class="stat-glass-node">
+                    <h2 class="counter" data-target="100">0</h2>
+                    <p id="st-3">พันธมิตรเครือข่ายทั่วโลก</p>
+                </div>
             </div>
 
             <h2 style="font-size:24px; font-weight:700; margin-bottom:30px; letter-spacing:-0.5px;" id="sch-title">เจาะลึกศักยภาพและความสามารถของเรา</h2>
@@ -1988,41 +1987,70 @@
         }
 
         // ระบบแปลภาษาพหุภาษาแบบ Premium ที่ผูกข้อมูลผลิตภัณฑ์ชุดอัปเดตเรียบร้อย
-        let currentLang = 'TH';
         const langData = {
     en: {
-        navHome: "Home",
-        navAbout: "About Us",
-        navInnovation: "Innovations",
-        navProducts: "Products",
-        navContact: "Contact",
-        // 🛠️ ปรับ 2 บรรทัดนี้ให้ดึงข้อมูล Hero จากหลังบ้านภาษาอังกฤษ
+        // 🛠️ แก้ไขกลุ่มเมนูภาษาอังกฤษให้ดึงจากหน้าแอดมินหลังบ้านแบบ Dynamic
+        navHome: (window.adminData && window.adminData.nav_home_en) ? window.adminData.nav_home_en : "Home",
+        navAbout: (window.adminData && window.adminData.nav_about_en) ? window.adminData.nav_about_en : "About Us",
+        navInnovation: (window.adminData && window.adminData.nav_innov_en) ? window.adminData.nav_innov_en : "Innovations",
+        navProducts: (window.adminData && window.adminData.nav_prod_en) ? window.adminData.nav_prod_en : "Products",
+        navContact: (window.adminData && window.adminData.nav_cont_en) ? window.adminData.nav_cont_en : "Contact",
+        
         heroTitle: (window.adminData && window.adminData.title_en) ? window.adminData.title_en : "PREMIUM GREEN\nINNOVATION",
         heroSub: (window.adminData && window.adminData.desc_en) ? window.adminData.desc_en : "Next-generation polymer materials designed for global industrial transformation and ecological sustainability.",
         btnExplore: "Explore Innovations",
         btnWatch: "Watch Technology",
-        // 🛠️ ปรับ 3 บรรทัดนี้ให้ดึงป้ายสถิติภาษาอังกฤษ
         stat1_text: (window.adminData && window.adminData.stat1_text_en) ? window.adminData.stat1_text_en : "Years Experience",
         stat2_text: (window.adminData && window.adminData.stat2_text_en) ? window.adminData.stat2_text_en : "Successful Projects",
         stat3_text: (window.adminData && window.adminData.stat3_text_en) ? window.adminData.stat3_text_en : "Global Partners",
     },
     th: {
-        navHome: "หน้าแรก",
-        navAbout: "เกี่ยวกับเรา",
-        navInnovation: "นวัตกรรม",
-        navProducts: "ผลิตภัณฑ์",
-        navContact: "ติดต่อเรา",
-        // 🛠️ ปรับ 2 บรรทัดนี้ให้ดึงข้อมูล Hero จากหลังบ้านภาษาไทย
+        // 🛠️ แก้ไขกลุ่มเมนูภาษาไทยให้ดึงจากหน้าแอดมินหลังบ้านแบบ Dynamic
+        navHome: (window.adminData && window.adminData.nav_home_th) ? window.adminData.nav_home_th : "หน้าแรก",
+        navAbout: (window.adminData && window.adminData.nav_about_th) ? window.adminData.nav_about_th : "เกี่ยวกับเรา",
+        navInnovation: (window.adminData && window.adminData.nav_innov_th) ? window.adminData.nav_innov_th : "นวัตกรรม",
+        navProducts: (window.adminData && window.adminData.nav_prod_th) ? window.adminData.nav_prod_th : "ผลิตภัณฑ์",
+        navContact: (window.adminData && window.adminData.nav_cont_th) ? window.adminData.nav_cont_th : "ติดต่อเรา",
+        
         heroTitle: (window.adminData && window.adminData.title_th) ? window.adminData.title_th : "นวัตกรรมยางพาราเขียว\nระดับพรีเมียม",
         heroSub: (window.adminData && window.adminData.desc_th) ? window.adminData.desc_th : "วัสดุพอลิเมอร์ยุคใหม่ ออกแบบมาเพื่อการเปลี่ยนแปลงของอุตสาหกรรมระดับโลกและความยั่งยืนทางนิเวศวิทยา",
         btnExplore: "สำรวจนวัตกรรม",
         btnWatch: "รับชมเทคโนโลยี",
-        // 🛠️ ปรับ 3 บรรทัดนี้ให้ดึงป้ายสถิติภาษาไทย
         stat1_text: (window.adminData && window.adminData.stat1_text_th) ? window.adminData.stat1_text_th : "ปีแห่งประสบการณ์",
         stat2_text: (window.adminData && window.adminData.stat2_text_th) ? window.adminData.stat2_text_th : "โครงการที่สำเร็จ",
         stat3_text: (window.adminData && window.adminData.stat3_text_th) ? window.adminData.stat3_text_th : "พันธมิตรทั่วโลก",
     }
 };
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'TH' ? 'EN' : 'TH';
+            document.getElementById('lang-text').innerText = currentLang;
+            Object.keys(langData[currentLang]).forEach(id => {
+                const element = document.getElementById(id);
+                if (element) { element.innerHTML = langData[currentLang][id]; }
+            });
+        }
+
+        // VIDEO PLAYER MODAL
+        function playVideo(videoUrl) {
+            const modal = document.getElementById('videoModal');
+            const videoFrame = document.getElementById('videoFrame');
+            videoFrame.src = videoUrl + '?autoplay=1';
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeVideoModal() {
+            const modal = document.getElementById('videoModal');
+            const videoFrame = document.getElementById('videoFrame');
+            modal.style.display = 'none';
+            videoFrame.src = '';
+            document.body.style.overflow = 'auto';
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeVideoModal();
+        });
     </script>
 
     <!-- VIDEO MODAL -->
@@ -2032,32 +2060,5 @@
             <iframe id="videoFrame" width="100%" height="100%" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius: 8px;"></iframe>
         </div>
     </div>
-    <script>
-    // สคริปต์สะพานเชื่อมเชื่อมโยงระบบหลังบ้านและระบบจัดการภาษาเดิมของเว็บ
-    (function() {
-        fetch('/data.json')
-            .then(res => res.json())
-            .then(data => {
-                window.adminData = data;
-                
-                // 1. ดันค่าตัวเลขขึ้นระบบโครงสร้างหน้าเว็บจริงโดยตรง
-                if (data.stat1_num && document.getElementById('live-stat1-num')) {
-                    document.getElementById('live-stat1-num').innerText = data.stat1_num;
-                }
-                if (data.stat2_num && document.getElementById('live-stat2-num')) {
-                    document.getElementById('live-stat2-num').innerText = data.stat2_num;
-                }
-                if (data.stat3_num && document.getElementById('live-stat3-num')) {
-                    document.getElementById('live-stat3-num').innerText = data.stat3_num;
-                }
-                
-                // 2. สั่งรันฟังก์ชันเปลี่ยนภาษาดั้งเดิมของเว็บซ้ำอีกครั้ง เพื่อให้ดึงข้อมูลชุดใหม่ขึ้นจอ
-                if (typeof changeLanguage === 'function') {
-                    changeLanguage(currentLang || 'th');
-                }
-            })
-            .catch(err => console.log("เชื่อมต่อและผสานข้อมูลหลังบ้านนิ่งสนิท 100%"));
-    })();
-</script>
 </body>
 </html>
