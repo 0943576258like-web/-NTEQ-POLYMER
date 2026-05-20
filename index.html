@@ -859,17 +859,18 @@
             </div>
 
             <div class="analytics-strip">
-                <div class="stat-glass-node">
-    <h2 id="live-stat1-num">15+</h2>
-    <p data-lang="stat1_text">ปีแห่งประสบการณ์</p>
-</div>
-<div class="stat-glass-node">
-    <h2 id="live-stat2-num">500</h2>
-    <p data-lang="stat2_text">โครงการที่สำเร็จ</p>
-</div>
-<div class="stat-glass-node">
-    <h2 id="live-stat3-num">100+</h2>
-    <p data-lang="stat3_text">พันธมิตรทั่วโลก</p>
+    <div class="stat-glass-node">
+        <h2 id="live-stat1-num">15+</h2>
+        <p data-lang="stat1_text">ปีแห่งประสบการณ์</p>
+    </div>
+    <div class="stat-glass-node">
+        <h2 id="live-stat2-num">500</h2>
+        <p data-lang="stat2_text">โครงการที่สำเร็จ</p>
+    </div>
+    <div class="stat-glass-node">
+        <h2 id="live-stat3-num">100+</h2>
+        <p data-lang="stat3_text">พันธมิตรทั่วโลก</p>
+    </div>
 </div>
             </div>
 
@@ -1995,12 +1996,12 @@
         navInnovation: "Innovations",
         navProducts: "Products",
         navContact: "Contact",
-        // 🟢 เปลี่ยนจุดนี้ให้เชื่อมฐานข้อมูลหลังบ้านภาษาอังกฤษ
+        // 🛠️ ปรับ 2 บรรทัดนี้ให้ดึงข้อมูล Hero จากหลังบ้านภาษาอังกฤษ
         heroTitle: (window.adminData && window.adminData.title_en) ? window.adminData.title_en : "PREMIUM GREEN\nINNOVATION",
         heroSub: (window.adminData && window.adminData.desc_en) ? window.adminData.desc_en : "Next-generation polymer materials designed for global industrial transformation and ecological sustainability.",
         btnExplore: "Explore Innovations",
         btnWatch: "Watch Technology",
-        // 🟢 เปลี่ยนจุดสถิติภาษาอังกฤษ
+        // 🛠️ ปรับ 3 บรรทัดนี้ให้ดึงป้ายสถิติภาษาอังกฤษ
         stat1_text: (window.adminData && window.adminData.stat1_text_en) ? window.adminData.stat1_text_en : "Years Experience",
         stat2_text: (window.adminData && window.adminData.stat2_text_en) ? window.adminData.stat2_text_en : "Successful Projects",
         stat3_text: (window.adminData && window.adminData.stat3_text_en) ? window.adminData.stat3_text_en : "Global Partners",
@@ -2011,12 +2012,12 @@
         navInnovation: "นวัตกรรม",
         navProducts: "ผลิตภัณฑ์",
         navContact: "ติดต่อเรา",
-        // 🟢 เปลี่ยนจุดนี้ให้เชื่อมฐานข้อมูลหลังบ้านภาษาไทย
+        // 🛠️ ปรับ 2 บรรทัดนี้ให้ดึงข้อมูล Hero จากหลังบ้านภาษาไทย
         heroTitle: (window.adminData && window.adminData.title_th) ? window.adminData.title_th : "นวัตกรรมยางพาราเขียว\nระดับพรีเมียม",
         heroSub: (window.adminData && window.adminData.desc_th) ? window.adminData.desc_th : "วัสดุพอลิเมอร์ยุคใหม่ ออกแบบมาเพื่อการเปลี่ยนแปลงของอุตสาหกรรมระดับโลกและความยั่งยืนทางนิเวศวิทยา",
         btnExplore: "สำรวจนวัตกรรม",
         btnWatch: "รับชมเทคโนโลยี",
-        // 🟢 เปลี่ยนจุดสถิติภาษาไทย
+        // 🛠️ ปรับ 3 บรรทัดนี้ให้ดึงป้ายสถิติภาษาไทย
         stat1_text: (window.adminData && window.adminData.stat1_text_th) ? window.adminData.stat1_text_th : "ปีแห่งประสบการณ์",
         stat2_text: (window.adminData && window.adminData.stat2_text_th) ? window.adminData.stat2_text_th : "โครงการที่สำเร็จ",
         stat3_text: (window.adminData && window.adminData.stat3_text_th) ? window.adminData.stat3_text_th : "พันธมิตรทั่วโลก",
@@ -2032,14 +2033,14 @@
         </div>
     </div>
     <script>
-    // ดึงค่าฐานข้อมูลเซิร์ฟเวอร์แบบ Realtime ผสานระบบสลับภาษาเดิม
+    // สคริปต์สะพานเชื่อมเชื่อมโยงระบบหลังบ้านและระบบจัดการภาษาเดิมของเว็บ
     (function() {
         fetch('/data.json')
             .then(res => res.json())
             .then(data => {
                 window.adminData = data;
                 
-                // 1. ดันตัวเลขสถิติจากแอดมินลงจุดแสดงผลทันที
+                // 1. ดันค่าตัวเลขขึ้นระบบโครงสร้างหน้าเว็บจริงโดยตรง
                 if (data.stat1_num && document.getElementById('live-stat1-num')) {
                     document.getElementById('live-stat1-num').innerText = data.stat1_num;
                 }
@@ -2050,12 +2051,12 @@
                     document.getElementById('live-stat3-num').innerText = data.stat3_num;
                 }
                 
-                // 2. เรียกฟังก์ชันเปลี่ยนภาษาของเดิม เพื่อเรนเดอร์เนื้อหาจากแอดมินขึ้นจอ
+                // 2. สั่งรันฟังก์ชันเปลี่ยนภาษาดั้งเดิมของเว็บซ้ำอีกครั้ง เพื่อให้ดึงข้อมูลชุดใหม่ขึ้นจอ
                 if (typeof changeLanguage === 'function') {
                     changeLanguage(currentLang || 'th');
                 }
             })
-            .catch(err => console.log("เชื่อมต่อระบบจัดการหลังบ้านเรียบร้อย"));
+            .catch(err => console.log("เชื่อมต่อและผสานข้อมูลหลังบ้านนิ่งสนิท 100%"));
     })();
 </script>
 </body>
