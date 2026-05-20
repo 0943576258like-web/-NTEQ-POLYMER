@@ -38,8 +38,11 @@
 
         html, body {
             background: var(--color-bg-dark) !important;
-            background-image: linear-gradient(135deg, #010302 0%, #030a05 35%, #07170c 70%, #010402 100%) !important;
+            background-image: 
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800"><defs><linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%23030805;stop-opacity:1" /><stop offset="50%" style="stop-color:%23051409;stop-opacity:1" /><stop offset="100%" style="stop-color:%23010402;stop-opacity:1" /></linearGradient></defs><rect width="1200" height="800" fill="url(%23grad1)"/><g opacity="0.08"><line x1="0" y1="0" x2="1200" y2="800" stroke="%232ecc71" stroke-width="2"/><line x1="200" y1="0" x2="1200" y2="600" stroke="%232ecc71" stroke-width="1.5"/><line x1="400" y1="0" x2="1200" y2="400" stroke="%232ecc71" stroke-width="1"/><line x1="600" y1="0" x2="1200" y2="200" stroke="%232ecc71" stroke-width="1"/></g><g opacity="0.05"><circle cx="100" cy="100" r="80" fill="%232ecc71"/><circle cx="1100" cy="700" r="120" fill="%232ecc71"/><circle cx="600" cy="400" r="100" fill="%232ecc71"/></g></svg>'),
+                linear-gradient(135deg, #010302 0%, #030a05 35%, #07170c 70%, #010402 100%) !important;
             background-attachment: fixed !important;
+            background-size: cover, cover !important;
             color: var(--color-text-main);
             overflow-x: hidden;
             min-height: 100vh;
@@ -70,6 +73,36 @@
             border-radius: 50%; animation: spin 1s linear infinite;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* PREMIUM ANIMATIONS & EFFECTS */
+        @keyframes slideInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes glow-pulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(46, 204, 113, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(46, 204, 113, 0.6); }
+        }
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
 
         .cursor-glow {
             position: fixed;
@@ -119,17 +152,36 @@
             display: flex; align-items: center; gap: 8px;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: rgba(46, 204, 113, 0.1);
+            transition: left 0.3s ease;
+            z-index: -1;
+        }
+
+        .nav-link:hover::before {
+            left: 0;
         }
 
         .nav-link:hover {
             color: var(--color-text-main);
-            background: rgba(46, 204, 113, 0.08);
+            background: rgba(46, 204, 113, 0.12);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(46, 204, 113, 0.15);
         }
 
         nav > ul > li.active-tab > .nav-link {
             color: var(--color-accent-green);
-            background: rgba(46, 204, 113, 0.12);
+            background: rgba(46, 204, 113, 0.15);
             font-weight: 600;
+            animation: glow-pulse 2s ease-in-out infinite;
         }
 
         nav > ul > li.active-tab > .nav-link::after {
@@ -225,6 +277,18 @@
             display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 50px;
             align-items: center; min-height: calc(70vh - 120px); margin-bottom: 60px;
         }
+        @media (max-width: 1024px) {
+            .hero-layout-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+                min-height: auto;
+            }
+        }
+        @media (max-width: 768px) {
+            .hero-layout-grid {
+                gap: 20px;
+            }
+        }
 
         .hero-left-editorial h1 {
             font-size: 54px; font-weight: 700; line-height: 1.25; letter-spacing: -1px; margin-bottom: 24px;
@@ -254,7 +318,17 @@
         }
 
         .slider-img-holder {
-            width: 90%; height: 310px; border-radius: 10px; overflow: hidden; position: relative; margin-bottom: 10px;
+            width: 100%; height: 280px; border-radius: 10px; overflow: hidden; position: relative; margin-bottom: 10px;
+        }
+        @media (max-width: 768px) {
+            .slider-img-holder {
+                height: 220px;
+            }
+        }
+        @media (max-width: 480px) {
+            .slider-img-holder {
+                height: 180px;
+            }
         }
         .slider-img-holder img {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;
@@ -288,13 +362,19 @@
         .video-box-card {
             background: var(--color-bg-card); border: 1px solid var(--color-border-glass);
             border-radius: 24px; padding: 24px; backdrop-filter: blur(var(--blur-radius)); -webkit-backdrop-filter: blur(var(--blur-radius));
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5); width: 100%; max-width: 860px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5); width: 100%; max-width: 720px;
         }
         .video-frame-container {
             position: relative; width: 100%; padding-bottom: 56.25%; height: 0; border-radius: 14px; overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.05); background: #000;
         }
         .video-frame-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        @media (max-width: 768px) {
+            .video-box-card {
+                max-width: 100%;
+                padding: 16px;
+            }
+        }
 
         /* ANALYTICS STRIP */
         .analytics-strip {
@@ -349,24 +429,70 @@
         .modern-glass-card {
             background: var(--color-bg-card); border: 1px solid var(--color-border-glass);
             border-radius: 20px; padding: 35px; backdrop-filter: blur(var(--blur-radius)); -webkit-backdrop-filter: blur(var(--blur-radius));
-            margin-bottom: 30px;
+            margin-bottom: 30px; transition: all 0.3s ease;
         }
-        .input-group { display: flex; flex-direction: column; gap: 20px; }
-        .input-group input, .input-group textarea {
-            width: 100%; background: rgba(255,255,255,0.02); border: 1px solid var(--color-border-glass);
-            border-radius: 10px; padding: 14px; color: #fff; outline: none; transition: all 0.3s ease;
-        }
-        .input-group input:focus, .input-group textarea:focus {
-            border-color: var(--color-accent-green); background: rgba(46, 204, 113, 0.05);
-            box-shadow: 0 0 15px rgba(46, 204, 113, 0.15);
+        .modern-glass-card:hover {
+            border-color: rgba(46, 204, 113, 0.3);
+            box-shadow: 0 10px 30px rgba(46, 204, 113, 0.08);
         }
 
-        .side-cards-col { display: flex; flex-direction: column; }
-        .icon-circle {
-            width: 46px; height: 46px; border-radius: 50%; background: rgba(46, 204, 113, 0.1);
-            border: 1px solid rgba(46, 204, 113, 0.3); display: flex; align-items: center; justify-content: center;
-            color: var(--color-accent-green); font-size: 18px; margin-bottom: 16px;
+        /* CONTACT FORM ENHANCEMENTS */
+        .contact-form-header { margin-bottom: 28px; }
+        .contact-form-header h3 { font-size: 22px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+        .contact-form-header p { font-size: 14px; color: var(--color-text-muted); }
+
+        .input-group { display: flex; flex-direction: column; gap: 18px; }
+        .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+        .input-field-wrapper { display: flex; flex-direction: column; gap: 7px; }
+        .input-field-wrapper label { font-size: 12px; font-weight: 600; color: var(--color-text-muted); letter-spacing: 0.8px; text-transform: uppercase; }
+        .input-group input, .input-group textarea, .input-group select {
+            width: 100%; background: rgba(255,255,255,0.02); border: 1px solid var(--color-border-glass);
+            border-radius: 12px; padding: 14px 16px; color: #fff; outline: none; transition: all 0.3s ease;
+            font-size: 14px; font-family: var(--font-display);
         }
+        .input-group input::placeholder, .input-group textarea::placeholder { color: rgba(142, 164, 133, 0.5); }
+        .input-group input:focus, .input-group textarea:focus {
+            border-color: var(--color-accent-green); background: rgba(46, 204, 113, 0.05);
+            box-shadow: 0 0 20px rgba(46, 204, 113, 0.12);
+        }
+        .input-group textarea { resize: vertical; min-height: 130px; }
+
+        /* CONTACT INFO SIDEBAR */
+        .side-cards-col { display: flex; flex-direction: column; gap: 0; }
+        .contact-info-card {
+            background: var(--color-bg-card); border: 1px solid var(--color-border-glass);
+            border-radius: 20px; padding: 28px; backdrop-filter: blur(var(--blur-radius)); -webkit-backdrop-filter: blur(var(--blur-radius));
+            margin-bottom: 20px; transition: all 0.3s ease;
+        }
+        .contact-info-card:hover { border-color: rgba(46, 204, 113, 0.3); box-shadow: 0 8px 25px rgba(46, 204, 113, 0.08); }
+        .contact-info-row { display: flex; align-items: flex-start; gap: 16px; }
+        .icon-circle {
+            width: 48px; height: 48px; border-radius: 14px; background: rgba(46, 204, 113, 0.1);
+            border: 1px solid rgba(46, 204, 113, 0.3); display: flex; align-items: center; justify-content: center;
+            color: var(--color-accent-green); font-size: 18px; flex-shrink: 0;
+        }
+        .contact-info-text h4 { font-size: 12px; font-weight: 600; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 5px; }
+        .contact-info-text p { font-size: 14.5px; color: var(--color-text-main); font-weight: 500; line-height: 1.55; }
+        .contact-info-text a { color: var(--color-accent-green); text-decoration: none; font-size: 14.5px; font-weight: 500; }
+        .contact-info-text a:hover { text-decoration: underline; }
+
+        /* MAP CARD */
+        .map-card {
+            background: var(--color-bg-card); border: 1px solid var(--color-border-glass);
+            border-radius: 20px; overflow: hidden; backdrop-filter: blur(var(--blur-radius)); -webkit-backdrop-filter: blur(var(--blur-radius));
+            margin-bottom: 20px;
+        }
+        .map-card-header { padding: 20px 24px 16px 24px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid var(--color-border-glass); }
+        .map-card-header i { color: var(--color-accent-green); font-size: 16px; }
+        .map-card-header span { font-size: 14px; font-weight: 600; color: #fff; }
+        .map-card-header small { font-size: 12px; color: var(--color-text-muted); margin-left: auto; }
+        .map-frame { width: 100%; height: 240px; display: block; border: none; }
+        .map-card-footer { padding: 14px 24px; background: rgba(46, 204, 113, 0.04); display: flex; align-items: center; gap: 10px; }
+        .map-card-footer i { color: var(--color-accent-green); font-size: 13px; }
+        .map-card-footer span { font-size: 12.5px; color: var(--color-text-muted); line-height: 1.5; }
+        .map-card-footer a { color: var(--color-accent-green); font-size: 12.5px; font-weight: 600; text-decoration: none; margin-left: auto; white-space: nowrap; }
+        .map-card-footer a:hover { text-decoration: underline; }
+
         .modern-glass-card h4 { font-size: 17px; font-weight: 600; margin-bottom: 10px; color: #fff; }
         .modern-glass-card p { font-size: 14px; color: var(--color-text-muted); line-height: 1.6; }
 
@@ -507,7 +633,33 @@
         .product-grade-list li { margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
         .product-grade-list li i { color: var(--color-accent-green); font-size: 12px; }
 
-        footer {
+        /* JOBTHAI IFRAME RESPONSIVE STYLES */
+        .jobthai-iframe-container {
+            width: 100%; border-top: 1px solid rgba(46, 204, 113, 0.2); overflow: hidden;
+        }
+        
+        @media (max-width: 1024px) {
+            .jobthai-iframe-container {
+                height: 700px !important;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .jobthai-iframe-container {
+                height: 600px !important;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .jobthai-iframe-container {
+                height: 500px !important;
+            }
+            .modern-glass-card[style*="padding: 0"] {
+                border-radius: 12px;
+            }
+        }
+
+                footer {
             border-top: 1px solid var(--color-border-glass); padding: 35px; text-align: center;
             font-size: 13px; color: var(--color-text-muted); background: rgba(1, 4, 2, 0.9); position: relative; z-index: 10;
         }
@@ -540,7 +692,13 @@
             .exec-grid-board { grid-template-columns: repeat(2, 1fr); }
         }
 
+        @media (max-width: 1024px) {
+            .contact-info-strip-grid { grid-template-columns: 1fr !important; }
+        }
+
         @media (max-width: 768px) {
+            .contact-info-strip-grid { grid-template-columns: 1fr !important; }
+            .input-row { grid-template-columns: 1fr !important; }
             .burger-menu-btn { display: block; }
             nav {
                 position: fixed; top: 85px; left: -100%; width: 100%; height: calc(100vh - 85px);
@@ -648,7 +806,7 @@
         <section id="home-page" class="content-section active">
             <div class="hero-layout-grid">
                 <div class="hero-left-editorial">
-                    <h1 id="web-title" class="title-text">นวัตกรรมยางพาราเขียว วิวัฒนาการเพื่อสิ่งแวดล้อม</h1>
+                    <h1 id="hero-title-main">นวัตกรรมยางพาราเขียว <br><span>วิวัฒนาการเพื่อสิ่งแวดล้อม</span></h1>
                     <p id="hero-sub-main">วัสดุพอลิเมอร์ยุคใหม่ที่ออกแบบมาเพื่อขับเคลื่อนระบบนิเวศอุตสาหกรรมระดับโลกอย่างยั่งยืน มุ่งเน้นการประมวลผลเชิงเทคโนโลยีวิศวกรรมขั้นสูง</p>
                     <button class="btn-gradient" id="btn-explore" onclick="switchSection('products-page')">
                         สำรวจนวัตกรรม <i class="fa-solid fa-arrow-right" style="font-size: 13px;"></i>
@@ -702,17 +860,17 @@
 
             <div class="analytics-strip">
                 <div class="stat-glass-node">
-                    <h2 class="counter" data-target="15">0</h2>
-                    <p id="st-1">ปีแห่งประสบการณ์</p>
-                </div>
-                <div class="stat-glass-node">
-                    <h2 class="counter" data-target="500">0</h2>
-                    <p id="st-2">โครงการที่เสร็จสิ้น</p>
-                </div>
-                <div class="stat-glass-node">
-                    <h2 class="counter" data-target="100">0</h2>
-                    <p id="st-3">พันธมิตรเครือข่ายทั่วโลก</p>
-                </div>
+    <h2 id="live-stat1-num">15+</h2>
+    <p data-lang="stat1_text">ปีแห่งประสบการณ์</p>
+</div>
+<div class="stat-glass-node">
+    <h2 id="live-stat2-num">500</h2>
+    <p data-lang="stat2_text">โครงการที่สำเร็จ</p>
+</div>
+<div class="stat-glass-node">
+    <h2 id="live-stat3-num">100+</h2>
+    <p data-lang="stat3_text">พันธมิตรทั่วโลก</p>
+</div>
             </div>
 
             <h2 style="font-size:24px; font-weight:700; margin-bottom:30px; letter-spacing:-0.5px;" id="sch-title">เจาะลึกศักยภาพและความสามารถของเรา</h2>
@@ -1047,12 +1205,126 @@
                 <img src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=1200" alt="News Banner">
                 <div class="page-hero-overlay"><p>Corporate News</p><h2 id="pt-media">ข่าวสารองค์กร (News)</h2></div>
             </div>
-            <div class="premium-grid">
-                <div class="premium-card">
-                    <div class="premium-card-img"><img src="https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?q=80&w=600" alt="Eco Event"></div>
-                    <div class="premium-card-body">
-                        <i class="fa-solid fa-earth-americas"></i><h3 id="news-1-t">เปิดตัวโครงการ "Green Polymer Ecosystem 2026"</h3>
-                        <p id="news-1-d">จับมือร่วมกับสถาบันวิจัยชั้นนำเพื่อยกระดับห่วงโซ่อุปทานยางพาราไทยสู่อุตสาหกรรมคาร์บอนต่ำ</p>
+
+            <!-- NEWS GRID 3 COLUMNS -->
+            <div class="premium-grid" style="grid-template-columns: repeat(3, 1fr); gap: 24px;">
+                <!-- NEWS CARD 1 -->
+                <div class="news-card" style="background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: all 0.3s ease; cursor: pointer;">
+                    <div style="width: 100%; height: 180px; overflow: hidden; background: linear-gradient(135deg, #1abc9c 0%, #16a085 100%); display: flex; align-items: center; justify-content: center;">
+                        <i class="fa-solid fa-question" style="font-size: 60px; color: #fff; opacity: 0.8;"></i>
+                    </div>
+                    <div style="padding: 16px;">
+                        <h4 style="font-size: 14px; font-weight: 600; color: #333; margin-bottom: 8px; line-height: 1.4;">รายละอิยความหากว่ายางพอลิเมอร์คืออะไร</h4>
+                        <p style="font-size: 12px; color: #666; line-height: 1.5; margin-bottom: 12px;">พอลิเมอร์เป็นวัสดุยางพาราที่ได้รับการส่งเสริมจากสำนักงาน</p>
+                        <button onclick="showDetail('media-detail-4')" style="width: 100%; padding: 8px; background: #333; color: #fff; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='#1abc9c'" onmouseout="this.style.background='#333'">READ MORE</button>
+                    </div>
+                </div>
+
+                <!-- NEWS CARD 2 -->
+                <div class="news-card" style="background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: all 0.3s ease; cursor: pointer;">
+                    <div style="width: 100%; height: 180px; overflow: hidden; background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%); display: flex; align-items: center; justify-content: center;">
+                        <i class="fa-solid fa-truck" style="font-size: 60px; color: #fff; opacity: 0.8;"></i>
+                    </div>
+                    <div style="padding: 16px;">
+                        <h4 style="font-size: 14px; font-weight: 600; color: #333; margin-bottom: 8px; line-height: 1.4;">การขยายสินค้ายางพาราไทย</h4>
+                        <p style="font-size: 12px; color: #666; line-height: 1.5; margin-bottom: 12px;">การขยายผลิตภัณฑ์ยางพาราไทยไปยังหนามิตร</p>
+                        <button onclick="alert('เข้าไปยังหน้าข่าวเติมเติม')" style="width: 100%; padding: 8px; background: #333; color: #fff; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='#f39c12'" onmouseout="this.style.background='#333'">READ MORE</button>
+                    </div>
+                </div>
+
+                <!-- NEWS CARD 3 -->
+                <div class="news-card" style="background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: all 0.3s ease; cursor: pointer;">
+                    <div style="width: 100%; height: 180px; overflow: hidden; background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%); display: flex; align-items: center; justify-content: center;">
+                        <i class="fa-solid fa-leaf" style="font-size: 60px; color: #fff; opacity: 0.8;"></i>
+                    </div>
+                    <div style="padding: 16px;">
+                        <h4 style="font-size: 14px; font-weight: 600; color: #333; margin-bottom: 8px; line-height: 1.4;">NTEQ Live Official</h4>
+                        <p style="font-size: 12px; color: #666; line-height: 1.5; margin-bottom: 12px;">การถ่ายทอดโลดและสารกิจกรรมที่สำคัญ</p>
+                        <button onclick="alert('เข้าไปยังหน้าข่าวเติมเติม')" style="width: 100%; padding: 8px; background: #333; color: #fff; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='#e74c3c'" onmouseout="this.style.background='#333'">READ MORE</button>
+                    </div>
+                </div>
+
+                <!-- NEWS CARD 4 -->
+                <div class="news-card" style="background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: all 0.3s ease; cursor: pointer;">
+                    <div style="width: 100%; height: 180px; overflow: hidden; background: linear-gradient(135deg, #3498db 0%, #2980b9 100%); display: flex; align-items: center; justify-content: center;">
+                        <i class="fa-solid fa-people-group" style="font-size: 60px; color: #fff; opacity: 0.8;"></i>
+                    </div>
+                    <div style="padding: 16px;">
+                        <h4 style="font-size: 14px; font-weight: 600; color: #333; margin-bottom: 8px; line-height: 1.4;">เรืองหายจากคนเกือกสิ่งแค่สิ่นสิ้น</h4>
+                        <p style="font-size: 12px; color: #666; line-height: 1.5; margin-bottom: 12px;">การรวมตัวของชุมชนหลายในกิจกรรม</p>
+                        <button onclick="alert('เข้าไปยังหน้าข่าวเติมเติม')" style="width: 100%; padding: 8px; background: #333; color: #fff; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='#3498db'" onmouseout="this.style.background='#333'">READ MORE</button>
+                    </div>
+                </div>
+
+                <!-- NEWS CARD 5 -->
+                <div class="news-card" style="background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: all 0.3s ease; cursor: pointer;">
+                    <div style="width: 100%; height: 180px; overflow: hidden; background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%); display: flex; align-items: center; justify-content: center;">
+                        <i class="fa-solid fa-leaf" style="font-size: 60px; color: #fff; opacity: 0.8;"></i>
+                    </div>
+                    <div style="padding: 16px;">
+                        <h4 style="font-size: 14px; font-weight: 600; color: #333; margin-bottom: 8px; line-height: 1.4;">การลดผ้ายประติบัติสิ่นสิ้น</h4>
+                        <p style="font-size: 12px; color: #666; line-height: 1.5; margin-bottom: 12px;">การลดผ้ายการปลูกยางพาราสิ่งแค่สิ่นสิ้น</p>
+                        <button onclick="alert('เข้าไปยังหน้าข่าวเติมเติม')" style="width: 100%; padding: 8px; background: #333; color: #fff; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='#9b59b6'" onmouseout="this.style.background='#333'">READ MORE</button>
+                    </div>
+                </div>
+
+                <!-- NEWS CARD 6 -->
+                <div class="news-card" style="background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: all 0.3s ease; cursor: pointer;">
+                    <div style="width: 100%; height: 180px; overflow: hidden; background: linear-gradient(135deg, #1abc9c 0%, #16a085 100%); display: flex; align-items: center; justify-content: center;">
+                        <i class="fa-solid fa-mountain" style="font-size: 60px; color: #fff; opacity: 0.8;"></i>
+                    </div>
+                    <div style="padding: 16px;">
+                        <h4 style="font-size: 14px; font-weight: 600; color: #333; margin-bottom: 8px; line-height: 1.4;">เทศผู้ประกอบผุไม้ทางประเทศ</h4>
+                        <p style="font-size: 12px; color: #666; line-height: 1.5; margin-bottom: 12px;">การประหยัดทางประเทศเพื่อการท่องเที่ยว</p>
+                        <button onclick="showDetail('media-detail-9')" style="width: 100%; padding: 8px; background: #333; color: #fff; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='#1abc9c'" onmouseout="this.style.background='#333'">READ MORE</button>
+                    </div>
+                </div>
+
+                <!-- NEWS CARD 7 -->
+                <div class="news-card" style="background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: all 0.3s ease; cursor: pointer;">
+                    <div style="width: 100%; height: 180px; overflow: hidden; background: linear-gradient(135deg, #27ae60 0%, #229954 100%); display: flex; align-items: center; justify-content: center;">
+                        <i class="fa-solid fa-leaf" style="font-size: 60px; color: #fff; opacity: 0.8;"></i>
+                    </div>
+                    <div style="padding: 16px;">
+                        <h4 style="font-size: 14px; font-weight: 600; color: #333; margin-bottom: 8px; line-height: 1.4;">NTEQ Drive to Net ZERO</h4>
+                        <p style="font-size: 12px; color: #666; line-height: 1.5; margin-bottom: 12px;">การสนับสนุนท่อเที่ยวสู่อุตสาหกรรมคาร์บอนต่ำ</p>
+                        <button onclick="alert('เข้าไปยังหน้าข่าวเติมเติม')" style="width: 100%; padding: 8px; background: #333; color: #fff; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='#27ae60'" onmouseout="this.style.background='#333'">READ MORE</button>
+                    </div>
+                </div>
+
+                <!-- NEWS CARD 8 -->
+                <div class="news-card" style="background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: all 0.3s ease; cursor: pointer;">
+                    <div style="width: 100%; height: 180px; overflow: hidden; background: linear-gradient(135deg, #34495e 0%, #2c3e50 100%); display: flex; align-items: center; justify-content: center;">
+                        <i class="fa-solid fa-mountain" style="font-size: 60px; color: #fff; opacity: 0.8;"></i>
+                    </div>
+                    <div style="padding: 16px;">
+                        <h4 style="font-size: 14px; font-weight: 600; color: #333; margin-bottom: 8px; line-height: 1.4;">การประหยัดทางประเทศทางอหภาค</h4>
+                        <p style="font-size: 12px; color: #666; line-height: 1.5; margin-bottom: 12px;">การประหยัดทางประเทศทางอหภาคของประเทศไทย</p>
+                        <button onclick="alert('เข้าไปยังหน้าข่าวเติมเติม')" style="width: 100%; padding: 8px; background: #333; color: #fff; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='#34495e'" onmouseout="this.style.background='#333'">READ MORE</button>
+                    </div>
+                </div>
+
+                <!-- NEWS CARD 9 -->
+                <div class="news-card" style="background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: all 0.3s ease; cursor: pointer;">
+                    <div style="width: 100%; height: 180px; overflow: hidden; background: linear-gradient(135deg, #d35400 0%, #ba4a00 100%); display: flex; align-items: center; justify-content: center;">
+                        <i class="fa-solid fa-people-group" style="font-size: 60px; color: #fff; opacity: 0.8;"></i>
+                    </div>
+                    <div style="padding: 16px;">
+                        <h4 style="font-size: 14px; font-weight: 600; color: #333; margin-bottom: 8px; line-height: 1.4;">สมิตเปิดกิจกรรมสีเขียว</h4>
+                        <p style="font-size: 12px; color: #666; line-height: 1.5; margin-bottom: 12px;">การสมิตเปิดกิจกรรมสีเขียวของบริษัท</p>
+                        <button onclick="alert('เข้าไปยังหน้าข่าวเติมเติม')" style="width: 100%; padding: 8px; background: #333; color: #fff; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='#d35400'" onmouseout="this.style.background='#333'">READ MORE</button>
+                    </div>
+                </div>
+
+                <!-- NEWS CARD 10 -->
+                <div class="news-card" style="background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); transition: all 0.3s ease; cursor: pointer;">
+                    <div style="width: 100%; height: 180px; overflow: hidden; background: linear-gradient(135deg, #16a085 0%, #138d75 100%); display: flex; align-items: center; justify-content: center;">
+                        <i class="fa-solid fa-video" style="font-size: 60px; color: #fff; opacity: 0.8;"></i>
+                    </div>
+                    <div style="padding: 16px;">
+                        <h4 style="font-size: 14px; font-weight: 600; color: #333; margin-bottom: 8px; line-height: 1.4;">การผลิตภัณฑ์โดยใช้เทคโนโลยีเชื่อมี</h4>
+                        <p style="font-size: 12px; color: #666; line-height: 1.5; margin-bottom: 12px;">การผลิตภัณฑ์โดยใช้เทคโนโลยีเชื่อมีและชุมชน</p>
+                        <button onclick="alert('เข้าไปยังหน้าข่าวเติมเติม')" style="width: 100%; padding: 8px; background: #333; color: #fff; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='#16a085'" onmouseout="this.style.background='#333'">READ MORE</button>
                     </div>
                 </div>
             </div>
@@ -1064,6 +1336,63 @@
                 <div class="page-hero-overlay"><p>CSR Activity</p><h2 id="pt-csr">กิจกรรมเพื่อสังคม (CSR)</h2></div>
             </div>
             <div class="modern-glass-card"><p>การมุ่งเน้นพัฒนาชุมชนเกษตรกรผู้ปลูกยางพาราอย่างโปร่งใส พร้อมการรักษาสมดุลคาร์บอนในพื้นที่ปฏิบัติงาน</p></div>
+
+            <!-- CSR ACTIVITIES GRID -->
+            <div class="premium-grid" style="margin-top: 40px;">
+                <div class="premium-card">
+                    <div class="premium-card-img"><img src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?q=80&w=600" alt="CSR Activity 1"></div>
+                    <div class="premium-card-body">
+                        <h3 id="csr-1-t">โครงการพัฒนาเกษตรกรยางพารา</h3>
+                        <p id="csr-1-d">ร่วมมือกับชุมชนท้องถิ่นในการปรับปรุงเทคนิคการปลูกยางพารา เพิ่มผลผลิต และสร้างรายได้อย่างยั่งยืน</p>
+                        <button onclick="showDetail('csr-detail-1')" style="width: 100%; margin-top: 12px; padding: 10px; background: linear-gradient(135deg, #2ecc71, #27ae60); color: #fff; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">READ MORE</button>
+                    </div>
+                </div>
+
+                <div class="premium-card">
+                    <div class="premium-card-img"><img src="https://images.unsplash.com/photo-1517457373614-b7152f800fd1?q=80&w=600" alt="CSR Activity 2"></div>
+                    <div class="premium-card-body">
+                        <h3 id="csr-2-t">กิจกรรมปลูกป่าเพื่อสิ่งแวดล้อม</h3>
+                        <p id="csr-2-d">การปลูกต้นไม้ในพื้นที่ปฏิบัติงาน เพื่อลดการปล่อยคาร์บอนและสร้างระบบนิเวศที่ดี</p>
+                        <button onclick="showDetail('csr-detail-2')" style="width: 100%; margin-top: 12px; padding: 10px; background: linear-gradient(135deg, #2ecc71, #27ae60); color: #fff; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">READ MORE</button>
+                    </div>
+                </div>
+
+                <div class="premium-card">
+                    <div class="premium-card-img"><img src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=600" alt="CSR Activity 3"></div>
+                    <div class="premium-card-body">
+                        <h3 id="csr-3-t">โครงการศึกษาด้านวิทยาศาสตร์</h3>
+                        <p id="csr-3-d">มอบทุนการศึกษาและจัดอบรมเพื่อพัฒนาบุคลากรรุ่นใหม่ด้านวิศวกรรมและเทคโนโลยี</p>
+                        <button onclick="showDetail('csr-detail-3')" style="width: 100%; margin-top: 12px; padding: 10px; background: linear-gradient(135deg, #2ecc71, #27ae60); color: #fff; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">READ MORE</button>
+                    </div>
+                </div>
+
+                <div class="premium-card">
+                    <div class="premium-card-img"><img src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?q=80&w=600" alt="CSR Activity 4"></div>
+                    <div class="premium-card-body">
+                        <h3 id="csr-4-t">โครงการสุขภาพชุมชน</h3>
+                        <p id="csr-4-d">จัดกิจกรรมตรวจสุขภาพและให้ความรู้ด้านสุขอนามัยแก่ชุมชนท้องถิ่นอย่างต่อเนื่อง</p>
+                        <button onclick="showDetail('csr-detail-4')" style="width: 100%; margin-top: 12px; padding: 10px; background: linear-gradient(135deg, #2ecc71, #27ae60); color: #fff; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">READ MORE</button>
+                    </div>
+                </div>
+
+                <div class="premium-card">
+                    <div class="premium-card-img"><img src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=600" alt="CSR Activity 5"></div>
+                    <div class="premium-card-body">
+                        <h3 id="csr-5-t">โครงการรักษาแหล่งน้ำ</h3>
+                        <p id="csr-5-d">ร่วมมือในการอนุรักษ์แหล่งน้ำและสิ่งแวดล้อมเพื่อความเป็นไปได้ในอนาคต</p>
+                        <button onclick="showDetail('csr-detail-5')" style="width: 100%; margin-top: 12px; padding: 10px; background: linear-gradient(135deg, #2ecc71, #27ae60); color: #fff; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">READ MORE</button>
+                    </div>
+                </div>
+
+                <div class="premium-card">
+                    <div class="premium-card-img"><img src="https://images.unsplash.com/photo-1517457373614-b7152f800fd1?q=80&w=600" alt="CSR Activity 6"></div>
+                    <div class="premium-card-body">
+                        <h3 id="csr-6-t">โครงการพัฒนาทักษะอาชีพ</h3>
+                        <p id="csr-6-d">จัดอบรมและพัฒนาทักษะอาชีพให้แก่ชุมชนเพื่อสร้างโอกาสในการประกอบอาชีพ</p>
+                        <button onclick="showDetail('csr-detail-6')" style="width: 100%; margin-top: 12px; padding: 10px; background: linear-gradient(135deg, #2ecc71, #27ae60); color: #fff; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">READ MORE</button>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <section id="video-page" class="content-section">
@@ -1072,14 +1401,110 @@
                 <div class="page-hero-overlay"><p>Video Center</p><h2 id="pt-video-sub">คลังสื่อวิดีโอ (Video Archive)</h2></div>
             </div>
             <div class="modern-glass-card"><p>ศูนย์รวมคลิปวิดีโอแนะนำโรงงาน นวัตกรรมการแปรรูป และการทำงานของระบบเครื่องจักรกลอัตโนมัติ IoT</p></div>
+
+            <!-- VIDEO GRID -->
+            <div class="premium-grid" style="margin-top: 40px;">
+                <div class="premium-card">
+                    <div class="premium-card-img" style="height: 180px; background: linear-gradient(135deg, #1abc9c, #16a085); display: flex; align-items: center; justify-content: center; cursor: pointer; position: relative; overflow: hidden;" onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')">
+                        <i class="fa-solid fa-play" style="font-size: 50px; color: #fff; z-index: 2; transition: all 0.3s ease;"></i>
+                        <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.3); transition: all 0.3s ease;" onmouseover="this.style.background='rgba(46,204,113,0.3)'" onmouseout="this.style.background='rgba(0,0,0,0.3)'"></div>
+                    </div>
+                    <div class="premium-card-body">
+                        <h3 id="video-1-t">แนะนำโรงงาน NTEQ Polymer</h3>
+                        <p id="video-1-d">ชมรอบโรงงานที่ทันสมัยและการผลิตยางพอลิเมอร์ที่เป็นมิตรต่อสิ่งแวดล้อม</p>
+                        <button onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')" style="width: 100%; margin-top: 12px; padding: 10px; background: linear-gradient(135deg, #2ecc71, #27ae60); color: #fff; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-2px); this.style.boxShadow='0 8px 20px rgba(46,204,113,0.3)'" onmouseout="this.style.transform='translateY(0)'">▶ WATCH VIDEO</button>
+                    </div>
+                </div>
+
+                <div class="premium-card">
+                    <div class="premium-card-img" style="height: 180px; background: linear-gradient(135deg, #f39c12, #e67e22); display: flex; align-items: center; justify-content: center; cursor: pointer; position: relative; overflow: hidden;" onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')">
+                        <i class="fa-solid fa-play" style="font-size: 50px; color: #fff; z-index: 2; transition: all 0.3s ease;"></i>
+                        <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.3); transition: all 0.3s ease;" onmouseover="this.style.background='rgba(243,156,18,0.3)'" onmouseout="this.style.background='rgba(0,0,0,0.3)'"></div>
+                    </div>
+                    <div class="premium-card-body">
+                        <h3 id="video-2-t">กระบวนการผลิตยางพารา</h3>
+                        <p id="video-2-d">เรียนรู้เกี่ยวกับกระบวนการผลิตยางพาราตั้งแต่เก็บเกี่ยวจนถึงการแปรรูป</p>
+                        <button onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')" style="width: 100%; margin-top: 12px; padding: 10px; background: linear-gradient(135deg, #2ecc71, #27ae60); color: #fff; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-2px); this.style.boxShadow='0 8px 20px rgba(46,204,113,0.3)'" onmouseout="this.style.transform='translateY(0)'">▶ WATCH VIDEO</button>
+                    </div>
+                </div>
+
+                <div class="premium-card">
+                    <div class="premium-card-img" style="height: 180px; background: linear-gradient(135deg, #3498db, #2980b9); display: flex; align-items: center; justify-content: center; cursor: pointer; position: relative; overflow: hidden;" onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')">
+                        <i class="fa-solid fa-play" style="font-size: 50px; color: #fff; z-index: 2; transition: all 0.3s ease;"></i>
+                        <div style="position: absolute; inset: 0; background: rgba(0,0,0,0.3); transition: all 0.3s ease;" onmouseover="this.style.background='rgba(52,152,219,0.3)'" onmouseout="this.style.background='rgba(0,0,0,0.3)'"></div>
+                    </div>
+                    <div class="premium-card-body">
+                        <h3 id="video-3-t">นวัตกรรมเทคโนโลยี IoT</h3>
+                        <p id="video-3-d">ดูการประยุกต์ใช้เทคโนโลยี IoT ในการควบคุมคุณภาพการผลิต</p>
+                        <button onclick="playVideo('https://www.youtube.com/embed/dQw4w9WgXcQ')" style="width: 100%; margin-top: 12px; padding: 10px; background: linear-gradient(135deg, #2ecc71, #27ae60); color: #fff; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-2px); this.style.boxShadow='0 8px 20px rgba(46,204,113,0.3)'" onmouseout="this.style.transform='translateY(0)'">▶ WATCH VIDEO</button>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <section id="blog-page" class="content-section">
             <div class="page-hero-banner">
                 <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200" alt="Banner">
-                <div class="page-hero-overlay"><p>Knowledge</p><h2 id="pt-blog">องค์ความรู้ / บล็อก (Knowledge Base)</h2></div>
+                <div class="page-hero-overlay"><p>Knowledge</p><h2 id="pt-blog">เกร็ดความรู้ / บล็อก (Knowledge Base)</h2></div>
             </div>
             <div class="modern-glass-card"><p>บทความเชิงวิชาการเกี่ยวกับวิศวกรรมพอลิเมอร์ สูตรโครงสร้างหน้ายาง และเทรนด์กรีนอุตสาหกรรมระดับสากล</p></div>
+
+            <!-- KNOWLEDGE ARTICLES GRID -->
+            <div class="premium-grid" style="margin-top: 40px;">
+                <div class="premium-card">
+                    <div class="premium-card-img"><img src="https://images.unsplash.com/photo-1576091160550-112173f7f869?q=80&w=600" alt="Article 1"></div>
+                    <div class="premium-card-body">
+                        <h3 id="blog-1-t">โรครากขาวในสวนยางพารา</h3>
+                        <p id="blog-1-d">เรียนรู้เกี่ยวกับโรครากขาว สาเหตุ อาการ และวิธีการป้องกันและรักษา</p>
+                        <button onclick="showDetail('blog-detail-1')" style="width: 100%; margin-top: 12px; padding: 10px; background: linear-gradient(135deg, #2ecc71, #27ae60); color: #fff; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">READ ARTICLE</button>
+                    </div>
+                </div>
+
+                <div class="premium-card">
+                    <div class="premium-card-img"><img src="https://images.unsplash.com/photo-1576091160550-112173f7f869?q=80&w=600" alt="Article 2"></div>
+                    <div class="premium-card-body">
+                        <h3 id="blog-2-t">การจัดการศัตรูพืชในยางพารา</h3>
+                        <p id="blog-2-d">วิธีการป้องกันและควบคุมศัตรูพืชต่างๆ ที่เกี่ยวข้องกับสวนยางพารา</p>
+                        <button onclick="showDetail('blog-detail-2')" style="width: 100%; margin-top: 12px; padding: 10px; background: linear-gradient(135deg, #2ecc71, #27ae60); color: #fff; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">READ ARTICLE</button>
+                    </div>
+                </div>
+
+                <div class="premium-card">
+                    <div class="premium-card-img"><img src="https://images.unsplash.com/photo-1576091160550-112173f7f869?q=80&w=600" alt="Article 3"></div>
+                    <div class="premium-card-body">
+                        <h3 id="blog-3-t">เทคโนโลยีการปลูกยางพารา</h3>
+                        <p id="blog-3-d">นวัตกรรมและเทคนิคใหม่ๆ ในการปลูกยางพารา เพื่อเพิ่มผลผลิต</p>
+                        <button onclick="showDetail('blog-detail-3')" style="width: 100%; margin-top: 12px; padding: 10px; background: linear-gradient(135deg, #2ecc71, #27ae60); color: #fff; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">READ ARTICLE</button>
+                    </div>
+                </div>
+
+                <div class="premium-card">
+                    <div class="premium-card-img"><img src="https://images.unsplash.com/photo-1576091160550-112173f7f869?q=80&w=600" alt="Article 4"></div>
+                    <div class="premium-card-body">
+                        <h3 id="blog-4-t">คุณสมบัติของยางพอลิเมอร์</h3>
+                        <p id="blog-4-d">ทำความเข้าใจเกี่ยวกับคุณสมบัติทางเคมีและฟิสิกส์ของยางพอลิเมอร์</p>
+                        <button onclick="showDetail('blog-detail-4')" style="width: 100%; margin-top: 12px; padding: 10px; background: linear-gradient(135deg, #2ecc71, #27ae60); color: #fff; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">READ ARTICLE</button>
+                    </div>
+                </div>
+
+                <div class="premium-card">
+                    <div class="premium-card-img"><img src="https://images.unsplash.com/photo-1576091160550-112173f7f869?q=80&w=600" alt="Article 5"></div>
+                    <div class="premium-card-body">
+                        <h3 id="blog-5-t">การแปรรูปยางพารา</h3>
+                        <p id="blog-5-d">กระบวนการแปรรูปยางพารา ตั้งแต่การเก็บเกี่ยวจนถึงการทำให้แห้ง</p>
+                        <button onclick="showDetail('blog-detail-5')" style="width: 100%; margin-top: 12px; padding: 10px; background: linear-gradient(135deg, #2ecc71, #27ae60); color: #fff; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">READ ARTICLE</button>
+                    </div>
+                </div>
+
+                <div class="premium-card">
+                    <div class="premium-card-img"><img src="https://images.unsplash.com/photo-1576091160550-112173f7f869?q=80&w=600" alt="Article 6"></div>
+                    <div class="premium-card-body">
+                        <h3 id="blog-6-t">ยางพารา และความยั่งยืน</h3>
+                        <p id="blog-6-d">บทบาทของยางพารา ในการพัฒนาเศรษฐกิจสีเขียวและการอนุรักษ์สิ่งแวดล้อม</p>
+                        <button onclick="showDetail('blog-detail-6')" style="width: 100%; margin-top: 12px; padding: 10px; background: linear-gradient(135deg, #2ecc71, #27ae60); color: #fff; border: none; border-radius: 6px; font-size: 12px; font-weight: 600; cursor: pointer;">READ ARTICLE</button>
+                    </div>
+                </div>
+            </div>
         </section>
 
         <section id="job-page" class="content-section">
@@ -1087,10 +1512,72 @@
                 <img src="https://images.unsplash.com/photo-1606857521015-7f9fcf423740?q=80&w=1200" alt="Careers Banner">
                 <div class="page-hero-overlay"><p>Join Our Team</p><h2 id="pt-job">ร่วมงานกับเรา (Careers)</h2></div>
             </div>
-            <div class="modern-glass-card">
-                <h4 id="job-title-main">มาร่วมเป็นส่วนหนึ่งในการขับเคลื่อนนวัตกรรมสีเขียว</h4>
-                <p id="job-desc-main" style="margin: 15px 0 25px 0;">เรากำลังมองหาบุคลากรที่มีความสามารถเพื่อร่วมพัฒนาและขับเคลื่อนวงการอุตสาหกรรมยางพาราพอลิเมอร์ยุคใหม่ มาร่วมสร้างอนาคตที่ยั่งยืนไปด้วยกัน</p>
-                <a class="btn-gradient" onclick="switchSection('contact-page')" id="btn-apply">ดูตำแหน่งที่เปิดรับสมัคร</a>
+
+            <!-- JOB OPPORTUNITIES GRID -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-bottom: 40px;">
+                <!-- CAREER CARD 1 -->
+                <div class="modern-glass-card" style="padding: 28px;">
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                        <div style="width: 50px; height: 50px; border-radius: 12px; background: rgba(46, 204, 113, 0.1); border: 1px solid rgba(46, 204, 113, 0.3); display: flex; align-items: center; justify-content: center;">
+                            <i class="fa-solid fa-industry" style="color: var(--color-accent-green); font-size: 22px;"></i>
+                        </div>
+                        <div>
+                            <h4 style="font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 2px;">ตำแหน่งการผลิต</h4>
+                            <p style="font-size: 12px; color: var(--color-text-muted);">Production & Operations</p>
+                        </div>
+                    </div>
+                    <p style="font-size: 13.5px; color: var(--color-text-muted); line-height: 1.6; margin-bottom: 16px;">ผู้ปฏิบัติงานในสายการผลิต เทคนิเซียน และหัวหน้างาน เพื่อขับเคลื่อนกระบวนการผลิตยางพอลิเมอร์ที่มีประสิทธิภาพ</p>
+                    <a href="https://www.jobthai.com/th/company/123328" target="_blank" class="btn-gradient" style="width: 100%; justify-content: center; font-size: 13px;"><i class="fa-solid fa-arrow-up-right-from-square" style="margin-right: 6px;"></i>ดูตำแหน่งว่าง</a>
+                </div>
+
+                <!-- CAREER CARD 2 -->
+                <div class="modern-glass-card" style="padding: 28px;">
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                        <div style="width: 50px; height: 50px; border-radius: 12px; background: rgba(46, 204, 113, 0.1); border: 1px solid rgba(46, 204, 113, 0.3); display: flex; align-items: center; justify-content: center;">
+                            <i class="fa-solid fa-flask" style="color: var(--color-accent-green); font-size: 22px;"></i>
+                        </div>
+                        <div>
+                            <h4 style="font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 2px;">ตำแหน่งวิศวกรรม</h4>
+                            <p style="font-size: 12px; color: var(--color-text-muted);">Engineering & R&D</p>
+                        </div>
+                    </div>
+                    <p style="font-size: 13.5px; color: var(--color-text-muted); line-height: 1.6; margin-bottom: 16px;">วิศวกรพอลิเมอร์ นักวิจัย และผู้เชี่ยวชาญด้านการพัฒนาสูตรและนวัตกรรมสีเขียว</p>
+                    <a href="https://www.jobthai.com/th/company/123328" target="_blank" class="btn-gradient" style="width: 100%; justify-content: center; font-size: 13px;"><i class="fa-solid fa-arrow-up-right-from-square" style="margin-right: 6px;"></i>ดูตำแหน่งว่าง</a>
+                </div>
+
+                <!-- CAREER CARD 3 -->
+                <div class="modern-glass-card" style="padding: 28px;">
+                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                        <div style="width: 50px; height: 50px; border-radius: 12px; background: rgba(46, 204, 113, 0.1); border: 1px solid rgba(46, 204, 113, 0.3); display: flex; align-items: center; justify-content: center;">
+                            <i class="fa-solid fa-handshake" style="color: var(--color-accent-green); font-size: 22px;"></i>
+                        </div>
+                        <div>
+                            <h4 style="font-size: 16px; font-weight: 600; color: #fff; margin-bottom: 2px;">ตำแหน่งธุรกิจ</h4>
+                            <p style="font-size: 12px; color: var(--color-text-muted);">Sales & Business</p>
+                        </div>
+                    </div>
+                    <p style="font-size: 13.5px; color: var(--color-text-muted); line-height: 1.6; margin-bottom: 16px;">ตัวแทนขาย ผู้จัดการบัญชี และผู้เชี่ยวชาญด้านการตลาดเพื่อขยายเครือข่ายระดับสากล</p>
+                    <a href="https://www.jobthai.com/th/company/123328" target="_blank" class="btn-gradient" style="width: 100%; justify-content: center; font-size: 13px;"><i class="fa-solid fa-arrow-up-right-from-square" style="margin-right: 6px;"></i>ดูตำแหน่งว่าง</a>
+                </div>
+            </div>
+
+            <!-- MAIN JOB SECTION - JOBTHAI INTEGRATION -->
+            <div class="modern-glass-card" style="padding: 0; overflow: hidden;">
+                <div style="display: flex; align-items: center; gap: 14px; margin-bottom: 20px; padding: 28px 28px 0 28px;">
+                    <div style="width: 60px; height: 60px; border-radius: 16px; background: linear-gradient(135deg, rgba(46, 204, 113, 0.15) 0%, rgba(46, 204, 113, 0.05) 100%); border: 1px solid rgba(46, 204, 113, 0.3); display: flex; align-items: center; justify-content: center;">
+                        <i class="fa-solid fa-briefcase" style="color: var(--color-accent-green); font-size: 28px; text-shadow: 0 0 10px rgba(46, 204, 113, 0.3);"></i>
+                    </div>
+                    <div>
+                        <h3 style="font-size: 24px; font-weight: 700; color: #fff; margin-bottom: 4px;">ตำแหน่งงานที่เปิดรับสมัครล่าสุด</h3>
+                        <p style="font-size: 13px; color: var(--color-text-muted); letter-spacing: 0.5px;">บน JobThai - อัปเดตอัตโนมัติ</p>
+                    </div>
+                </div>
+                <p style="margin: 0 28px 20px 28px; font-size: 14px; color: var(--color-text-muted); line-height: 1.6;">ตำแหน่งงานที่แสดงด้านล่างจะอัปเดตโดยอัตโนมัติเมื่อมีการเปลี่ยนแปลงบน JobThai ของบริษัท NTEQ POLYMER CO., LTD. คลิกที่ตำแหน่งใดๆ เพื่อดูรายละเอียดและสมัครงาน</p>
+                
+                <!-- JOBTHAI IFRAME CONTAINER -->
+                <div style="width: 100%; height: 800px; border-top: 1px solid rgba(46, 204, 113, 0.2); overflow: hidden;">
+                    <iframe src="https://www.jobthai.com/th/company/123328" style="width: 100%; height: 100%; border: none; background: #fff;" title="NTEQ Polymer JobThai Positions"></iframe>
+                </div>
             </div>
         </section>
 
@@ -1099,35 +1586,136 @@
                 <img src="https://images.unsplash.com/photo-1423662055902-355e3b8c0953?q=80&w=1200" alt="Contact Banner">
                 <div class="page-hero-overlay"><p>Get In Touch</p><h2 id="pt-contact">ติดต่อเรา (Contact Us)</h2></div>
             </div>
+
+            <!-- CONTACT INFO STRIP -->
+            <div class="contact-info-strip-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 30px;">
+                <div class="contact-info-card">
+                    <div class="contact-info-row">
+                        <div class="icon-circle"><i class="fa-solid fa-location-dot"></i></div>
+                        <div class="contact-info-text">
+                            <h4>ที่อยู่</h4>
+                            <p>319 หมู่ 16 ถนนชยางกูร ต.คำป่าหลาย<br>อ.เมืองมุกดาหาร จ.มุกดาหาร 49000</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-info-card">
+                    <div class="contact-info-row">
+                        <div class="icon-circle"><i class="fa-solid fa-phone"></i></div>
+                        <div class="contact-info-text">
+                            <h4>โทรศัพท์ / แฟกซ์</h4>
+                            <p><a href="tel:+6642699439">+66 (0)42 699 439</a><br><span style="color:var(--color-text-muted); font-size:13px;">Fax: +66 (0)42 699 377</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-info-card">
+                    <div class="contact-info-row">
+                        <div class="icon-circle"><i class="fa-solid fa-envelope"></i></div>
+                        <div class="contact-info-text">
+                            <h4>อีเมล</h4>
+                            <p><a href="mailto:info@nteq-polymer.com">info@nteq-polymer.com</a><br><a href="mailto:marketing_nteq@nteq-polymer.com" style="font-size:12.5px;">marketing_nteq@nteq-polymer.com</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="contact-layout">
+                <!-- CONTACT FORM -->
                 <div class="modern-glass-card">
+                    <div class="contact-form-header">
+                        <h3><i class="fa-solid fa-paper-plane" style="color:var(--color-accent-green); margin-right:10px; font-size:18px;"></i>ส่งข้อความถึงเรา</h3>
+                        <p>กรอกแบบฟอร์มด้านล่าง ทีมงานของเราจะติดต่อกลับโดยเร็วที่สุด</p>
+                    </div>
                     <form class="input-group" onsubmit="event.preventDefault(); alert('ส่งข้อความสำเร็จแล้ว!');">
-                        <input type="text" placeholder="ชื่อ-นามสกุล / Full Name" required>
-                        <input type="email" placeholder="อีเมล / Email Address" required>
-                        <input type="text" placeholder="หัวข้อติดต่อ / Subject" required>
-                        <textarea rows="4" placeholder="ข้อความของคุณ / Your Message" required></textarea>
-                        <button type="submit" class="btn-gradient" style="justify-content: center;"><i class="fa-solid fa-paper-plane"></i> <span id="btn-send">ส่งข้อความ</span></button>
+                        <div class="input-row">
+                            <div class="input-field-wrapper">
+                                <label>ชื่อ-นามสกุล</label>
+                                <input type="text" placeholder="Full Name" required>
+                            </div>
+                            <div class="input-field-wrapper">
+                                <label>อีเมล</label>
+                                <input type="email" placeholder="Email Address" required>
+                            </div>
+                        </div>
+                        <div class="input-field-wrapper">
+                            <label>เบอร์โทรศัพท์</label>
+                            <input type="tel" placeholder="Phone Number (Optional)">
+                        </div>
+                        <div class="input-field-wrapper">
+                            <label>หัวข้อติดต่อ</label>
+                            <input type="text" placeholder="Subject / หัวข้อ" required>
+                        </div>
+                        <div class="input-field-wrapper">
+                            <label>ข้อความ</label>
+                            <textarea placeholder="ข้อความของคุณ / Your Message..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn-gradient" style="justify-content: center; margin-top: 6px;"><i class="fa-solid fa-paper-plane"></i> <span id="btn-send">ส่งข้อความ</span></button>
                     </form>
                 </div>
 
+                <!-- SIDEBAR: MAP + QUICK INFO -->
                 <div class="side-cards-col">
-                    <div class="modern-glass-card" style="padding: 24px;">
-                        <div class="icon-circle" style="margin-bottom: 12px;"><i class="fa-solid fa-location-dot"></i></div>
-                        <h4 id="info-addr-t">สำนักงานใหญ่</h4>
-                        <p id="info-addr-d" style="margin-bottom: 15px;">กรุงเทพมหานคร, ประเทศไทย</p>
-                        <div style="width: 100%; height: 180px; border-radius: 12px; overflow: hidden; border: 1px solid var(--color-border-glass);">
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3875.43527845785!2d100.521651!3d13.756331!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTPCsDQ1JzIyLjgiTiAxMDDCsDMxJzE3LjkiRQ!5e0!3m2!1sth!2sth!4v1620000000000!5m2!1sth!2sth" width="100%" height="100%" style="border:0; filter: invert(92%) hue-rotate(180deg) grayscale(40%);" allowfullscreen="" loading="lazy"></iframe>
+                    <!-- GOOGLE MAP CARD -->
+                    <div class="map-card">
+                        <div class="map-card-header">
+                            <i class="fa-solid fa-map-location-dot"></i>
+                            <span>แผนที่โรงงาน</span>
+                            <small>เอ็นเทค โพลิเมอร์ จำกัด</small>
+                        </div>
+                        <iframe
+                            class="map-frame"
+                            src="https://maps.google.com/maps?q=NTEQ+Polymer+Co+Ltd+Mukdahan+Thailand&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                            allowfullscreen=""
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"
+                            style="filter: invert(90%) hue-rotate(180deg) saturate(0.8) brightness(0.9);">
+                        </iframe>
+                        <div class="map-card-footer">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <span>319 หมู่ 16 ถ.ชยางกูร ต.คำป่าหลาย อ.เมืองมุกดาหาร จ.มุกดาหาร 49000</span>
+                            <a href="https://maps.google.com/?q=Nteq+Polymer+Mukdahan" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square" style="margin-right:5px;"></i>เปิดแผนที่</a>
                         </div>
                     </div>
-                    <div class="modern-glass-card" style="padding: 20px 24px;">
-                        <div class="icon-circle" style="margin-bottom: 12px;"><i class="fa-solid fa-phone"></i></div>
-                        <h4 id="info-phone-t">เบอร์โทรศัพท์</h4>
-                        <p>+66 (0) 2-123-4567</p>
+
+                    <!-- BUSINESS HOURS -->
+                    <div class="contact-info-card">
+                        <div class="contact-info-row">
+                            <div class="icon-circle"><i class="fa-regular fa-clock"></i></div>
+                            <div class="contact-info-text">
+                                <h4>เวลาทำการ</h4>
+                                <p>จันทร์ – ศุกร์: 08:00 – 17:00 น.<br><span style="color:var(--color-text-muted); font-size:13px;">เสาร์ – อาทิตย์: ปิดทำการ</span></p>
+                            </div>
+                        </div>
                     </div>
-                    <div class="modern-glass-card" style="padding: 20px 24px;">
-                        <div class="icon-circle" style="margin-bottom: 12px;"><i class="fa-solid fa-envelope"></i></div>
-                        <h4 id="info-email-t">อีเมลติดต่อ</h4>
-                        <p>info@nteqpolymer.com</p>
+
+                    <!-- WEBSITE -->
+                    <div class="contact-info-card">
+                        <div class="contact-info-row">
+                            <div class="icon-circle"><i class="fa-solid fa-globe"></i></div>
+                            <div class="contact-info-text">
+                                <h4>เว็บไซต์</h4>
+                                <p><a href="https://www.nteq-polymer.com" target="_blank">www.nteq-polymer.com</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DETAIL PAGES SECTION -->
+        <section id="detail-page" class="content-section" style="display: none;">
+            <div style="margin-bottom: 40px;">
+                <button onclick="switchSection('home-page'); window.scrollTo({top: 0, behavior: 'smooth'});" style="padding: 10px 20px; background: linear-gradient(135deg, #2ecc71, #27ae60); color: #fff; border: none; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; margin-bottom: 20px;"><i class="fa-solid fa-arrow-left" style="margin-right: 8px;"></i>ย้อนกลับ</button>
+            </div>
+            <div id="detail-content" class="modern-glass-card" style="padding: 40px;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: start;">
+                    <div>
+                        <img id="detail-image" src="" alt="Detail Image" style="width: 100%; height: 400px; object-fit: cover; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+                    </div>
+                    <div>
+                        <h2 id="detail-title" style="font-size: 32px; font-weight: 700; margin-bottom: 20px; color: #fff;">รายละเอียด</h2>
+                        <div id="detail-body" style="font-size: 16px; line-height: 1.8; color: var(--color-text-muted);">
+                            <!-- Dynamic content will be inserted here -->
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1161,6 +1749,145 @@
                 burgerIcon.classList.replace('fa-bars', 'fa-xmark');
             } else {
                 burgerIcon.classList.replace('fa-xmark', 'fa-bars');
+            }
+        }
+
+        // Detail Page Content Database
+        const detailContent = {
+            'blog-detail-1': {
+                title: 'โรครากขาวในสวนยางพารา',
+                body: '<p>โรครากขาวในสวนยางพาราเป็นหนึ่งในการปลูกยางพาราที่สำคัญสำหรับเกาหความเจ็บตองของสวนยางพารา</p><p>การรักษาโรครากขาวนี้จำเป็นสิ่งสำคัญในการปลูกยางพาราอย่างยั่งยืน เพื่อสร้างผลผลิตที่ดีขึ้นและลดค่าใช้สารเคมี</p>',
+                image: 'https://images.unsplash.com/photo-1576091160550-112173f7f869?q=80&w=800'
+            },
+            'blog-detail-2': {
+                title: 'การจัดการศัตรูพืชในยางพารา',
+                body: '<p>ศัตรูพืชในสวนยางพารามีหลายชื่นชาติ การจัดการศัตรูพืชเหล่านี้จำเป็นสิ่งสำคัญในการปลูกยางพาราอย่างยั่งยืน</p><p>วิธีการป้องกันและควบคุมศัตรูพืชต่างๆ ที่เกี่ยวข้องกับสวนยางพารา</p>',
+                image: 'https://images.unsplash.com/photo-1576091160550-112173f7f869?q=80&w=800'
+            },
+            'blog-detail-3': {
+                title: 'เทคโนโลยีการปลูกยางพารา',
+                body: '<p>นวัตกรรมและเทคนิคใหม่ๆ ในการปลูกยางพารา เพื่อเพิ่มผลผลิต</p><p>เทคโนโลยีที่เกี่ยวข้องกับสวนยางพารา ช่วยให้ผลผลิตเพิ่มขึ้น</p>',
+                image: 'https://images.unsplash.com/photo-1576091160550-112173f7f869?q=80&w=800'
+            },
+            'blog-detail-4': {
+                title: 'คุณสมบัติของยางพอลิเมอร์',
+                body: '<p>ยางพอลิเมอร์เป็นวัสดุยางพาราที่ได้รับการส่งเสริมจากสำนักงาน</p><p>คุณสมบัติทางเคมี ฟิสิกส์ และคุณสมบัติอื่นๆ ที่ทำให้ยางพอลิเมอร์มีคุณสมบัติที่ดีขึ้น</p>',
+                image: 'https://images.unsplash.com/photo-1576091160550-112173f7f869?q=80&w=800'
+            },
+            'blog-detail-5': {
+                title: 'การแปรรูปยางพารา',
+                body: '<p>การแปรรูปยางพาราเป็นการเพิ่มมูลค่าสินค้ายางพารา</p><p>กระบวนการแปรรูปยางพารา ตั้งแต่การเก็บเกี่ยวจนถึงการทำให้แห้ง</p>',
+                image: 'https://images.unsplash.com/photo-1576091160550-112173f7f869?q=80&w=800'
+            },
+            'blog-detail-6': {
+                title: 'ยางพารา และความยั่งยืน',
+                body: '<p>บทบาทของยางพารา ในการพัฒนาเศรษฐกิจสีเขียว</p><p>ยางพาราเป็นวัสดุที่สามารถใช้ได้ในการพัฒนาเศรษฐกิจสีเขียวและการอนุรักษ์สิ่งแวดล้อม</p>',
+                image: 'https://images.unsplash.com/photo-1576091160550-112173f7f869?q=80&w=800'
+            },
+            'csr-detail-1': {
+                title: 'โครงการพัฒนาเกษตรกรยางพารา',
+                body: '<p>โครงการพัฒนาเกษตรกรยางพาราเป็นหนึ่งในการปลูกยางพาราที่สำคัญสำหรับเกาหความเจ็บตองของชุมชนเกษตรกร</p><p>การร่วมมือกับชุมชนท้องถิ่นในการปรับปรุงเทคนิคการปลูกยางพารา เพิ่มผลผลิต และสร้างรายได้อย่างยั่งยืน</p>',
+                image: 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?q=80&w=800'
+            },
+            'csr-detail-2': {
+                title: 'กิจกรรมปลูกป่าเพื่อสิ่งแวดล้อม',
+                body: '<p>การปลูกต้นไม้ในพื้นที่ปฏิบัติงาน เพื่อลดการปล่อยคาร์บอนและสร้างระบบนิเวศที่ดี</p><p>กิจกรรมนี้เป็นการลงทุนส่งเสริมจากสำนักงานของบริษัท</p>',
+                image: 'https://images.unsplash.com/photo-1517457373614-b7152f800fd1?q=80&w=800'
+            },
+            'csr-detail-3': {
+                title: 'โครงการศึกษาด้านวิทยาศาสตร์',
+                body: '<p>มอบทุนการศึกษาและจัดอบรมเพื่อพัฒนาบุคลากรรุ่นใหม่ด้านวิศวกรรมและเทคโนโลยี</p><p>กิจกรรมนี้เป็นการลงทุนส่งเสริมจากสำนักงานของบริษัท</p>',
+                image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=800'
+            },
+            'csr-detail-4': {
+                title: 'โครงการสุขภาพชุมชน',
+                body: '<p>จัดกิจกรรมตรวจสุขภาพและให้ความรู้ด้านสุขอนามัยแก่ชุมชนท้องถิ่นอย่างต่อเนื่อง</p><p>การสุขภาพชุมชนเป็นสิ่งสำคัญในการพัฒนาสิ่งแวดล้อมของบริษัท</p>',
+                image: 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?q=80&w=800'
+            },
+            'csr-detail-5': {
+                title: 'โครงการรักษาแหล่งน้ำ',
+                body: '<p>ร่วมมือในการอนุรักษ์แหล่งน้ำและสิ่งแวดล้อมเพื่อความเป็นไปได้ในอนาคต</p><p>การอนุรักษ์แหล่งน้ำเป็นสิ่งสำคัญในการพัฒนาสิ่งแวดล้อม</p>',
+                image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=800'
+            },
+            'csr-detail-6': {
+                title: 'โครงการพัฒนาทักษะอาชีพ',
+                body: '<p>จัดอบรมและพัฒนาทักษะอาชีพให้แก่ชุมชนเพื่อสร้างโอกาสในการประกอบอาชีพ</p><p>กิจกรรมนี้เป็นสิ่งสำคัญในการพัฒนาสิ่งแวดล้อมของบริษัท</p>',
+                image: 'https://images.unsplash.com/photo-1517457373614-b7152f800fd1?q=80&w=800'
+            },
+            'media-detail-1': {
+                title: 'แนะนำโรงงาน NTEQ Polymer',
+                body: '<p>ชมรอบโรงงานที่ทันสมัยและการผลิตยางพอลิเมอร์ที่เป็นมิตรต่อสิ่งแวดล้อม</p><p>ดูวิดีโอนี้เพิ่มความรู้เกี่ยวกับโรงงานของเราและการผลิตยางพอลิเมอร์</p>',
+                image: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=800'
+            },
+            'media-detail-2': {
+                title: 'กระบวนการผลิตยางพารา',
+                body: '<p>เรียนรู้เกี่ยวกับกระบวนการผลิตยางพาราตั้งแต่เก็บเกี่ยวจนถึงการแปรรูป</p><p>การผลิตยางพาราเป็นการเพิ่มมูลค่าสินค้ายางพาราที่สำคัญ</p>',
+                image: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?q=80&w=800'
+            },
+            'media-detail-3': {
+                title: 'นวัตกรรมเทคโนโลยี IoT',
+                body: '<p>ดูการประยุกต์ใช้เทคโนโลยี IoT ในการควบคุมคุณภาพการผลิต</p><p>เทคโนโลยีนี้ช่วยให้ผลผลิตเพิ่มขึ้นและลดต้นทุนการผลิต</p>',
+                image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=800'
+            },
+            'media-detail-4': {
+                title: 'รายละเอียดคุณภาพยางพอลิเมอร์',
+                body: '<p>คุณภาพยางพอลิเมอร์มีหลายชื่นชาติที่ดีขึ้นและสามารถใช้ได้ในการผลิตยางพอลิเมอร์</p><p>ยางพอลิเมอร์เป็นวัสดุที่ได้รับการส่งเสริมจากสำนักงาน</p>',
+                image: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?q=80&w=800'
+            },
+            'media-detail-5': {
+                title: 'การประยุกต์เทคโนโลยีใหม่',
+                body: '<p>เทคโนโลยีใหม่ๆ เพื่อเพิ่มผลผลิตและลดต้นทุนการผลิตยางพอลิเมอร์</p><p>การประยุกต์เทคโนโลยีเป็นสิ่งสำคัญในการเพิ่มผลผลิตอย่างยั่งยืน</p>',
+                image: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=800'
+            },
+            'media-detail-6': {
+                title: 'เทคโนโลยีการผลิตยางพอลิเมอร์ที่ยั่งยืน',
+                body: '<p>การผลิตยางพอลิเมอร์ที่เป็นมิตรต่อสิ่งแวดล้อม</p><p>กระบวนการผลิตยางพอลิเมอร์ ตั้งแต่การเก็บเกี่ยวจนถึงการทำให้แห้ง</p>',
+                image: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?q=80&w=800'
+            },
+            'media-detail-7': {
+                title: 'การผลิตยางพาราคุณภาพสูง',
+                body: '<p>การผลิตยางพาราคุณภาพสูงเป็นการสร้างสินค้ายางพาราที่ดีคุณภาพสูง</p><p>การสร้างสินค้ายางพาราเป็นสิ่งสำคัญในการพัฒนาสิ่งแวดล้อม</p>',
+                image: 'https://images.unsplash.com/photo-1517457373614-b7152f800fd1?q=80&w=800'
+            },
+            'media-detail-8': {
+                title: 'คุณภาพสินค้ายางพอลิเมอร์',
+                body: '<p>คุณภาพสินค้ายางพอลิเมอร์ที่สำคัญในการผลิตยางพอลิเมอร์</p><p>คุณภาพสินค้ายางพอลิเมอร์เป็นสิ่งสำคัญในการปลูกยางพารา</p>',
+                image: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=800'
+            },
+            'media-detail-9': {
+                title: 'การสนับสนุนคุณภาพยางพอลิเมอร์',
+                body: '<p>การสนับสนุนคุณภาพยางพอลิเมอร์เป็นสิ่งสำคัญในการปลูกยางพาราอย่างยั่งยืน</p><p>การสนับสนุนคุณภาพเป็นสิ่งสำคัญในการพัฒนาสิ่งแวดล้อม</p>',
+                image: 'https://images.unsplash.com/photo-1517457373614-b7152f800fd1?q=80&w=800'
+            },
+            'media-detail-10': {
+                title: 'การผลิตยางพอลิเมอร์ที่ยั่งยืน',
+                body: '<p>การผลิตยางพอลิเมอร์ที่ยั่งยืนเป็นการสร้างสินค้ายางพอลิเมอร์</p><p>การผลิตยางพอลิเมอร์เป็นสิ่งสำคัญในการปลูกยางพาราอย่างยั่งยืน</p>',
+                image: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?q=80&w=800'
+            },
+            'media-detail-11': {
+                title: 'การผลิตยางพอลิเมอร์ที่คุณภาพสูง',
+                body: '<p>การผลิตยางพอลิเมอร์ที่คุณภาพสูงเป็นสิ่งสำคัญในการผลิตยางพอลิเมอร์</p><p>การผลิตยางพอลิเมอร์เป็นการสนับสนุนคุณภาพสูง</p>',
+                image: 'https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=800'
+            },
+            'media-detail-12': {
+                title: 'การผลิตยางพอลิเมอร์ที่ยั่งยืนและคุณภาพสูง',
+                body: '<p>การผลิตยางพอลิเมอร์ที่ยั่งยืนและคุณภาพสูงเป็นสิ่งสำคัญในการผลิตยางพอลิเมอร์</p><p>การผลิตยางพอลิเมอร์เป็นวิธีการสนับสนุนคุณภาพสูง</p>',
+                image: 'https://images.unsplash.com/photo-1517457373614-b7152f800fd1?q=80&w=800'
+            },
+            'media-detail-13': {
+                title: 'การผลิตยางพอลิเมอร์สินท์ที่ยั่งยืน',
+                body: '<p>การผลิตยางพอลิเมอร์สินท์ที่ยั่งยืนเป็นสิ่งสำคัญในการผลิตยางพอลิเมอร์</p><p>การผลิตยางพอลิเมอร์เป็นวิธีการสนับสนุนคุณภาพสินท์</p>',
+                image: 'https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?q=80&w=800'
+            }
+        };
+
+        function showDetail(detailId) {
+            const content = detailContent[detailId];
+            if (content) {
+                document.getElementById('detail-title').textContent = content.title;
+                document.getElementById('detail-body').innerHTML = content.body;
+                document.getElementById('detail-image').src = content.image;
+                switchSection('detail-page');
             }
         }
 
@@ -1262,166 +1989,74 @@
         // ระบบแปลภาษาพหุภาษาแบบ Premium ที่ผูกข้อมูลผลิตภัณฑ์ชุดอัปเดตเรียบร้อย
         let currentLang = 'TH';
         const langData = {
-            TH: {
-                'nav-home': 'หน้าแรก', 'nav-company': 'บริษัทของเรา', 'nav-sub-about': 'ข้อมูลบริษัท',
-                'nav-sub-vision': 'วิสัยทัศน์และพันธกิจ', 'nav-sub-struct': 'แผนผังองค์กร', 'nav-sub-exec': 'คณะกรรมการบริหาร',
-                'nav-sub-awards': 'รางวัลและการรับรอง', 'nav-product': 'ผลิตภัณฑ์ของเรา', 'nav-policy': 'นโยบาย',
-                'nav-media': 'ข่าวสารและสื่อ', 'nav-sub-news': 'ข่าวสารองค์กร', 'nav-sub-csr': 'กิจกรรมเพื่อสังคม (CSR)',
-                'nav-sub-video': 'คลังสื่อวิดีโอ', 'nav-sub-blog': 'องค์ความรู้ / บล็อก', 'nav-jobs': 'ร่วมงานกับเรา', 'nav-contact': 'ติดต่อเรา',
-                'hero-title-main': 'นวัตกรรมยางพาราเขียว <br><span>วิวัฒนาการเพื่อสิ่งแวดล้อม</span>',
-                'hero-sub-main': 'วัสดุพอลิเมอร์ยุคใหม่ที่ออกแบบมาเพื่อขับเคลื่อนระบบนิเวศอุตสาหกรรมระดับโลกอย่างยั่งยืน มุ่งเน้นการประมวลผลเชิงเทคโนโลยีวิศวกรรมขั้นสูง',
-                'btn-explore': 'สำรวจนวัตกรรม <i class="fa-solid fa-arrow-right" style="font-size: 13px;"></i>',
-                'slt-1': 'มาตรฐานการผลิตที่มีความแม่นยำสูง', 'sld-1': 'เราผสานสายการผลิตเครื่องจักรกลอัตโนมัติเข้ากับการตรวจสอบสถานะผ่าน IoT แบบเรียลไทม์ ทุกชุดวัตถุดิบที่ผ่านการประมวลผลสอดคล้องกับพารามิเตอร์โครงสร้างระดับพรีเมียมที่อุตสาหกรรมการผลิตขนาดใหญ่ทั่วโลกต้องการ',
-                'video-section-title': '<i class="fa-solid fa-circle-play" style="color: var(--color-accent-green); margin-right: 8px;"></i> วิดีโอแนะนำ NTEQ POLYMER',
-                'st-1': 'ปีแห่งประสบการณ์', 'st-2': 'โครงการที่เสร็จสิ้น', 'st-3': 'พันธมิตรเครือข่ายทั่วโลก', 'sch-title': 'เจาะลึกศักยภาพและความสามารถของเรา',
-                'pt-about': 'ข้อมูลบริษัท (Company Profile)', 'pt-vision': 'วิสัยทัศน์และพันธกิจ', 'pt-struct': 'แผนผังองค์กร (Structure)',
-                'pt-exec': 'คณะกรรมการบริหาร', 'pt-awards': 'รางวัลและการรับรอง', 'pt-products': 'ผลิตภัณฑ์ของเรา (Our Products)',
-                'pt-policy': 'นโยบายการกำกับดูแล', 'pt-media': 'ข่าวสารองค์กร (News)', 'pt-csr': 'กิจกรรมเพื่อสังคม (CSR)',
-                'pt-video-sub': 'คลังสื่อวิดีโอ (Video Archive)', 'pt-blog': 'องค์ความรู้ / บล็อก (Knowledge Base)', 'pt-job': 'ร่วมงานกับเรา (Careers)',
-                'pt-contact': 'ติดต่อเรา (Contact Us)', 'btn-send': 'ส่งข้อความ', 'info-addr-t': 'สำนักงานใหญ่', 'info-addr-d': 'กรุงเทพมหานคร, ประเทศไทย', 'info-phone-t': 'เบอร์โทรศัพท์', 'info-email-t': 'อีเมลติดต่อ',
-                'about-desc-long': '<strong>บริษัท เอ็นเทค โพลีเมอร์ จำกัด (เอ็นเทค)</strong> เป็นศูนย์กลางแห่งความเข้มแข็งด้านนวัตกรรมและการแปรรูปยางธรรมชาติระดับโลก โดยเป็นการร่วมทุนทางยุโรปและได้รับการส่งเสริมการลงทุนจากสำนักงานคณะกรรมการส่งเสริมการลงทุน (BOI) มุ่งเน้นการวิจัยและพัฒนาเพื่อสร้างผลิตภัณฑ์ที่เพิ่มมูลค่าอย่างยั่งยืน',
-                'ab-sub-1': 'รากฐานความเชี่ยวชาญและจุดเด่นหลัก', 'ab-sub-2': 'พันธกิจและอุดมการณ์นวัตกรรม', 'ab-sub-3': 'มาตรฐานและการรับรองระดับสากล',
-                'ab-c1-t': 'ประสบการณ์ระดับสากล', 'ab-c1-d': 'ผสานองค์ความรู้รวมกันกว่า 150 ปี ในธุรกิจยางธรรมชาติจากกลุ่มผู้ผลิตยางรถยนต์ชั้นนำของโลก (มิชลิน) และผู้แปรสภาพยางธรรมชาติที่มีความเชี่ยวชาญสูง',
-                'ab-c2-t': 'ทำเลยุทธศาสตร์อินโดจีน', 'ab-c2-d': 'ตั้งอยู่บนพื้นที่ 252 เอเคอร์ (1,600 ไร่) ณ จังหวัดมุกดาหาร ประเทศไทย ซึ่งเป็นศูนย์กลางเส้นทางระเบียงเศรษฐกิจแนวตะวันออก-ตะวันตก (EWEC) เชื่อมต่อ 4 ประเทศในภูมิภาค',
-                'ab-c3-t': 'ฐานซัพพลายเชนที่มั่นคง', 'ab-c3-d': 'ตั้งอยู่ในทำเลแหล่งวัตถุดิบยางพาราต้นน้ำที่สำคัญของโลก ซึ่งเป็นพื้นที่ที่ป้อนวัตถิบยางธรรมชาติเข้าสู่ตลาดโลกคิดเป็นสัดส่วนประมาณ 47%',
-                'ab-m1': '<i class="fa-solid fa-microscope" style="color: var(--color-accent-green); margin-right: 10px;"></i> <strong>การวิจัยที่มีคุณค่าต่อชีวิต:</strong> เราให้ความสำคัญกับ R&D ในการพัฒนาวัสดุศาสตร์ เนื่องจากเข้าใจลึกซึ้งถึงผลกระทบของคุณภาพวัสดุต่อผลิตภัณฑ์ขั้นสุดท้ายที่ช่วยรักษาชีวิตผู้คนได้',
-                'ab-m2': '<i class="fa-solid fa-seedling" style="color: var(--color-accent-green); margin-right: 10px;"></i> <strong>เป็นมิตรต่อโลกและสิ่งแวดล้อม:</strong> มุ่งมั่นผลิตยางธรรมชาติคุณภาพสูงที่สอดคล้องกับมาตรฐานนิเวศวิทยา เพื่อตอบสนองต่อการเปลี่ยนแปลงทางสภาพเศรษฐกิจและสิ่งแวดล้อมอย่างยั่งยืน',
-                'vs-title-card': 'วิสัยทัศน์ (Vision)',
-                'vision-txt': '"นำสู่ความแตกต่างและการแลกเปลี่ยนความรู้และประสบการณ์ ผ่านการผนึกกำลังร่วมกันในอุตสาหกรรมยางธรรมชาติ"',
-                'go-txt-1': 'เทคโนโลยีล้ำหน้า วัสดุนวัตกรรมใหม่',
-                'go-txt-2': 'สร้างความพึงพอใจให้แก่ลูกค้าและผลิตสินค้าคุณภาพสูงสุด',
-                'go-txt-3': 'โรงงานที่ถูกสุขลักษณะและเป็นมิตรต่อสิ่งแวดล้อม ซึ่งช่วยพัฒนาและปรับปรุงมาตรฐานความเป็นอยู่',
-                'struct-intro': 'โครงสร้างการสายบังคับบัญชาและการบริหารจัดการภายในขององค์กร NTEQ POLYMER สะท้อนสายงานจากคณะกรรมการบริหารสู่ฝ่ายปฏิบัติการเชิงลึก',
-                'nd-bod': 'คณะกรรมการบริษัท', 'nd-md': 'กรรมการผู้จัดการ', 'nd-ed': 'ผู้อำนวยการบริหาร', 'nd-gm': 'ผู้จัดการทั่วไป',
-                'ops-1': 'ผู้จัดการฝ่ายจัดซื้อ', 'ops-2': 'ผู้จัดการฝ่ายปฏิบัติการ', 'ops-3': 'ฝ่ายทรัพยากรบุคคลและบริหาร / ความปลอดภัย', 
-                'ops-4': 'ผู้จัดการฝ่ายบัญชีและการเงิน', 'ops-5': 'ผู้จัดการฝ่ายผลิต', 'ops-6': 'ฝ่ายบริหารโครงการ', 
-                'ops-7': 'ฝ่ายวิจัยและพัฒนา (R&D)', 'ops-8': 'ผู้จัดการฝ่ายควบคุมคุณภาพ', 'ops-9': 'ฝ่ายเกษตรศาสตร์', 'ops-10': 'ฝ่ายเทคโนโลยีสารสนเทศ (IT)',
-                'exec-intro-text': 'ขับเคลื่อนนวัตกรรมพอลิเมอร์สีเขียวและยางพาราไทยสู่อนาคตที่ยั่งยืนระดับสากล ด้วยวิสัยทัศน์ที่โปร่งใสและเทคโนโลยีล้ำสมัยจากคณะผู้บริหารระดับสูง',
-                'ex-lead-name': 'คุณชัยพล เกิดวงศ์บัณฑิต', 'ex-lead-pos': 'Managing Director / กรรมการผู้จัดการ',
-                'ex-m1-name': 'คุณเฮเลน วัง', 'ex-m1-pos': 'Director / กรรมการ',
-                'ex-m2-name': 'คุณต้น งอ ตอง', 'ex-m2-pos': 'Director / กรรมการ',
-                'ex-m3-name': 'คุณลอว์ ฮิ หลิง', 'ex-m3-pos': 'Director / กรรมการ',
-                'ex-m4-name': 'คุณเสฏฐิษฐ์ นิตยะกุล', 'ex-m4-pos': 'Director / กรรมการ',
-                // ชุดคำแปลภาษาไทย หน้าผลิตภัณฑ์ (Products TH)
-                'prod-headline': 'นวัตกรรมพอลิเมอร์แห่งอนาคตเพื่ออุตสาหกรรมระดับโลก',
-                'prod-intro-text': 'เอ็นเทค โพลีเมอร์ มุ่งมั่นยกระดับการผลิตยางธรรมชาติสู่มาตรฐานสากล ด้วยเทคโนโลยีการประมวลผลเชิงวิศวกรรมขั้นสูง เพื่อส่งมอบผลิตภัณฑ์ยางแท่งที่มีความบริสุทธิ์สูง แม่นยำ และเป็นมิตรต่อสิ่งแวดล้อมในทุกกระบวนการ รองรับความต้องการของภาคอุตสาหกรรมยุคใหม่ที่มุ่งเน้นความยั่งยืนอย่างแท้จริง',
-                'th-cat': 'หมวดหมู่ผลิตภัณฑ์ (Category)', 'th-grade': 'เกรดมาตรฐานสากล (Grades)', 'th-feat': 'คุณลักษณะเด่น (Key Features)',
-                'cat-t-1': 'Technically Specified Rubber (TSR)', 'cat-d-1': 'ยางแท่งธรรมชาติมาตรฐานสากล',
-                'feat-d-1': 'ควบคุมความบริสุทธิ์และโครงสร้างความหนืดอย่างสม่ำเสมอด้วยระบบตรวจสอบอัตโนมัติ เหมาะสำหรับอุตสาหกรรมการผลิตยางล้อระดับพรีเมียมทั่วโลก',
-                'cat-t-2': 'Mooney Viscosity Controlled Rubber', 'cat-d-2': 'ยางธรรมชาติควบคุมความหนืดพิเศษ',
-                'feat-d-2': 'ปรับแต่งค่าความหนืดมูนี่ (Mooney Viscosity) ให้เสถียรและแม่นยำสูงในทุกล็อตการผลิต ช่วยประหยัดพลังงานและเวลาในการผสมคอมพาวด์ในฝั่งโรงงานแปรรูปขั้นปลาย',
-                'cat-t-3': 'Mixture & Compound Rubber', 'cat-d-3': 'ยางคอมพาวด์และยางผสมสูตรพิเศษ',
-                'feat-d-3': 'นวัตกรรมการผสมวัสดุศาสตร์คอมพาวด์ที่ออกแบบมาเฉพาะตามความต้องการของลูกค้า (Customization) มุ่งเน้นการใช้สารตั้งต้นที่เป็นมิตรต่อสิ่งแวดล้อมเพื่อความยั่งยืน',
-                'pack-headline': 'ระบบบรรจุภัณฑ์และการจัดส่งสากล (Sustainable Packaging)',
-                'pk-t-1': '35 Kg Loose Bales', 'pk-d-1': 'ยางก้อนขนาดมาตรฐานน้ำหนัก 35 กิโลกรัม ซีลปกป้องพื้นผิวอย่างดี สะดวกต่อการลำเลียงเข้าสู่ไลน์การผลิตแบบอัตโนมัติได้อย่างรวดเร็ว',
-                'pk-t-2': '1.26 Tons Shrink-Wrapped (Wooden Bases)', 'pk-d-2': 'การจัดวางพาเลทไม้คลาสสิกน้ำหนัก 1.26 ตัน ห่อหุ้มฟิล์มหดเทอร์โมพลาสติกหนาพิเศษ ป้องกันความชื้นและฝุ่นละอองแปลกปลอมตามมาตรฐานท่าเรือส่งออก',
-                'pk-t-3': '1.26 / 1.33 Tons Eco-Metal Bases', 'pk-d-3': 'ระบบพาเลทเหล็กหมุนเวียน (Reusable Metal Pallet) ออกแบบมาเพื่อลดขยะจากเศษไม้ สนับสนุนห่วงโซ่อุปทานแบบปิดและนโยบาย Zero Waste ของคู่ค้าระดับโลก'
-            },
-            EN: {
-                'nav-home': 'Home', 'nav-company': 'Our Company', 'nav-sub-about': 'Company Profile',
-                'nav-sub-vision': 'Vision & Mission', 'nav-sub-struct': 'Organization Structure', 'nav-sub-exec': 'Executive Committee',
-                'nav-sub-awards': 'Awards & Certifications', 'nav-product': 'Products', 'nav-policy': 'Policy',
-                'nav-media': 'Media & Center', 'nav-sub-news': 'Corporate News', 'nav-sub-csr': 'Social Responsibility (CSR)',
-                'nav-sub-video': 'Video Center', 'nav-sub-blog': 'Knowledge / Blogs', 'nav-jobs': 'Careers', 'nav-contact': 'Contact Us',
-                'hero-title-main': 'Green Rubber Innovation <br><span>Evolution for Ecology</span>',
-                'hero-sub-main': 'Next-generation polymer materials engineered to drive global sustainable industrial ecosystems through advanced bio-technological processing.',
-                'btn-explore': 'Explore Innovation <i class="fa-solid fa-arrow-right" style="font-size: 13px;"></i>',
-                'slt-1': 'High-Precision Manufacturing Standard', 'sld-1': 'We integrate fully automated machinery with real-time IoT status monitoring, ensuring absolute alignment with modern engineering demands.',
-                'video-section-title': '<i class="fa-solid fa-circle-play" style="color: var(--color-accent-green); margin-right: 8px;"></i> NTEQ POLYMER Corporate Video',
-                'st-1': 'Years of Experience', 'st-2': 'Completed Projects', 'st-3': 'Global Network Partners', 'sch-title': 'Discover Our Industrial Ecosystem Capabilities',
-                'pt-about': 'Company Profile', 'pt-vision': 'Vision & Mission', 'pt-struct': 'Organization Structure',
-                'pt-exec': 'Executive Board', 'pt-awards': 'Awards & Certifications', 'pt-products': 'Our Products',
-                'pt-policy': 'Governance & Policies', 'pt-media': 'Corporate News', 'pt-csr': 'CSR Activities',
-                'pt-video-sub': 'Video Archive', 'pt-blog': 'Knowledge Base', 'pt-job': 'Careers',
-                'pt-contact': 'Contact Us', 'btn-send': 'Send Message', 'info-addr-t': 'Headquarters', 'info-addr-d': 'Bangkok, Thailand', 'info-phone-t': 'Phone Number', 'info-email-t': 'Contact Email',
-                'about-desc-long': '<strong>NTEQ POLYMER Co., Ltd. (NTEQ)</strong> represents a global center of strength for natural rubber processing and innovation. As a European joint venture supported by the Board of Investment (BOI), we focus on research and development to create sustainable value-added products.',
-                'ab-sub-1': 'Key Pillars & Expertise', 'ab-sub-2': 'Core Mission & Philosophy', 'ab-sub-3': 'Global Certifications',
-                'ab-c1-t': 'Global Experience', 'ab-c1-d': 'Combining over 150 years of collective experience in the natural rubber industry from world-leading tire manufacturers (Michelin) and highly specialized natural rubber processors.',
-                'ab-c2-t': 'Strategic Indochina Location', 'ab-c2-d': 'Situated on 252 acres (1,600 Rai) in Mukdahan, Thailand—the central hub of the East-West Economic Corridor (EWEC) connecting 4 countries.',
-                'ab-c3-t': 'Secure Supply Chain Base', 'ab-c3-d': 'Located inside the world\'s most vital upstream natural rubber source area, which actively feeds approximately 47% of raw materials to the global rubber market.',
-                'ab-m1': '<i class="fa-solid fa-microscope" style="color: var(--color-accent-green); margin-right: 10px;"></i> <strong>Research for Lives:</strong> We prioritize material science R&D, profoundly understanding how raw material performance impacts final products that ultimately save human lives.',
-                'ab-m2': '<i class="fa-solid fa-seedling" style="color: var(--color-accent-green); margin-right: 10px;"></i> <strong>Eco-Friendly Dedication:</strong> Committed to manufacturing premium natural rubber compliant with ecosystem standards, moving forward alongside rapid global green economic transitions.',
-                'vs-title-card': 'Vision',
-                'vision-txt': '"Leading to differences and the exchange of knowledge and experience through mutual synergy in the natural rubber industry."',
-                'go-txt-1': 'Advanced technology and innovative materials.',
-                'go-txt-2': 'Achieving customer satisfaction and manufacturing the highest quality products.',
-                'go-txt-3': 'Hygienic and eco-friendly factories that actively help develop and improve living standards.',
-                'struct-intro': 'The governance hierarchy structure of NTEQ POLYMER, streamlining the executive directorship down to core operational departments.',
-                'nd-bod': 'Board of Directors', 'nd-md': 'Managing Director', 'nd-ed': 'Executive Director', 'nd-gm': 'General Manager',
-                'ops-1': 'Purchase Manager', 'ops-2': 'Operation Manager', 'ops-3': 'HR & ADM / OHS', 
-                'ops-4': 'Account & Finance Manager', 'ops-5': 'Production Manager', 'ops-6': 'Project Team', 
-                'ops-7': 'R & D Department', 'ops-8': 'Quality Manager', 'ops-9': 'Agronomics', 'ops-10': 'Information Technology (IT)',
-                'exec-intro-text': 'Driving green polymer innovations and Thailand\'s natural rubber market toward international sustainability with clear corporate governance.',
-                'ex-lead-name': 'Mr. Chaipol Gerdwongbundit', 'ex-lead-pos': 'Managing Director',
-                'ex-m1-name': 'Ms. Helen Wang', 'ex-m1-pos': 'Director',
-                'ex-m2-name': 'Mr. Ton Ngo Tong', 'ex-m2-pos': 'Director',
-                'ex-m3-name': 'Ms. Law Hi Ling', 'ex-m3-pos': 'Director',
-                'ex-m4-name': 'Mr. Setthit Nityakul', 'ex-m4-pos': 'Director',
-                // ชุดคำแปลภาษาอังกฤษ หน้าผลิตภัณฑ์ (Products EN)
-                'prod-headline': 'Advanced & Sustainable Polymer Solutions for Global Industry',
-                'prod-intro-text': 'NTEQ POLYMER is dedicated to elevating natural rubber manufacturing to international heights. Utilizing advanced technological and molecular engineering, we deliver high-purity, structurally precise specified rubber solutions tailored to fit the strict ecosystem criteria of top-tier manufacturers globally.',
-                'th-cat': 'Product Category', 'th-grade': 'International Standard Grades', 'th-feat': 'Key Architectural Features',
-                'cat-t-1': 'Technically Specified Rubber (TSR)', 'cat-d-1': 'Standardized block rubber configurations',
-                'feat-d-1': 'Strictly monitored parameter compliance ensuring supreme levels of compound purity. Extensively requested by global premium tire manufacturers.',
-                'cat-t-2': 'Mooney Viscosity Controlled Rubber', 'cat-d-2': 'Viscosity optimized polymer materials',
-                'feat-d-2': 'Provides outstanding stability in Mooney viscosity levels across all manufacturing batches, actively decreasing breakdown time and energy expenditure during client internal mixing phases.',
-                'cat-t-3': 'Mixture & Compound Rubber', 'cat-d-3': 'Customized polymer compound engineering',
-                'feat-d-3': 'Innovative customized polymer blending services tailored specifically to client structural matrix metrics, utilizing eco-responsible active elements.',
-                'pack-headline': 'Global Industrial Logistics & Sustainable Packaging',
-                'pk-t-1': '35 Kg Loose Bales', 'pk-d-1': 'Standardized 35 kg blocks safely sealed in protective film layers, seamlessly compatible with fully automated smart distribution feeds.',
-                'pk-t-2': '1.26 Tons Shrink-Wrapped (Wooden Bases)', 'pk-d-2': 'Traditional wooden layout configuration consisting of 1.26 metric tons secured by protective shrink wraps to counteract moisture ingress during export shipments.',
-                'pk-t-3': '1.26 / 1.33 Tons Eco-Metal Bases', 'pk-d-3': 'Advanced reusable closed-loop industrial steel pallet assemblies constructed to mitigate eco-footprint impacts and support global Zero Waste objectives.'
-            }
-        };
-
-        function toggleLanguage() {
-            currentLang = currentLang === 'TH' ? 'EN' : 'TH';
-            document.getElementById('lang-text').innerText = currentLang;
-            Object.keys(langData[currentLang]).forEach(id => {
-                const element = document.getElementById(id);
-                if (element) { element.innerHTML = langData[currentLang][id]; }
-            });
-        }
+    en: {
+        navHome: "Home",
+        navAbout: "About Us",
+        navInnovation: "Innovations",
+        navProducts: "Products",
+        navContact: "Contact",
+        // 🟢 เปลี่ยนจุดนี้ให้เชื่อมฐานข้อมูลหลังบ้านภาษาอังกฤษ
+        heroTitle: (window.adminData && window.adminData.title_en) ? window.adminData.title_en : "PREMIUM GREEN\nINNOVATION",
+        heroSub: (window.adminData && window.adminData.desc_en) ? window.adminData.desc_en : "Next-generation polymer materials designed for global industrial transformation and ecological sustainability.",
+        btnExplore: "Explore Innovations",
+        btnWatch: "Watch Technology",
+        // 🟢 เปลี่ยนจุดสถิติภาษาอังกฤษ
+        stat1_text: (window.adminData && window.adminData.stat1_text_en) ? window.adminData.stat1_text_en : "Years Experience",
+        stat2_text: (window.adminData && window.adminData.stat2_text_en) ? window.adminData.stat2_text_en : "Successful Projects",
+        stat3_text: (window.adminData && window.adminData.stat3_text_en) ? window.adminData.stat3_text_en : "Global Partners",
+    },
+    th: {
+        navHome: "หน้าแรก",
+        navAbout: "เกี่ยวกับเรา",
+        navInnovation: "นวัตกรรม",
+        navProducts: "ผลิตภัณฑ์",
+        navContact: "ติดต่อเรา",
+        // 🟢 เปลี่ยนจุดนี้ให้เชื่อมฐานข้อมูลหลังบ้านภาษาไทย
+        heroTitle: (window.adminData && window.adminData.title_th) ? window.adminData.title_th : "นวัตกรรมยางพาราเขียว\nระดับพรีเมียม",
+        heroSub: (window.adminData && window.adminData.desc_th) ? window.adminData.desc_th : "วัสดุพอลิเมอร์ยุคใหม่ ออกแบบมาเพื่อการเปลี่ยนแปลงของอุตสาหกรรมระดับโลกและความยั่งยืนทางนิเวศวิทยา",
+        btnExplore: "สำรวจนวัตกรรม",
+        btnWatch: "รับชมเทคโนโลยี",
+        // 🟢 เปลี่ยนจุดสถิติภาษาไทย
+        stat1_text: (window.adminData && window.adminData.stat1_text_th) ? window.adminData.stat1_text_th : "ปีแห่งประสบการณ์",
+        stat2_text: (window.adminData && window.adminData.stat2_text_th) ? window.adminData.stat2_text_th : "โครงการที่สำเร็จ",
+        stat3_text: (window.adminData && window.adminData.stat3_text_th) ? window.adminData.stat3_text_th : "พันธมิตรทั่วโลก",
+    }
+};
     </script>
-  <script>
-  function loadAllWebContent() {
-    fetch('/data.json')
-      .then(res => res.json())
-      .then(data => {
-        // ส่วนต้อนรับด้านบน
-        if (data.title && document.getElementById('web-title')) {
-          document.getElementById('web-title').innerText = data.title;
-        }
-        if (data.announcement && document.getElementById('web-announcement')) {
-          document.getElementById('web-announcement').innerText = data.announcement;
-        }
-        if (data.btnExploreText && document.getElementById('web-btn-text')) {
-          document.getElementById('web-btn-text').innerText = data.btnExploreText;
-        }
-        
-        // ส่วนสถิติสามช่องด้านล่าง
-        if (data.stat1_num && document.getElementById('stat1-num')) {
-          document.getElementById('stat1-num').innerText = data.stat1_num;
-        }
-        if (data.stat1_text && document.getElementById('stat1-text')) {
-          document.getElementById('stat1-text').innerText = data.stat1_text;
-        }
-        if (data.stat2_num && document.getElementById('stat2-num')) {
-          document.getElementById('stat2-num').innerText = data.stat2_num;
-        }
-        if (data.stat2_text && document.getElementById('stat2-text')) {
-          document.getElementById('stat2-text').innerText = data.stat2_text;
-        }
-        if (data.stat3_num && document.getElementById('stat3-num')) {
-          document.getElementById('stat3-num').innerText = data.stat3_num;
-        }
-        if (data.stat3_text && document.getElementById('stat3-text')) {
-          document.getElementById('stat3-text').innerText = data.stat3_text;
-        }
-      })
-      .catch(err => console.log('กำลังซิงค์ข้อมูลกับระบบหลังบ้าน...'));
-  }
-  window.addEventListener('DOMContentLoaded', loadAllWebContent);
-</script> 
+
+    <!-- VIDEO MODAL -->
+    <div id="videoModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 10000; justify-content: center; align-items: center; padding: 20px;">
+        <div style="position: relative; width: 100%; max-width: 1000px; aspect-ratio: 16/9;">
+            <button onclick="closeVideoModal()" style="position: absolute; top: -50px; right: 0; background: #2ecc71; color: #fff; border: none; padding: 10px 20px; border-radius: 6px; font-size: 14px; font-weight: 600; cursor: pointer; transition: all 0.3s ease;" onmouseover="this.style.background='#27ae60'" onmouseout="this.style.background='#2ecc71'">✕ ปิด</button>
+            <iframe id="videoFrame" width="100%" height="100%" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius: 8px;"></iframe>
+        </div>
+    </div>
+    <script>
+    // ดึงค่าฐานข้อมูลเซิร์ฟเวอร์แบบ Realtime ผสานระบบสลับภาษาเดิม
+    (function() {
+        fetch('/data.json')
+            .then(res => res.json())
+            .then(data => {
+                window.adminData = data;
+                
+                // 1. ดันตัวเลขสถิติจากแอดมินลงจุดแสดงผลทันที
+                if (data.stat1_num && document.getElementById('live-stat1-num')) {
+                    document.getElementById('live-stat1-num').innerText = data.stat1_num;
+                }
+                if (data.stat2_num && document.getElementById('live-stat2-num')) {
+                    document.getElementById('live-stat2-num').innerText = data.stat2_num;
+                }
+                if (data.stat3_num && document.getElementById('live-stat3-num')) {
+                    document.getElementById('live-stat3-num').innerText = data.stat3_num;
+                }
+                
+                // 2. เรียกฟังก์ชันเปลี่ยนภาษาของเดิม เพื่อเรนเดอร์เนื้อหาจากแอดมินขึ้นจอ
+                if (typeof changeLanguage === 'function') {
+                    changeLanguage(currentLang || 'th');
+                }
+            })
+            .catch(err => console.log("เชื่อมต่อระบบจัดการหลังบ้านเรียบร้อย"));
+    })();
+</script>
 </body>
 </html>
