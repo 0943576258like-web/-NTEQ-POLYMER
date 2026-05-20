@@ -1384,26 +1384,44 @@
         }
     </script>
   <script>
-  // ฟังก์ชันดึงข้อมูลล่าสุดจากหน้าแอดมินมาแสดง
-  function updateLiveContent() {
+  function loadAllWebContent() {
     fetch('/data.json')
       .then(res => res.json())
       .then(data => {
-        const title = document.getElementById('web-title');
-        const info = document.getElementById('web-announcement');
-        
-        if (data.title && title) {
-          title.innerText = data.title;
+        // ส่วนต้อนรับด้านบน
+        if (data.title && document.getElementById('web-title')) {
+          document.getElementById('web-title').innerText = data.title;
         }
-        if (data.announcement && info) {
-          info.innerText = data.announcement;
+        if (data.announcement && document.getElementById('web-announcement')) {
+          document.getElementById('web-announcement').innerText = data.announcement;
+        }
+        if (data.btnExploreText && document.getElementById('web-btn-text')) {
+          document.getElementById('web-btn-text').innerText = data.btnExploreText;
+        }
+        
+        // ส่วนสถิติสามช่องด้านล่าง
+        if (data.stat1_num && document.getElementById('stat1-num')) {
+          document.getElementById('stat1-num').innerText = data.stat1_num;
+        }
+        if (data.stat1_text && document.getElementById('stat1-text')) {
+          document.getElementById('stat1-text').innerText = data.stat1_text;
+        }
+        if (data.stat2_num && document.getElementById('stat2-num')) {
+          document.getElementById('stat2-num').innerText = data.stat2_num;
+        }
+        if (data.stat2_text && document.getElementById('stat2-text')) {
+          document.getElementById('stat2-text').innerText = data.stat2_text;
+        }
+        if (data.stat3_num && document.getElementById('stat3-num')) {
+          document.getElementById('stat3-num').innerText = data.stat3_num;
+        }
+        if (data.stat3_text && document.getElementById('stat3-text')) {
+          document.getElementById('stat3-text').innerText = data.stat3_text;
         }
       })
-      .catch(err => console.log("รอข้อมูลจากแอดมิน..."));
+      .catch(err => console.log('กำลังซิงค์ข้อมูลกับระบบหลังบ้าน...'));
   }
-
-  // ทำงานทันทีที่เปิดหน้าเว็บ
-  window.addEventListener('DOMContentLoaded', updateLiveContent);
-</script>   
+  window.addEventListener('DOMContentLoaded', loadAllWebContent);
+</script> 
 </body>
 </html>
