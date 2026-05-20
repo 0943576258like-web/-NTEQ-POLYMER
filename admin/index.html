@@ -24,48 +24,34 @@
             display: flex; min-height: 100vh;
         }
 
-        /* --- Sidebar ดีไซน์ Cyber Dark Green --- */
         .sidebar {
-            width: 280px;
-            background: #010402;
-            color: #ffffff; position: fixed; height: 100vh;
-            display: flex; flex-direction: column; 
-            border-right: 1px solid var(--nteq-border);
+            width: 280px; background: #010402; color: #ffffff; position: fixed; height: 100vh;
+            display: flex; flex-direction: column; border-right: 1px solid var(--nteq-border);
         }
 
         .sidebar-brand {
             padding: 30px 24px; font-size: 20px; font-weight: 700;
-            border-bottom: 1px solid var(--nteq-border);
-            display: flex; align-items: center; gap: 12px;
-            letter-spacing: 1px;
+            border-bottom: 1px solid var(--nteq-border); display: flex; align-items: center; gap: 12px;
         }
 
         .sidebar-brand span { color: var(--nteq-green); }
-
         .sidebar-menu { list-style: none; padding: 0; margin: 30px 0; flex: 1; }
-
         .sidebar-menu li a {
             display: flex; align-items: center; gap: 15px; padding: 16px 28px;
             color: #8a958f; text-decoration: none; font-size: 15px; transition: all 0.3s;
         }
-
         .sidebar-menu li.active a, .sidebar-menu li a:hover {
             color: #ffffff; background: rgba(46, 204, 113, 0.05); border-left: 5px solid var(--nteq-green);
         }
 
-        /* --- พื้นที่เนื้อหาด้านขวา --- */
         .main-content { margin-left: 280px; flex: 1; padding: 40px; box-sizing: border-box; }
-
         .top-header {
             display: flex; justify-content: space-between; align-items: center;
             margin-bottom: 40px; border-bottom: 1px solid var(--nteq-border); padding-bottom: 20px;
         }
-
         .top-header h1 { font-size: 26px; font-weight: 700; color: #ffffff; margin: 0; }
-
         .top-header h1 span { color: var(--nteq-green); }
 
-        /* --- กล่องการ์ดอินพุตสไตล์กระจกหรู --- */
         .config-card {
             background: var(--nteq-card-bg); border-radius: 16px; padding: 35px;
             border: 1px solid var(--nteq-border); max-width: 850px; margin-bottom: 30px;
@@ -78,30 +64,24 @@
         }
 
         .form-group { margin-bottom: 20px; }
-
         .form-group label { display: block; margin-bottom: 8px; font-weight: 500; color: #a2b5aa; font-size: 14px; }
-
+        
         .row-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-
-        .stat-box {
-            background: rgba(255,255,255,0.02); padding: 15px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.05);
-        }
+        .stat-box { background: rgba(255,255,255,0.02); padding: 15px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.05); }
 
         input[type="text"], textarea {
             width: 100%; padding: 12px 18px; border: 1px solid rgba(46, 204, 113, 0.3); border-radius: 8px;
             box-sizing: border-box; font-family: inherit; font-size: 14px; background-color: rgba(0,0,0,0.3); color: #fff;
             transition: all 0.3s;
         }
-
         input[type="text"]:focus, textarea:focus { outline: none; border-color: var(--nteq-green); box-shadow: 0 0 10px rgba(46, 204, 113, 0.2); }
 
         .btn-submit {
-            background: var(--gradient-btn); color: white; padding: 15px 35px; border: none;
+            background: linear-gradient(135deg, var(--nteq-green), #27ae60); color: white; padding: 15px 35px; border: none;
             border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: 600;
             display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
             transition: all 0.3s;
         }
-
         .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(46, 204, 113, 0.5); }
     </style>
 </head>
@@ -116,49 +96,49 @@
     </div>
 
     <div class="main-content">
-        <div class="top-header"><h1>ระบบจัดการเนื้อหาหน้าแรก <span>(Full CMS Dashboard)</span></h1></div>
+        <div class="top-header"><h1>ระบบจัดการเนื้อหา <span>(CMS Dashboard)</span></h1></div>
         
         <form id="full-admin-form">
             <div class="config-card">
-                <div class="card-title"><i class="fa-solid fa-display"></i> 1. ส่วนต้อนรับด้านบนสุด (Hero Section)</div>
-                <div class="form-group"><label>หัวข้อหลักภาษาอังกฤษ (Main Title EN)</label><input type="text" id="title_en" required></div>
-                <div class="form-group"><label>หัวข้อหลักภาษาไทย (Main Title TH)</label><input type="text" id="title_th" required></div>
-                <div class="form-group"><label>คำบรรยายภาษาอังกฤษ (Subtitle EN)</label><textarea id="desc_en" rows="2" required></textarea></div>
-                <div class="form-group"><label>คำบรรยายภาษาไทย (Subtitle TH)</label><textarea id="desc_th" rows="2" required></textarea></div>
+                <div class="card-title"><i class="fa-solid fa-display"></i> 1. ข้อความต้อนรับหลัก (Hero Section)</div>
+                <div class="form-group"><label>หัวข้อหลักภาษาอังกฤษ (Main Title EN)</label><textarea id="title_en" rows="2" required></textarea></div>
+                <div class="form-group"><label>หัวข้อหลักภาษาไทย (Main Title TH)</label><textarea id="title_th" rows="2" required></textarea></div>
+                <div class="form-group"><label>คำบรรยายภาษาอังกฤษ (Subtitle EN)</label><textarea id="desc_en" rows="3" required></textarea></div>
+                <div class="form-group"><label>คำบรรยายภาษาไทย (Subtitle TH)</label><textarea id="desc_th" rows="3" required></textarea></div>
             </div>
 
             <div class="config-card">
                 <div class="card-title"><i class="fa-solid fa-chart-bar"></i> 2. ส่วนข้อมูลตัวเลขสถิติ (Statistics)</div>
                 <div class="row-grid">
                     <div class="stat-box">
-                        <div class="form-group"><label>สถิติ 1 (ตัวเลข เช่น 15+)</label><input type="text" id="stat1_num"></div>
-                        <div class="form-group"><label>คำอธิบาย (ภาษาไทย)</label><input type="text" id="stat1_th"></div>
-                        <div class="form-group"><label>คำอธิบาย (English)</label><input type="text" id="stat1_en"></div>
+                        <div class="form-group"><label>สถิติ 1 (ตัวเลข)</label><input type="text" id="stat1_num"></div>
+                        <div class="form-group"><label>คำอธิบาย (TH)</label><input type="text" id="stat1_th"></div>
+                        <div class="form-group"><label>คำอธิบาย (EN)</label><input type="text" id="stat1_en"></div>
                     </div>
                     <div class="stat-box">
-                        <div class="form-group"><label>สถิติ 2 (ตัวเลข เช่น 500)</label><input type="text" id="stat2_num"></div>
-                        <div class="form-group"><label>คำอธิบาย (ภาษาไทย)</label><input type="text" id="stat2_th"></div>
-                        <div class="form-group"><label>คำอธิบาย (English)</label><input type="text" id="stat2_en"></div>
+                        <div class="form-group"><label>สถิติ 2 (ตัวเลข)</label><input type="text" id="stat2_num"></div>
+                        <div class="form-group"><label>คำอธิบาย (TH)</label><input type="text" id="stat2_th"></div>
+                        <div class="form-group"><label>คำอธิบาย (EN)</label><input type="text" id="stat2_en"></div>
                     </div>
                     <div class="stat-box">
-                        <div class="form-group"><label>สถิติ 3 (ตัวเลข เช่น 100+)</label><input type="text" id="stat3_num"></div>
-                        <div class="form-group"><label>คำอธิบาย (ภาษาไทย)</label><input type="text" id="stat3_th"></div>
-                        <div class="form-group"><label>คำอธิบาย (English)</label><input type="text" id="stat3_en"></div>
+                        <div class="form-group"><label>สถิติ 3 (ตัวเลข)</label><input type="text" id="stat3_num"></div>
+                        <div class="form-group"><label>คำอธิบาย (TH)</label><input type="text" id="stat3_th"></div>
+                        <div class="form-group"><label>คำอธิบาย (EN)</label><input type="text" id="stat3_en"></div>
                     </div>
                 </div>
             </div>
 
-            <button type="submit" class="btn-submit"><i class="fa-solid fa-floppy-disk"></i> บันทึกข้อมูลและอัปเดตหน้าเว็บ</button>
+            <button type="submit" class="btn-submit"><i class="fa-solid fa-floppy-disk"></i> บันทึกและอัปเดตระบบ</button>
         </form>
     </div>
 
 <script>
-    // โหลดข้อมูลเดิมมาใส่ในฟอร์มเมื่อเปิดหน้าเว็บ
+    // ดึงข้อมูลเดิมมาป้อนลงฟอร์ม
     fetch('/data.json').then(res => res.json()).then(data => {
-        document.getElementById('title_en').value = data.title_en || '';
-        document.getElementById('title_th').value = data.title_th || '';
-        document.getElementById('desc_en').value = data.desc_en || '';
-        document.getElementById('desc_th').value = data.desc_th || '';
+        document.getElementById('title_en').value = data.title_en || "PREMIUM GREEN\nINNOVATION";
+        document.getElementById('title_th').value = data.title_th || "นวัตกรรมยางพาราเขียว\nระดับพรีเมียม";
+        document.getElementById('desc_en').value = data.desc_en || "Next-generation polymer materials designed for global industrial transformation and ecological sustainability.";
+        document.getElementById('desc_th').value = data.desc_th || "วัสดุพอลิเมอร์ยุคใหม่ ออกแบบมาเพื่อการเปลี่ยนแปลงของอุตสาหกรรมระดับโลกและความยั่งยืนทางนิเวศวิทยา";
         document.getElementById('stat1_num').value = data.stat1_num || '15+';
         document.getElementById('stat1_th').value = data.stat1_text_th || 'ปีแห่งประสบการณ์';
         document.getElementById('stat1_en').value = data.stat1_text_en || 'Years Experience';
@@ -168,9 +148,9 @@
         document.getElementById('stat3_num').value = data.stat3_num || '100+';
         document.getElementById('stat3_th').value = data.stat3_text_th || 'พันธมิตรทั่วโลก';
         document.getElementById('stat3_en').value = data.stat3_text_en || 'Global Partners';
-    }).catch(e => console.log("เริ่มสร้างฐานข้อมูลใหม่"));
+    }).catch(e => console.log("ระบบพร้อมสร้างไฟล์ฐานข้อมูลใหม่"));
 
-    // ส่งค่าไปบันทึกที่เซิร์ฟเวอร์
+    // ส่งชุดข้อมูลเซฟลงไฟล์กลาง
     document.getElementById('full-admin-form').addEventListener('submit', function(e) {
         e.preventDefault();
         const allData = {
@@ -194,8 +174,8 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(allData)
         }).then(res => {
-            if (res.ok) alert('🎉 บันทึกและอัปเดตข้อมูลทุกส่วนไปยังหน้าแรกสำเร็จ!');
-            else alert('❌ เกิดข้อผิดพลาดในการบันทึกข้อมูล');
+            if (res.ok) alert('🎉 บันทึกและซิงค์ข้อมูลกับไฟล์หลักเรียบร้อย!');
+            else alert('❌ เกิดข้อผิดพลาดในระบบ');
         });
     });
 </script>
