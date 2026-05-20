@@ -648,9 +648,8 @@
         <section id="home-page" class="content-section active">
             <div class="hero-layout-grid">
                 <div class="hero-left-editorial">
-                   <h1 id="title"></h1>
-<p id="desc"></p>
-<img id="hero-img">
+                    <h1 id="web-title" class="title-text">นวัตกรรมยางพาราเขียว วิวัฒนาการเพื่อสิ่งแวดล้อม</h1>
+                    <p id="hero-sub-main">วัสดุพอลิเมอร์ยุคใหม่ที่ออกแบบมาเพื่อขับเคลื่อนระบบนิเวศอุตสาหกรรมระดับโลกอย่างยั่งยืน มุ่งเน้นการประมวลผลเชิงเทคโนโลยีวิศวกรรมขั้นสูง</p>
                     <button class="btn-gradient" id="btn-explore" onclick="switchSection('products-page')">
                         สำรวจนวัตกรรม <i class="fa-solid fa-arrow-right" style="font-size: 13px;"></i>
                     </button>
@@ -1385,17 +1384,26 @@
         }
     </script>
   <script>
+  // ฟังก์ชันดึงข้อมูลล่าสุดจากหน้าแอดมินมาแสดง
+  function updateLiveContent() {
+    fetch('/data.json')
+      .then(res => res.json())
+      .then(data => {
+        const title = document.getElementById('web-title');
+        const info = document.getElementById('web-announcement');
+        
+        if (data.title && title) {
+          title.innerText = data.title;
+        }
+        if (data.announcement && info) {
+          info.innerText = data.announcement;
+        }
+      })
+      .catch(err => console.log("รอข้อมูลจากแอดมิน..."));
+  }
 
-fetch("/content/home.json")
-.then(res => res.json())
-.then(data => {
-
-    document.getElementById("web-title").innerText = data.title;
-
-    document.getElementById("hero-sub-main").innerText = data.description;
-
-});
-
-</script>
+  // ทำงานทันทีที่เปิดหน้าเว็บ
+  window.addEventListener('DOMContentLoaded', updateLiveContent);
+</script>   
 </body>
 </html>
