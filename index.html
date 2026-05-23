@@ -28,6 +28,312 @@
             --blur-radius: 20px;
         }
 
+        /* COOKIE CONSENT STYLES */
+        .cookie-banner {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            right: 30px;
+            max-width: 480px;
+            background: rgba(5, 14, 9, 0.98);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--color-accent-green);
+            border-radius: 20px;
+            padding: 28px;
+            z-index: 10000;
+            display: none;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(46, 204, 113, 0.15);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .cookie-content {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .cookie-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .cookie-header i {
+            font-size: 28px;
+            color: var(--color-accent-green);
+            filter: drop-shadow(0 0 8px rgba(46, 204, 113, 0.5));
+        }
+
+        .cookie-header h3 {
+            font-size: 20px;
+            font-weight: 700;
+            color: #fff;
+            margin: 0;
+            letter-spacing: 0.5px;
+        }
+
+        .cookie-text {
+            font-size: 14.5px;
+            line-height: 1.6;
+            color: var(--color-text-muted);
+            margin: 0;
+        }
+
+        .cookie-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .cookie-btn {
+            flex: 1;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: center;
+            border: none;
+        }
+
+        .cookie-btn-accept {
+            background: var(--color-accent-green);
+            color: #010402;
+        }
+
+        .cookie-btn-accept:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(46, 204, 113, 0.4);
+            filter: brightness(1.1);
+        }
+
+        .cookie-btn-settings {
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            border: 1px solid var(--color-border-glass);
+        }
+
+        .cookie-btn-settings:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--color-text-muted);
+        }
+
+        /* SETTINGS MODAL */
+        .cookie-modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 10001;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .cookie-modal {
+            background: #050e09;
+            border: 1px solid var(--color-border-glass);
+            border-radius: 24px;
+            width: 100%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.9);
+        }
+
+        .modal-header {
+            padding: 25px 30px;
+            border-bottom: 1px solid var(--color-border-glass);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            background: #050e09;
+            z-index: 10;
+        }
+
+        .modal-header h2 {
+            font-size: 22px;
+            color: #fff;
+            margin: 0;
+        }
+
+        .close-modal {
+            background: none;
+            border: none;
+            color: var(--color-text-muted);
+            font-size: 24px;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close-modal:hover { color: #fff; }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .cookie-option {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--color-border-glass);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 20px;
+        }
+
+        .option-info h4 {
+            color: #fff;
+            margin: 0 0 8px 0;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .option-info p {
+            color: var(--color-text-muted);
+            font-size: 13px;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        /* TOGGLE SWITCH */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+            flex-shrink: 0;
+        }
+
+        .switch input { opacity: 0; width: 0; height: 0; }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(255,255,255,0.1);
+            transition: .4s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px; width: 18px;
+            left: 3px; bottom: 3px;
+            background-color: #fff;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider { background-color: var(--color-accent-green); }
+        input:checked + .slider:before { transform: translateX(20px); }
+        input:disabled + .slider { opacity: 0.5; cursor: not-allowed; }
+
+        .modal-footer {
+            padding: 25px 30px;
+            border-top: 1px solid var(--color-border-glass);
+            display: flex;
+            gap: 15px;
+        }
+
+        @media (max-width: 768px) {
+            .cookie-banner {
+                bottom: 20px; left: 20px; right: 20px;
+                max-width: none;
+                padding: 20px;
+            }
+            .modal-footer { flex-direction: column; }
+        }
+
+
+
+        /* WELCOME POPUP STYLES */
+        .welcome-popup-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.4); /* ปรับให้จางลงมากเพื่อให้เห็นด้านหลังชัด */
+            display: flex; 
+            justify-content: center;
+            align-items: center;
+            z-index: 9999999 !important; 
+            backdrop-filter: blur(2px); /* ลดความเบลอลง */
+            -webkit-backdrop-filter: blur(2px);
+            opacity: 1;
+            visibility: visible;
+            transition: all 0.3s ease;
+        }
+
+        .welcome-popup-content {
+            position: relative;
+            width: 90%;
+            max-width: 800px;
+            background: #fff;
+            border-radius: 15px;
+            padding: 10px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            animation: popupZoom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes popupZoom {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .welcome-popup-content img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 8px;
+        }
+
+        .welcome-close-btn {
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            width: 45px;
+            height: 45px;
+            background: #fff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            border: 2px solid #333;
+            color: #333;
+            font-size: 24px;
+            transition: all 0.2s ease;
+            z-index: 20001;
+        }
+
+        .welcome-close-btn:hover {
+            transform: scale(1.1) rotate(90deg);
+            background: #f0f0f0;
+        }
+
+        @media (max-width: 768px) {
+            .welcome-close-btn {
+                top: -15px;
+                right: -15px;
+                width: 35px;
+                height: 35px;
+                font-size: 18px;
+            }
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -738,7 +1044,87 @@
 </head>
 <body>
 
+    <!-- WELCOME POPUP (TOP PRIORITY) -->
+    <div id="welcomePopup" class="welcome-popup-overlay">
+        <div class="welcome-popup-content">
+            <div class="welcome-close-btn" onclick="closeWelcomePopup()">
+                <i class="fas fa-times"></i>
+            </div>
+            <!-- ใช้รูปภาพประกาศตามรูปตัวอย่าง -->
+            <img src="https://www.nteq-polymer.com/images/webpage/251219091702_popup-ntq2025.jpg" alt="Welcome Announcement">
+        </div>
+    </div>
+
     <div id="loader"><div class="loader-spinner"></div></div>
+
+
+
+
+
+    <!-- COOKIE CONSENT POPUP -->
+    <div id="cookieBanner" class="cookie-banner">
+        <div class="cookie-content">
+            <div class="cookie-header">
+                <i class="fas fa-cookie-bite"></i>
+                <h3>การตั้งค่าคุกกี้</h3>
+            </div>
+            <p class="cookie-text">
+                เราใช้คุกกี้เพื่อพัฒนาประสิทธิภาพ และประสบการณ์ที่ดีในการใช้เว็บไซต์ของคุณ คุณสามารถศึกษารายละเอียดได้ที่ <a href="#" style="color: var(--color-accent-green); text-decoration: none;">นโยบายคุกกี้</a>
+            </p>
+            <div class="cookie-buttons">
+                <button class="cookie-btn cookie-btn-settings" onclick="openCookieSettings()">ตั้งค่าคุกกี้</button>
+                <button class="cookie-btn cookie-btn-accept" onclick="acceptAllCookies()">ยอมรับทั้งหมด</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- COOKIE SETTINGS MODAL -->
+    <div id="cookieModal" class="cookie-modal-overlay">
+        <div class="cookie-modal">
+            <div class="modal-header">
+                <h2>การตั้งค่าคุกกี้</h2>
+                <button class="close-modal" onclick="closeCookieSettings()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="cookie-option">
+                    <div class="option-info">
+                        <h4><i class="fas fa-shield-alt"></i> คุกกี้ที่จำเป็น (Strictly Necessary)</h4>
+                        <p>คุกกี้ที่จำเป็นเพื่อให้เว็บไซต์สามารถทำงานได้ตามปกติ ไม่สามารถปิดการใช้งานได้</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" checked disabled>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="cookie-option">
+                    <div class="option-info">
+                        <h4><i class="fas fa-chart-line"></i> คุกกี้เพื่อการวิเคราะห์ (Analytics)</h4>
+                        <p>ช่วยให้เราเข้าใจว่าผู้เข้าชมใช้งานเว็บไซต์อย่างไร เพื่อนำไปปรับปรุงประสบการณ์การใช้งาน</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="cookieAnalytics">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <div class="cookie-option">
+                    <div class="option-info">
+                        <h4><i class="fas fa-bullseye"></i> คุกกี้เพื่อการตลาด (Marketing)</h4>
+                        <p>ใช้เพื่อนำเสนอโฆษณาที่เกี่ยวข้องกับความสนใจของคุณและวัดผลโฆษณา</p>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" id="cookieMarketing">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="cookie-btn cookie-btn-settings" onclick="saveCookieSettings()">บันทึกการตั้งค่า</button>
+                <button class="cookie-btn cookie-btn-accept" onclick="acceptAllCookies()">ยอมรับทั้งหมด</button>
+            </div>
+        </div>
+    </div>
     <div class="cursor-glow"></div>
 
     <a href="https://line.me" target="_blank" class="line-floating-btn" title="ติดต่อเราผ่าน Line">
@@ -852,7 +1238,7 @@
                         <i class="fa-solid fa-circle-play" style="color: var(--color-accent-green); margin-right: 8px;"></i> วิดีโอแนะนำ NTEQ POLYMER
                     </h2>
                     <div class="video-frame-container">
-                        <iframe src="https://www.youtube.com/embed/ScMzIvxBSi4" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        <iframe width="560" height="315" src="https://www.youtube.com/embed/UsnIyScLe-s?si=-0R_je4myBWOYQpc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                     </div>
                 </div>
             </div>
@@ -2203,7 +2589,262 @@
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') closeVideoModal();
         });
-    </script>
+        function applyAdminRealtimeConfig() {
+    const localRaw = localStorage.getItem('nteq_platform_data');
+    if (!localRaw) return;
+    try {
+        const fullData = JSON.parse(localRaw);
+        const cfg = fullData.webConfig;
+        if (!cfg) return;
+
+        // 1. เปลี่ยนภาพพื้นหลัง Wallpaper
+        if (cfg.images?.heroBackground) {
+            const heroSection = document.getElementById('home');
+            if(heroSection) heroSection.style.backgroundImage = `linear-gradient(135deg, rgba(1,3,2,0.85) 0%, rgba(3,10,5,0.8) 50%, rgba(1,4,2,0.85) 100%), url('${cfg.images.heroBackground}')`;
+            // Body background
+            document.body.style.backgroundImage = `linear-gradient(135deg, rgba(1,3,2,0.72) 0%, rgba(3,10,5,0.65) 50%, rgba(1,4,2,0.72) 100%), url('${cfg.images.heroBackground}')`;
+        }
+        // 2. เปลี่ยนรูปใน Slider
+        const sliderImages = document.querySelectorAll('.hero-visual-carousel img, .slider-container img');
+        if (sliderImages.length > 0 && cfg.images?.carousel) {
+            cfg.images.carousel.forEach((url, idx) => { if (sliderImages[idx] && url) sliderImages[idx].src = url; });
+        }
+        // 3. เปลี่ยนข้อความพาดหัว
+        const mainTitle = document.getElementById('hero-title-main') || document.querySelector('.hero-left-editorial h1');
+        if (mainTitle && cfg.content?.heroTitle) mainTitle.innerHTML = cfg.content.heroTitle;
+        const subTitle = document.getElementById('hero-sub-main') || document.querySelector('.hero-left-editorial p');
+        if (subTitle && cfg.content?.heroSubtitle) subTitle.innerText = cfg.content.heroSubtitle;
+
+        // 3b. ปุ่ม Explore
+        const exploreBtn = document.getElementById('btn-explore');
+        if (exploreBtn && cfg.content?.btnText) exploreBtn.innerHTML = `${cfg.content.btnText} <i class="fa-solid fa-arrow-right" style="font-size:13px;"></i>`;
+        if (exploreBtn && cfg.content?.btnTarget) exploreBtn.setAttribute('onclick', `switchSection('${cfg.content.btnTarget}')`);
+
+        // 3c. สถิติ
+        if (cfg.content?.stat1) {
+            const s1v = document.querySelector('[data-stat="1-val"]'); const s1l = document.querySelector('[data-stat="1-label"]');
+            if(s1v) s1v.textContent = cfg.content.stat1.val;
+            if(s1l) s1l.textContent = cfg.content.stat1.label;
+        }
+        if (cfg.content?.stat2) {
+            const s2v = document.querySelector('[data-stat="2-val"]'); const s2l = document.querySelector('[data-stat="2-label"]');
+            if(s2v) s2v.textContent = cfg.content.stat2.val;
+            if(s2l) s2l.textContent = cfg.content.stat2.label;
+        }
+        if (cfg.content?.stat3) {
+            const s3v = document.querySelector('[data-stat="3-val"]'); const s3l = document.querySelector('[data-stat="3-label"]');
+            if(s3v) s3v.textContent = cfg.content.stat3.val;
+            if(s3l) s3l.textContent = cfg.content.stat3.label;
+        }
+
+        // 4. สลับรูปแบบ Layout (หน้าคู่ / เต็มจอ)
+        const layoutContainer = document.querySelector('.hero-layout-grid');
+        if (layoutContainer && cfg.template) {
+            if (cfg.template.heroLayout === 'minimal') {
+                layoutContainer.style.gridTemplateColumns = '1fr';
+                const rightSide = document.querySelector('.hero-visual-carousel');
+                if(rightSide) rightSide.style.display = 'none';
+            } else {
+                layoutContainer.style.gridTemplateColumns = '1.1fr 0.9fr';
+                const rightSide = document.querySelector('.hero-visual-carousel');
+                if(rightSide) rightSide.style.display = 'block';
+            }
+        }
+        // 5. เปิด-ปิด ส่วนวิดีโอและสถิติ
+        const videoSection = document.querySelector('.intro-video-wrapper, #video-section');
+        if (videoSection && cfg.template) videoSection.style.display = cfg.template.showVideo ? 'flex' : 'none';
+        const statSection = document.querySelector('.analytics-strip, #stats-section');
+        if (statSection && cfg.template) statSection.style.display = cfg.template.showAnalytics ? 'grid' : 'none';
+
+        // 6. ข้อมูลติดต่อ
+        const ct = cfg.contact;
+        if (ct) {
+            const setTxt = (sel, val) => { const el = document.querySelector(sel); if(el && val) el.textContent = val; };
+            setTxt('[data-contact="phone"]', ct.phone);
+            setTxt('[data-contact="email"]', ct.email);
+            setTxt('[data-contact="address"]', ct.address);
+            if (ct.map) { const mapEl = document.querySelector('iframe[data-map]'); if(mapEl) mapEl.src = ct.map; }
+        }
+
+        // 7. Popup Image
+        if (cfg.images?.popupImg) {
+            const popImg = document.querySelector('#welcomePopup img, .welcome-popup-content img');
+            if (popImg && cfg.images.popupImg) popImg.src = cfg.images.popupImg;
+            if (cfg.popup?.enabled === false) {
+                const pop = document.getElementById('welcomePopup');
+                if(pop) pop.style.display = 'none';
+            }
+        }
+
+        // 8. ชื่อเว็บ
+        if (cfg.siteName) document.title = cfg.siteName + (cfg.siteTagline ? ' - ' + cfg.siteTagline : '');
+
+        // 9. Page Texts
+        if (fullData.pageTexts) {
+            Object.keys(fullData.pageTexts).forEach(sectionId => {
+                const texts = fullData.pageTexts[sectionId];
+                Object.keys(texts).forEach(key => {
+                    if (key === 'bannerImg') {
+                        const banner = document.querySelector(`#${sectionId} .page-hero-banner img`);
+                        if (banner && texts[key]) banner.src = texts[key];
+                    } else {
+                        const el = document.getElementById(key);
+                        if (el && texts[key]) el.innerHTML = texts[key];
+                    }
+                });
+            });
+        }
+
+        // 10. Products (ถ้ามี container)
+        if (fullData.products && fullData.products.length) {
+            const prodGrid = document.querySelector('#products-page .premium-grid');
+            if (prodGrid) {
+                prodGrid.innerHTML = fullData.products.map(p => `
+                    <div class="premium-card">
+                        <div class="premium-card-img">
+                            ${p.img ? `<img src="${p.img}" alt="${p.name}">` : `<div style="width:100%;height:100%;background:linear-gradient(135deg,rgba(46,204,113,0.2),rgba(46,204,113,0.05));display:flex;align-items:center;justify-content:center;"><i class="fas fa-flask" style="font-size:48px;color:var(--color-accent-green);opacity:0.5;"></i></div>`}
+                        </div>
+                        <div class="premium-card-body">
+                            <i class="fa-solid fa-flask"></i>
+                            <h3>${p.name}</h3>
+                            <p>${p.desc}</p>
+                            ${p.specs ? `<p style="margin-top:10px;font-size:12px;color:var(--color-accent-green);">${p.specs}</p>` : ''}
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+    } catch(e) { console.error("Dynamic build error:", e); }
+}
+	document.addEventListener('DOMContentLoaded', applyAdminRealtimeConfig);
+
+        // --- WELCOME POPUP SYSTEM ---
+        function initWelcomePopup() {
+            // บังคับแสดงผลทันทีเพื่อการตรวจสอบ
+            const popup = document.getElementById('welcomePopup');
+            if(popup) {
+                popup.style.display = 'flex';
+                popup.style.opacity = '1';
+                popup.style.visibility = 'visible';
+            }
+        }
+
+        function closeWelcomePopup() {
+            const popup = document.getElementById('welcomePopup');
+            if(popup) {
+                popup.style.opacity = '0';
+                setTimeout(() => {
+                    popup.style.display = 'none';
+                    sessionStorage.setItem('nteq_welcome_seen', 'true');
+                }, 300);
+            }
+        }
+
+        // ปิด Popup เมื่อคลิกพื้นหลัง
+        window.addEventListener('click', (e) => {
+            const popup = document.getElementById('welcomePopup');
+            if (e.target === popup) closeWelcomePopup();
+        });
+
+        // --- COOKIE CONSENT SYSTEM ---
+        const COOKIE_STORAGE_KEY = 'nteq_cookie_consent';
+
+        function checkCookies() {
+            // เพื่อการตรวจสอบ: ลบค่าเดิมออกก่อนเพื่อให้แบนเนอร์แสดงผลแน่นอน
+            // localStorage.removeItem(COOKIE_STORAGE_KEY); 
+            
+            const consent = localStorage.getItem(COOKIE_STORAGE_KEY);
+            if (!consent) {
+                setTimeout(() => {
+                    const banner = document.getElementById('cookieBanner');
+                    if(banner) {
+                        banner.style.display = 'block';
+                        setTimeout(() => {
+                            banner.style.opacity = '1';
+                            banner.style.transform = 'translateY(0)';
+                        }, 100);
+                    }
+                }, 1000);
+            } else {
+                applyCookieConsent(JSON.parse(consent));
+            }
+        }
+
+        function acceptAllCookies() {
+            const consent = {
+                essential: true,
+                analytics: true,
+                marketing: true,
+                timestamp: new Date().toISOString()
+            };
+            saveConsent(consent);
+        }
+
+        function saveCookieSettings() {
+            const consent = {
+                essential: true,
+                analytics: document.getElementById('cookieAnalytics').checked,
+                marketing: document.getElementById('cookieMarketing').checked,
+                timestamp: new Date().toISOString()
+            };
+            saveConsent(consent);
+        }
+
+        function saveConsent(consent) {
+            localStorage.setItem(COOKIE_STORAGE_KEY, JSON.stringify(consent));
+            applyCookieConsent(consent);
+            closeCookieBanner();
+            closeCookieSettings();
+        }
+
+        function applyCookieConsent(consent) {
+            console.log("Applying Cookie Consent:", consent);
+            // ที่นี่สามารถใส่ Code สำหรับโหลด Google Analytics หรือ Scripts อื่นๆ ตาม Consent ได้
+            if (consent.analytics) {
+                // Load Analytics Scripts
+            }
+            if (consent.marketing) {
+                // Load Marketing Scripts
+            }
+        }
+
+        function openCookieSettings() {
+            const modal = document.getElementById('cookieModal');
+            if(modal) {
+                modal.style.display = 'flex';
+                // Load existing settings
+                const consent = localStorage.getItem(COOKIE_STORAGE_KEY);
+                if(consent) {
+                    const data = JSON.parse(consent);
+                    document.getElementById('cookieAnalytics').checked = data.analytics;
+                    document.getElementById('cookieMarketing').checked = data.marketing;
+                }
+            }
+        }
+
+        function closeCookieSettings() {
+            const modal = document.getElementById('cookieModal');
+            if(modal) modal.style.display = 'none';
+        }
+
+        function closeCookieBanner() {
+            const banner = document.getElementById('cookieBanner');
+            if(banner) {
+                banner.style.opacity = '0';
+                banner.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    banner.style.display = 'none';
+                }, 400);
+            }
+        }
+
+        // Initialize on Load
+        window.addEventListener('DOMContentLoaded', () => {
+            checkCookies();
+            initWelcomePopup();
+        });
+	    </script>
 
     <!-- VIDEO MODAL -->
     <div id="videoModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 10000; justify-content: center; align-items: center; padding: 20px;">
@@ -2212,5 +2853,7 @@
             <iframe id="videoFrame" width="100%" height="100%" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="border-radius: 8px;"></iframe>
         </div>
     </div>
+
+
 </body>
 </html>
