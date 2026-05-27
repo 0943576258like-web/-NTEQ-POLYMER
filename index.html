@@ -854,11 +854,11 @@ function renderUsers() {
         </div>
         <div class="user-card-acts">
           <span class="badge ${ROLE_BADGE[u.role]}">${ROLE_LABELS[u.role]}</span>
+          <button class="btn-edit-user" onclick="openEditUser('${u.id}')" title="แก้ไขข้อมูล" style="display:inline-flex;align-items:center;gap:4px;padding:5px 12px;font-size:12px;font-weight:500;border-radius:6px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;transition:background .15s">✏️ แก้ไข</button>
           ${currentUser.id !== u.id ? `
             <div class="dot-menu-wrap">
               <button class="dot-menu-btn" onclick="toggleDotMenu(this)" title="เมนู">⋯</button>
               <div class="dot-dropdown">
-                <button class="dot-dd-item" onclick="closeAllDropdowns();openEditUser('${u.id}')">✏️ แก้ไข</button>
                 <button class="dot-dd-item" onclick="closeAllDropdowns();toggleUser('${u.id}')">${u.active?'🔒 ปิดบัญชี':'🔓 เปิดบัญชี'}</button>
                 ${currentUser.role==='admin'?`<div class="dot-dd-sep"></div><button class="dot-dd-item danger" onclick="closeAllDropdowns();deleteUser('${u.id}')">🗑 ลบผู้ใช้</button>`:''}
               </div>
@@ -3265,7 +3265,7 @@ main{flex:1;padding:1.75rem 2rem;overflow-x:hidden;
   <div class="box">
     <div class="box-logo">
       <div class="box-icon"><svg width="30" height="30" fill="none" viewBox="0 0 28 28"><path d="M7 9h14M7 14h14M7 19h10" stroke="#0d0f12" stroke-width="2" stroke-linecap="round"/></svg></div>
-      <div class="box-company" id="login-co-name">บริษัท ตัวอย่าง จำกัด</div>
+      <div class="box-company" id="login-co-name">NTEQ Polymer</div>
       <div class="box-sub">ระบบสต๊อก IT & แจ้งซ่อม — กรุณาเข้าสู่ระบบ</div>
     </div>
     <div id="login-err" class="err-msg">ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง</div>
@@ -3286,7 +3286,7 @@ main{flex:1;padding:1.75rem 2rem;overflow-x:hidden;
       <svg width="20" height="20" fill="none" viewBox="0 0 28 28"><path d="M7 9h14M7 14h14M7 19h10" stroke="#0d0f12" stroke-width="2.2" stroke-linecap="round"/></svg>
     </div>
     <div>
-      <div class="hd-title" id="hd-co">บริษัท ตัวอย่าง จำกัด</div>
+      <div class="hd-title" id="hd-co">NTEQ Polymer</div>
       <div class="hd-sub">IT Stock & Repair System</div>
     </div>
   </div>
@@ -3324,7 +3324,7 @@ main{flex:1;padding:1.75rem 2rem;overflow-x:hidden;
     <div class="nav-brand-logo">
       <svg width="24" height="24" fill="none" viewBox="0 0 28 28"><path d="M7 9h14M7 14h14M7 19h10" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></svg>
     </div>
-    <div class="nav-brand-name" id="nav-co-name">บริษัท ตัวอย่าง จำกัด</div>
+    <div class="nav-brand-name" id="nav-co-name">NTEQ Polymer</div>
     <div class="nav-brand-sub">IT Stock & Repair System</div>
   </div>
   <div class="nav-sec">
