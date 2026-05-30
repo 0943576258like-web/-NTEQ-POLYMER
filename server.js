@@ -83,23 +83,17 @@ wss.on('connection', (ws, req) => {
     payload: store,
   }));
 
-  // ── ถ้า store ว่างเปล่า (เพิ่งรีสตาร์ท) → log เพื่อ debug ──
-  const storeIsEmpty = !store.requests && !store.stock && !store.repairs;
-  if (storeIsEmpty) {
-    console.log('[WS] Store is empty (server restarted) – waiting for client to push-back data');
-  }
-
   ws.on('message', raw => {
     let msg;
     try { msg = JSON.parse(raw); } catch { return; }
 
     const { type, payload, clientRole } = msg;
 
-    // Only admin/manager/warehouse can push changes
-    const allowedRoles = ['admin', 'manager', 'warehouse'];
-    if (!allowedRoles.includes(clientRole)) return;
-
     if (type === 'push') {
+      // Only admin/manager/warehouse can push changes
+      const allowedRoles = ['admin', 'manager', 'warehouse'];
+      if (!allowedRoles.includes(clientRole)) return;
+
       // Merge partial updates into store
       if (payload.users)          store.users          = payload.users;
       if (payload.stock)          store.stock          = payload.stock;
@@ -110,9 +104,7 @@ wss.on('connection', (ws, req) => {
       if (payload.repairSettings) store.repairSettings = payload.repairSettings;
       if (payload.counters)       store.counters       = Object.assign({}, store.counters, payload.counters);
 
-      // บันทึก timestamp ล่าสุดที่ได้รับจาก client
       store._clientPushedAt = new Date().toISOString();
-
       console.log(`[WS] push from ${clientRole}@${ip}  keys=[${Object.keys(payload).join(',')}]`);
 
       // Persist & broadcast
@@ -154,6 +146,9 @@ app.post('/api/push', (req, res) => {
   if (payload.settings)       store.settings       = payload.settings;
   if (payload.repairSettings) store.repairSettings = payload.repairSettings;
   if (payload.counters)       store.counters       = Object.assign({}, store.counters, payload.counters);
+
+  store._clientPushedAt = new Date().toISOString();
+  console.log(`[REST] push from ${clientRole}  keys=[${Object.keys(payload).join(',')}]`);
 
   saveToDisk();
   broadcast({ type: 'update', payload }, null);

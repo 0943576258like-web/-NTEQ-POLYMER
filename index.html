@@ -16,65 +16,55 @@
 'use strict';
 
 /* ── Config ─────────────────────────────────────────────────────────────── */
-// ตรวจว่ารันบน localhost หรือ Render → เลือก WS URL อัตโนมัติ
 const _proto  = location.protocol === 'https:' ? 'wss:' : 'ws:';
 const _wsURL  = _proto + '//' + location.host + '/';
 
-const RECONNECT_DELAY   = 3000;   // ms ก่อน reconnect
-const POLL_INTERVAL     = 30000;  // ms polling fallback (ถ้า WS ใช้ไม่ได้)
+const RECONNECT_DELAY   = 3000;
+const POLL_INTERVAL     = 30000;
 const ROLES_CAN_PUSH    = ['admin','manager','warehouse'];
 
 /* ── State ──────────────────────────────────────────────────────────────── */
 let _ws            = null;
-let _wsOk          = false;        // WS เชื่อมสำเร็จแล้ว
-let _initReceived  = false;        // ได้รับ snapshot จาก server แล้ว
+let _wsOk          = false;
+let _initReceived  = false;
 let _reconnTimer   = null;
 let _pollTimer     = null;
-let _suppressApply = false;        // ป้องกัน apply loop ตอน push ออก
+let _suppressApply = false;
+let _pendingPushBack = null;  // เก็บ payload ที่รอ push กลับ server หลัง WS ready
 
 /* ── Public namespace ───────────────────────────────────────────────────── */
 window.SrpSync = {
 
-  /** เรียกหลังจาก login สำเร็จ (currentUser พร้อมแล้ว) */
   connect: function () {
     _connect();
   },
 
-  /** เรียกจาก save(), saveRepairs(), saveDevices(), saveSettings()
-   *  ส่งข้อมูลที่เปลี่ยนไปยัง server เพื่อ broadcast ไปทุกเครื่อง
-   *  @param {Object} partial  { stock, requests, repairs, … }
-   */
   push: function (partial) {
     if (!window.currentUser) return;
     if (!ROLES_CAN_PUSH.includes(window.currentUser.role)) return;
     if (_suppressApply) return;
-
-    const msg = JSON.stringify({
-      type:       'push',
-      clientRole: window.currentUser.role,
-      payload:    partial,
-    });
-
-    if (_wsOk && _ws && _ws.readyState === WebSocket.OPEN) {
-      _ws.send(msg);
-    } else {
-      // REST fallback
-      fetch('/api/push', {
-        method:  'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({
-          clientRole: window.currentUser.role,
-          payload:    partial,
-        }),
-      }).catch(() => {});
-    }
+    _sendToServer(partial);
   },
 
-  /** สถานะการเชื่อมต่อ (ใช้แสดง UI badge) */
   status: function () {
     return _wsOk ? 'online' : 'offline';
   },
 };
+
+/* ── ส่งข้อมูลไป server (WS ก่อน, REST fallback) ─────────────────────── */
+function _sendToServer(partial) {
+  if (!window.currentUser) return;
+  const role = window.currentUser.role;
+  if (_wsOk && _ws && _ws.readyState === WebSocket.OPEN) {
+    _ws.send(JSON.stringify({ type:'push', clientRole: role, payload: partial }));
+  } else {
+    fetch('/api/push', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ clientRole: role, payload: partial }),
+    }).catch(() => {});
+  }
+}
 
 /* ── WebSocket core ─────────────────────────────────────────────────────── */
 function _connect() {
@@ -94,6 +84,14 @@ function _connect() {
     if (_pollTimer)   { clearInterval(_pollTimer);  _pollTimer   = null; }
     console.log('[Sync] WebSocket connected');
     _updateSyncBadge(true);
+
+    // ── ถ้ามี push-back ค้างอยู่ (server ว่างตอน init) → ส่งเดี๋ยวนี้ผ่าน WS ──
+    if (_pendingPushBack && window.currentUser && ROLES_CAN_PUSH.includes(window.currentUser.role)) {
+      console.log('[Sync] Flushing pending push-back via WebSocket');
+      _ws.send(JSON.stringify({ type:'push', clientRole: window.currentUser.role, payload: _pendingPushBack }));
+      _pendingPushBack = null;
+      if (typeof toast === 'function') toast('☁️ ซิงค์ข้อมูลกลับ server เรียบร้อย', 'ok', 3000);
+    }
   };
 
   _ws.onmessage = function (e) {
@@ -123,7 +121,7 @@ function _connect() {
   };
 }
 
-/* ── REST polling fallback (ถ้าไม่มี WS) ────────────────────────────────── */
+/* ── REST polling fallback ───────────────────────────────────────────────── */
 function _startPolling() {
   _pollTimer = setInterval(function () {
     fetch('/api/store').then(r => r.json()).then(function (data) {
@@ -132,60 +130,68 @@ function _startPolling() {
   }, POLL_INTERVAL);
 }
 
+/* ── สร้าง payload จาก localStorage สำหรับ push-back ──────────────────── */
+function _buildLocalPayload() {
+  try {
+    const partial = {};
+    const u = JSON.parse(localStorage.getItem('srp_users'));          if (u && u.length)  partial.users    = u;
+    const s = JSON.parse(localStorage.getItem('srp_stock'));          if (s && s.length)  partial.stock    = s;
+    const r = JSON.parse(localStorage.getItem('srp_requests'));       if (r && r.length)  partial.requests = r;
+    const rp= JSON.parse(localStorage.getItem('srp_repairs'));        if (rp&& rp.length) partial.repairs  = rp;
+    const d = JSON.parse(localStorage.getItem('srp_devices'));        if (d && d.length)  partial.devices  = d;
+    const st= JSON.parse(localStorage.getItem('srp_settings'));       if (st) partial.settings = st;
+    const rs= JSON.parse(localStorage.getItem('srp_repair_settings'));if (rs) partial.repairSettings = rs;
+    const rc= parseInt(localStorage.getItem('srp_counter'))       ||0;
+    const rpc=parseInt(localStorage.getItem('srp_repair_counter'))||0;
+    if (rc || rpc) partial.counters = { req: rc, repair: rpc };
+    return Object.keys(partial).length ? partial : null;
+  } catch(e) { return null; }
+}
+
 /* ── Apply full server snapshot (init / first load) ────────────────────── */
 function _applyServerStore(s) {
   if (!s) return;
 
-  // ── ตรวจว่า server ข้อมูลว่างเปล่า (เพิ่งรีสตาร์ท) ──────────────────────
-  // ถ้าว่างและเราเป็น role ที่ push ได้ → push ข้อมูลจาก localStorage ขึ้น server ทันที
+  // ── ตรวจว่า server ข้อมูลว่าง (เพิ่งรีสตาร์ท) ──────────────────────────
   const serverIsEmpty = !s.requests && !s.stock && !s.repairs && !s.users;
-  if (serverIsEmpty && window.currentUser && ROLES_CAN_PUSH.includes(window.currentUser.role)) {
-    console.log('[Sync] Server is empty after restart → pushing local data back to server');
-    setTimeout(function() {
-      try {
-        const localUsers    = JSON.parse(localStorage.getItem('srp_users'))    || null;
-        const localStock    = JSON.parse(localStorage.getItem('srp_stock'))    || null;
-        const localRequests = JSON.parse(localStorage.getItem('srp_requests')) || null;
-        const localRepairs  = JSON.parse(localStorage.getItem('srp_repairs'))  || null;
-        const localDevices  = JSON.parse(localStorage.getItem('srp_devices'))  || null;
-        const localSettings = JSON.parse(localStorage.getItem('srp_settings')) || null;
-        const localReqCtr   = parseInt(localStorage.getItem('srp_counter'))    || 0;
-        const localRepCtr   = parseInt(localStorage.getItem('srp_repair_counter')) || 0;
-        const partial = {};
-        if (localUsers)    partial.users    = localUsers;
-        if (localStock)    partial.stock    = localStock;
-        if (localRequests) partial.requests = localRequests;
-        if (localRepairs)  partial.repairs  = localRepairs;
-        if (localDevices)  partial.devices  = localDevices;
-        if (localSettings) partial.settings = localSettings;
-        if (localReqCtr || localRepCtr) partial.counters = { req: localReqCtr, repair: localRepCtr };
-        if (Object.keys(partial).length > 0) {
-          // ส่งตรงผ่าน WS หรือ REST
-          const msg = JSON.stringify({ type:'push', clientRole: window.currentUser.role, payload: partial });
-          if (_wsOk && _ws && _ws.readyState === WebSocket.OPEN) {
-            _ws.send(msg);
-          } else {
-            fetch('/api/push', {
-              method:'POST', headers:{'Content-Type':'application/json'},
-              body: JSON.stringify({ clientRole: window.currentUser.role, payload: partial }),
-            }).catch(()=>{});
-          }
-          if (typeof toast === 'function') toast('☁️ อัปโหลดข้อมูลกลับ server เรียบร้อย', 'ok', 3000);
-        }
-      } catch(e) { console.warn('[Sync] push-back failed:', e); }
-    }, 800); // รอให้ WS พร้อมก่อน
-    return; // ไม่ต้อง apply — ข้อมูลใน localStorage ของเราถูกต้องอยู่แล้ว
+  if (serverIsEmpty) {
+    console.log('[Sync] Server store is empty → preparing push-back');
+    const payload = _buildLocalPayload();
+    if (payload) {
+      if (_wsOk && _ws && _ws.readyState === WebSocket.OPEN) {
+        // WS พร้อมแล้ว → ส่งได้เลย
+        console.log('[Sync] Push-back via WebSocket (immediate)');
+        _ws.send(JSON.stringify({ type:'push', clientRole: (window.currentUser||{}).role||'admin', payload }));
+        if (typeof toast === 'function') toast('☁️ ซิงค์ข้อมูลกลับ server เรียบร้อย', 'ok', 3000);
+      } else {
+        // WS ยังไม่พร้อม → ส่งผ่าน REST ก่อน แล้วเก็บไว้ส่งซ้ำผ่าน WS ตอน onopen
+        console.log('[Sync] Push-back via REST (WS not ready yet)');
+        const role = (window.currentUser||{}).role||'admin';
+        fetch('/api/push', {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify({ clientRole: role, payload }),
+        }).then(function(res) {
+          if (res.ok && typeof toast === 'function') toast('☁️ ซิงค์ข้อมูลกลับ server เรียบร้อย', 'ok', 3000);
+        }).catch(function() {
+          // REST ล้มเหลว → เก็บไว้ retry ผ่าน WS ตอน onopen
+          _pendingPushBack = payload;
+          console.warn('[Sync] REST push-back failed, queued for WS retry');
+        });
+      }
+    }
+    // ไม่ต้อง apply เพราะข้อมูลใน localStorage ของเราถูกต้องอยู่แล้ว
+    return;
   }
 
   _suppressApply = true;
   try {
-    // ใช้ข้อมูลจาก server ก็ต่อเมื่อมีข้อมูลจริง (ไม่ใช่ null)
-    if (s.users          && Array.isArray(s.users))          { window.users          = s.users;          localStorage.setItem('srp_users',          JSON.stringify(s.users));          }
-    if (s.stock          && Array.isArray(s.stock))          { window.stockData      = s.stock;          localStorage.setItem('srp_stock',          JSON.stringify(s.stock));          }
-    if (s.requests       && Array.isArray(s.requests))       { window.requests       = s.requests;       localStorage.setItem('srp_requests',       JSON.stringify(s.requests));       }
-    if (s.repairs        && Array.isArray(s.repairs))        { window.repairs        = s.repairs;        localStorage.setItem('srp_repairs',        JSON.stringify(s.repairs));        }
-    if (s.devices        && Array.isArray(s.devices))        { window.deviceData     = s.devices;        localStorage.setItem('srp_devices',        JSON.stringify(s.devices));        }
-    if (s.settings       && typeof s.settings==='object')    { window.appSettings    = Object.assign({}, window.appSettings||{}, s.settings); localStorage.setItem('srp_settings',       JSON.stringify(window.appSettings));   }
+    if (s.users          && Array.isArray(s.users))             { window.users          = s.users;          localStorage.setItem('srp_users',          JSON.stringify(s.users));          }
+    if (s.stock          && Array.isArray(s.stock))             { window.stockData      = s.stock;          localStorage.setItem('srp_stock',          JSON.stringify(s.stock));          }
+    if (s.requests       && Array.isArray(s.requests))          { window.requests       = s.requests;       localStorage.setItem('srp_requests',       JSON.stringify(s.requests));       }
+    if (s.repairs        && Array.isArray(s.repairs))           { window.repairs        = s.repairs;        localStorage.setItem('srp_repairs',        JSON.stringify(s.repairs));        }
+    if (s.devices        && Array.isArray(s.devices))           { window.deviceData     = s.devices;        localStorage.setItem('srp_devices',        JSON.stringify(s.devices));        }
+    if (s.settings       && typeof s.settings==='object')       { window.appSettings    = Object.assign({}, window.appSettings||{}, s.settings);       localStorage.setItem('srp_settings',       JSON.stringify(window.appSettings));       }
     if (s.repairSettings && typeof s.repairSettings==='object') { window.repairSettings = Object.assign({}, window.repairSettings||{}, s.repairSettings); localStorage.setItem('srp_repair_settings', JSON.stringify(window.repairSettings)); }
     if (s.counters       && typeof s.counters==='object') {
       if (s.counters.req    > (window.reqCounter    ||0)) { window.reqCounter    = s.counters.req;    localStorage.setItem('srp_counter',        s.counters.req);    }
@@ -203,25 +209,23 @@ function _applyPartial(p) {
   if (!p) return;
   _suppressApply = true;
   try {
-    if (p.users     && Array.isArray(p.users))     { window.users     = p.users;     localStorage.setItem('srp_users',    JSON.stringify(p.users));    }
-    if (p.stock     && Array.isArray(p.stock))     { window.stockData = p.stock;     localStorage.setItem('srp_stock',    JSON.stringify(p.stock));    }
-    if (p.requests  && Array.isArray(p.requests))  { window.requests  = p.requests;  localStorage.setItem('srp_requests', JSON.stringify(p.requests)); }
-    if (p.repairs   && Array.isArray(p.repairs))   { window.repairs   = p.repairs;   localStorage.setItem('srp_repairs',  JSON.stringify(p.repairs));  }
-    if (p.devices   && Array.isArray(p.devices))   { window.deviceData= p.devices;   localStorage.setItem('srp_devices',  JSON.stringify(p.devices));  }
+    if (p.users          && Array.isArray(p.users))             { window.users          = p.users;          localStorage.setItem('srp_users',          JSON.stringify(p.users));          }
+    if (p.stock          && Array.isArray(p.stock))             { window.stockData      = p.stock;          localStorage.setItem('srp_stock',          JSON.stringify(p.stock));          }
+    if (p.requests       && Array.isArray(p.requests))          { window.requests       = p.requests;       localStorage.setItem('srp_requests',       JSON.stringify(p.requests));       }
+    if (p.repairs        && Array.isArray(p.repairs))           { window.repairs        = p.repairs;        localStorage.setItem('srp_repairs',        JSON.stringify(p.repairs));        }
+    if (p.devices        && Array.isArray(p.devices))           { window.deviceData     = p.devices;        localStorage.setItem('srp_devices',        JSON.stringify(p.devices));        }
     if (p.settings       && typeof p.settings==='object')       { window.appSettings    = Object.assign({}, window.appSettings||{}, p.settings);       localStorage.setItem('srp_settings',       JSON.stringify(window.appSettings));       }
     if (p.repairSettings && typeof p.repairSettings==='object') { window.repairSettings = Object.assign({}, window.repairSettings||{}, p.repairSettings); localStorage.setItem('srp_repair_settings', JSON.stringify(window.repairSettings)); }
-    if (p.counters  && typeof p.counters==='object'){
+    if (p.counters       && typeof p.counters==='object') {
       if (p.counters.req    !== undefined) { window.reqCounter    = p.counters.req;    localStorage.setItem('srp_counter',        p.counters.req);    }
       if (p.counters.repair !== undefined) { window.repairCounter = p.counters.repair; localStorage.setItem('srp_repair_counter', p.counters.repair); }
       if (p.counters.device !== undefined)   window.deviceCounter = p.counters.device;
     }
     if (window.currentUser) {
-      // ตรวจว่า key ใดเปลี่ยน → refresh เฉพาะส่วนนั้น
       const keys = Object.keys(p);
       if (keys.some(k => ['stock','requests','repairs','devices','users'].includes(k))) {
         _refreshUI(keys);
       }
-      // แจ้ง toast ให้ผู้ใช้รู้ว่ามีข้อมูลใหม่
       _syncToast(keys);
     }
   } finally {
