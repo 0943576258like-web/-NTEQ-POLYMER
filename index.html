@@ -15,46 +15,36 @@
 (function () {
 'use strict';
 
-/* ── Config ─────────────────────────────────────────────────────────────── */
-const _proto  = location.protocol === 'https:' ? 'wss:' : 'ws:';
-const _wsURL  = _proto + '//' + location.host + '/';
-
+/* ── Config ──────────────────────────────────────────────────────────────── */
+const _proto            = location.protocol === 'https:' ? 'wss:' : 'ws:';
+const _wsURL            = _proto + '//' + location.host + '/';
 const RECONNECT_DELAY   = 3000;
 const POLL_INTERVAL     = 30000;
 const ROLES_CAN_PUSH    = ['admin','manager','warehouse'];
 
-/* ── State ──────────────────────────────────────────────────────────────── */
+/* ── State ───────────────────────────────────────────────────────────────── */
 let _ws            = null;
 let _wsOk          = false;
 let _initReceived  = false;
 let _reconnTimer   = null;
 let _pollTimer     = null;
 let _suppressApply = false;
-let _pendingPushBack = null;  // เก็บ payload ที่รอ push กลับ server หลัง WS ready
 
-/* ── Public namespace ───────────────────────────────────────────────────── */
+/* ── Public API ──────────────────────────────────────────────────────────── */
 window.SrpSync = {
-
-  connect: function () {
-    _connect();
-  },
-
-  push: function (partial) {
+  connect: function() { _connect(); },
+  push:    function(partial) {
     if (!window.currentUser) return;
     if (!ROLES_CAN_PUSH.includes(window.currentUser.role)) return;
     if (_suppressApply) return;
-    _sendToServer(partial);
+    _send(partial);
   },
-
-  status: function () {
-    return _wsOk ? 'online' : 'offline';
-  },
+  status: function() { return _wsOk ? 'online' : 'offline'; },
 };
 
-/* ── ส่งข้อมูลไป server (WS ก่อน, REST fallback) ─────────────────────── */
-function _sendToServer(partial) {
-  if (!window.currentUser) return;
-  const role = window.currentUser.role;
+/* ── Send to server (WS → REST fallback) ─────────────────────────────────── */
+function _send(partial) {
+  const role = (window.currentUser || {}).role;
   if (_wsOk && _ws && _ws.readyState === WebSocket.OPEN) {
     _ws.send(JSON.stringify({ type:'push', clientRole: role, payload: partial }));
   } else {
@@ -66,121 +56,102 @@ function _sendToServer(partial) {
   }
 }
 
-/* ── WebSocket core ─────────────────────────────────────────────────────── */
+/* ── WebSocket ───────────────────────────────────────────────────────────── */
 function _connect() {
-  if (_ws) { try { _ws.close(); } catch (e) {} }
+  if (_ws) { try { _ws.close(); } catch(e) {} }
+  try { _ws = new WebSocket(_wsURL); }
+  catch(e) { _startPolling(); return; }
 
-  try {
-    _ws = new WebSocket(_wsURL);
-  } catch (e) {
-    console.warn('[Sync] WebSocket not supported, using REST polling');
-    _startPolling();
-    return;
-  }
-
-  _ws.onopen = function () {
+  _ws.onopen = function() {
     _wsOk = true;
-    if (_reconnTimer) { clearTimeout(_reconnTimer); _reconnTimer = null; }
-    if (_pollTimer)   { clearInterval(_pollTimer);  _pollTimer   = null; }
-    console.log('[Sync] WebSocket connected');
+    if (_reconnTimer) { clearTimeout(_reconnTimer);  _reconnTimer = null; }
+    if (_pollTimer)   { clearInterval(_pollTimer);   _pollTimer   = null; }
     _updateSyncBadge(true);
+    console.log('[Sync] WebSocket connected');
 
-    // ── ถ้ามี push-back ค้างอยู่ (server ว่างตอน init) → ส่งเดี๋ยวนี้ผ่าน WS ──
-    if (_pendingPushBack && window.currentUser && ROLES_CAN_PUSH.includes(window.currentUser.role)) {
-      console.log('[Sync] Flushing pending push-back via WebSocket');
-      _ws.send(JSON.stringify({ type:'push', clientRole: window.currentUser.role, payload: _pendingPushBack }));
-      _pendingPushBack = null;
-      if (typeof toast === 'function') toast('☁️ ซิงค์ข้อมูลกลับ server เรียบร้อย', 'ok', 3000);
-    }
+    // ── หลัง reconnect: ถ้า server ว่าง → push ข้อมูลตัวเองขึ้นใหม่ทันที ──
+    _checkAndRestoreServer();
   };
 
-  _ws.onmessage = function (e) {
+  _ws.onmessage = function(e) {
     let msg;
     try { msg = JSON.parse(e.data); } catch { return; }
-
     if (msg.type === 'init' && !_initReceived) {
       _initReceived = true;
+      console.log('[Sync] init received, server empty:', _storeIsEmpty(msg.payload));
       _applyServerStore(msg.payload);
-      console.log('[Sync] init snapshot received');
     } else if (msg.type === 'update') {
       _applyPartial(msg.payload);
-      console.log('[Sync] update received  keys=[' + Object.keys(msg.payload).join(',') + ']');
     }
   };
 
-  _ws.onclose = function () {
+  _ws.onclose = function() {
     _wsOk = false;
     _updateSyncBadge(false);
-    console.warn('[Sync] WebSocket closed, reconnecting in', RECONNECT_DELAY, 'ms');
     _reconnTimer = setTimeout(_connect, RECONNECT_DELAY);
   };
 
-  _ws.onerror = function () {
-    _wsOk = false;
-    _updateSyncBadge(false);
-  };
+  _ws.onerror = function() { _wsOk = false; _updateSyncBadge(false); };
+}
+
+/* ── ตรวจว่า server store ว่างหรือไม่ ───────────────────────────────────── */
+function _storeIsEmpty(s) {
+  if (!s) return true;
+  return !s.requests && !s.stock && !s.repairs && !s.users;
+}
+
+/* ── Push ข้อมูลจาก localStorage กลับขึ้น server (กรณี server restart) ─── */
+function _checkAndRestoreServer() {
+  // ดึงจาก /api/store ก่อนเพื่อเช็คสถานะล่าสุด
+  fetch('/api/store').then(r => r.json()).then(function(s) {
+    if (!_storeIsEmpty(s)) return; // server มีข้อมูลแล้ว ไม่ต้อง restore
+
+    // role ต้องเป็น admin/manager/warehouse จึงจะ push ได้
+    if (!window.currentUser || !ROLES_CAN_PUSH.includes(window.currentUser.role)) return;
+
+    // สร้าง payload จาก localStorage ของเครื่องนี้
+    const payload = _buildPayloadFromLocalStorage();
+    if (!payload) return;
+
+    console.log('[Sync] Server empty → restoring from localStorage keys:', Object.keys(payload));
+    _send(payload);
+    if (typeof toast === 'function') toast('☁️ กู้ข้อมูลกลับ server เรียบร้อย', 'ok', 4000);
+  }).catch(() => {});
+}
+
+/* ── อ่านข้อมูลทั้งหมดจาก localStorage ─────────────────────────────────── */
+function _buildPayloadFromLocalStorage() {
+  try {
+    const p = {};
+    const u  = JSON.parse(localStorage.getItem('srp_users'));     if (u  && u.length)  p.users    = u;
+    const s  = JSON.parse(localStorage.getItem('srp_stock'));     if (s  && s.length)  p.stock    = s;
+    const r  = JSON.parse(localStorage.getItem('srp_requests'));  if (r  && r.length)  p.requests = r;
+    const rp = JSON.parse(localStorage.getItem('srp_repairs'));   if (rp && rp.length) p.repairs  = rp;
+    const d  = JSON.parse(localStorage.getItem('srp_devices'));   if (d  && d.length)  p.devices  = d;
+    const st = JSON.parse(localStorage.getItem('srp_settings'));  if (st) p.settings = st;
+    const rs = JSON.parse(localStorage.getItem('srp_repair_settings')); if (rs) p.repairSettings = rs;
+    const rc  = parseInt(localStorage.getItem('srp_counter'))        || 0;
+    const rpc = parseInt(localStorage.getItem('srp_repair_counter')) || 0;
+    if (rc || rpc) p.counters = { req: rc, repair: rpc };
+    return Object.keys(p).length ? p : null;
+  } catch(e) { return null; }
 }
 
 /* ── REST polling fallback ───────────────────────────────────────────────── */
 function _startPolling() {
-  _pollTimer = setInterval(function () {
-    fetch('/api/store').then(r => r.json()).then(function (data) {
-      _applyServerStore(data);
-    }).catch(() => {});
+  _pollTimer = setInterval(function() {
+    fetch('/api/store').then(r => r.json()).then(_applyServerStore).catch(() => {});
   }, POLL_INTERVAL);
 }
 
-/* ── สร้าง payload จาก localStorage สำหรับ push-back ──────────────────── */
-function _buildLocalPayload() {
-  try {
-    const partial = {};
-    const u = JSON.parse(localStorage.getItem('srp_users'));          if (u && u.length)  partial.users    = u;
-    const s = JSON.parse(localStorage.getItem('srp_stock'));          if (s && s.length)  partial.stock    = s;
-    const r = JSON.parse(localStorage.getItem('srp_requests'));       if (r && r.length)  partial.requests = r;
-    const rp= JSON.parse(localStorage.getItem('srp_repairs'));        if (rp&& rp.length) partial.repairs  = rp;
-    const d = JSON.parse(localStorage.getItem('srp_devices'));        if (d && d.length)  partial.devices  = d;
-    const st= JSON.parse(localStorage.getItem('srp_settings'));       if (st) partial.settings = st;
-    const rs= JSON.parse(localStorage.getItem('srp_repair_settings'));if (rs) partial.repairSettings = rs;
-    const rc= parseInt(localStorage.getItem('srp_counter'))       ||0;
-    const rpc=parseInt(localStorage.getItem('srp_repair_counter'))||0;
-    if (rc || rpc) partial.counters = { req: rc, repair: rpc };
-    return Object.keys(partial).length ? partial : null;
-  } catch(e) { return null; }
-}
-
-/* ── Apply full server snapshot (init / first load) ────────────────────── */
+/* ── Apply full snapshot จาก server ─────────────────────────────────────── */
 function _applyServerStore(s) {
   if (!s) return;
 
-  // ── ตรวจว่า server ข้อมูลว่าง (เพิ่งรีสตาร์ท) ──────────────────────────
-  const serverIsEmpty = !s.requests && !s.stock && !s.repairs && !s.users;
-  if (serverIsEmpty) {
-    console.log('[Sync] Server store is empty → preparing push-back');
-    const payload = _buildLocalPayload();
-    if (payload) {
-      if (_wsOk && _ws && _ws.readyState === WebSocket.OPEN) {
-        // WS พร้อมแล้ว → ส่งได้เลย
-        console.log('[Sync] Push-back via WebSocket (immediate)');
-        _ws.send(JSON.stringify({ type:'push', clientRole: (window.currentUser||{}).role||'admin', payload }));
-        if (typeof toast === 'function') toast('☁️ ซิงค์ข้อมูลกลับ server เรียบร้อย', 'ok', 3000);
-      } else {
-        // WS ยังไม่พร้อม → ส่งผ่าน REST ก่อน แล้วเก็บไว้ส่งซ้ำผ่าน WS ตอน onopen
-        console.log('[Sync] Push-back via REST (WS not ready yet)');
-        const role = (window.currentUser||{}).role||'admin';
-        fetch('/api/push', {
-          method:  'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body:    JSON.stringify({ clientRole: role, payload }),
-        }).then(function(res) {
-          if (res.ok && typeof toast === 'function') toast('☁️ ซิงค์ข้อมูลกลับ server เรียบร้อย', 'ok', 3000);
-        }).catch(function() {
-          // REST ล้มเหลว → เก็บไว้ retry ผ่าน WS ตอน onopen
-          _pendingPushBack = payload;
-          console.warn('[Sync] REST push-back failed, queued for WS retry');
-        });
-      }
-    }
-    // ไม่ต้อง apply เพราะข้อมูลใน localStorage ของเราถูกต้องอยู่แล้ว
+  // server ว่าง → ไม่ overwrite localStorage ของเรา แต่เรียก restore
+  if (_storeIsEmpty(s)) {
+    // ใช้ setTimeout เพื่อให้แน่ใจว่า currentUser set แล้ว
+    setTimeout(_checkAndRestoreServer, 500);
     return;
   }
 
@@ -204,7 +175,7 @@ function _applyServerStore(s) {
   }
 }
 
-/* ── Apply partial update (real-time push from another client) ──────────── */
+/* ── Apply partial update (real-time) ───────────────────────────────────── */
 function _applyPartial(p) {
   if (!p) return;
   _suppressApply = true;
@@ -223,9 +194,7 @@ function _applyPartial(p) {
     }
     if (window.currentUser) {
       const keys = Object.keys(p);
-      if (keys.some(k => ['stock','requests','repairs','devices','users'].includes(k))) {
-        _refreshUI(keys);
-      }
+      if (keys.some(k => ['stock','requests','repairs','devices','users'].includes(k))) _refreshUI(keys);
       _syncToast(keys);
     }
   } finally {
@@ -6251,4 +6220,4 @@ function generateQRPortal(){if(typeof toast==='function')toast('ฟีเจอ�
 (function(){
   try { applyLoginSettings(); } catch(e){}
 })();
-</script> 
+</script>
